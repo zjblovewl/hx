@@ -1,0 +1,146 @@
+package cn.com.controller;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.annotation.Resource;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import cn.com.bean.*;
+import com.fasterxml.jackson.core.JsonParser;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.model.User;
+import cn.com.service.UserService;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2017年11月16日 下午3:20:59  
+ * @版本：V1.0  
+ */
+@Controller  
+@RequestMapping(value="userController")  
+public class UserController {
+		private static final Logger log = Logger.getLogger(UserController.class);
+
+		private ObjectMapper objectMapper = new ObjectMapper();
+
+	    @Resource
+	    private UserService userService;
+
+	    /**
+	     *
+	     * 方法功能说明：  接口登录
+	     * 创建：2018/3/14 by zhoujinbing
+	     * throws
+	     */
+	    @RequestMapping(value = "/login",method = RequestMethod.POST)
+	    public @ResponseBody ResponseParamVo login(HttpServletRequest request, HttpServletResponse response)
+		{
+			ResponseParamVo result = null;
+			String requestJson = (String) request.getAttribute("requestJson");
+			log.info("请求参数 ： " + requestJson);
+
+			RequestParamVo vo = null;
+			try {
+				vo = objectMapper.readValue(requestJson, RequestParamVo.class);
+				result = userService.login(vo);
+			} catch (Exception e) {
+				result = new ResponseParamVo();
+				ResponseParamHeader header = new ResponseParamHeader();
+				header.setRespCode(-1);
+				header.setRespMsg("解密后的请求参数解析成对象出错。");
+				result.setHeader(header);
+				log.error((String) header.getRespMsg(), e);
+				return result;
+			}
+			return result;
+		}
+	    
+	    @RequestMapping("/getByGradeNm")
+	    @ResponseBody
+	    public List<User> getByGradeNm(){
+	    	log.error("log日志");
+	        return userService.getUserList();
+	    }
+	    
+	    @RequestMapping("/getIndex")
+	    public String getIndex(){
+	        return "../../index";
+	    }
+	    
+	    @RequestMapping("/pageIndex")
+	    public String getLogin(){
+	        return "pageIndex";
+	    }
+
+		/**
+		 *
+		 * 方法功能说明：  测试
+		 * 创建：2018/3/13 by zhoujinbing
+		 * throws
+		 */
+		@RequestMapping(value = "/saveOrDelUser", method = { RequestMethod.POST})
+		public @ResponseBody ResultVo saveOrDelSubUnitByPost(HttpServletRequest request, HttpServletResponse response) {
+			ResultVo result = null;
+			String requestJson = (String) request.getAttribute("requestJson");
+			log.info("请求参数 ： " + requestJson);
+
+			TemplateVo vo = null;
+			try {
+				vo = objectMapper.readValue(requestJson, TemplateVo.class);
+				log.info("ecid为:" + vo.getEcId());
+				result = new ResultVo();
+				result.setRet(0);
+				Map<String,Object> tips = new HashMap<String, Object>();
+				tips.put("tip","哈哈哈");
+				result.setMsg(tips);
+			} catch (Exception e) {
+				result = new ResultVo(1, "解密后的请求参数解析成对象出错。","");
+				log.error((String) result.getMsg(), e);
+				return result;
+			}
+			return result;
+		}
+
+	/**
+	 *
+	 * 方法功能说明：  测试
+	 * 创建：2018/3/13 by zhoujinbing
+	 * throws
+	 */
+	@RequestMapping(value = "/saveOrDelUser", method = { RequestMethod.GET})
+	public @ResponseBody ResultVo saveOrDelSubUnitByGet(HttpServletRequest request, HttpServletResponse response) {
+		ResultVo result = null;
+		String requestJson = (String) request.getAttribute("requestJson");
+		log.info("请求参数 ： " + requestJson);
+
+		TemplateVo vo = null;
+		try {
+			vo = objectMapper.readValue(requestJson, TemplateVo.class);
+			log.info("ecid为:" + vo.getEcId());
+			result = new ResultVo();
+			result.setRet(0);
+			Map<String,Object> tips = new HashMap<String, Object>();
+			tips.put("tip","哈哈哈Get");
+			result.setMsg(tips);
+		} catch (Exception e) {
+			result = new ResultVo(1, "解密后的请求参数解析成对象出错。","");
+			log.error((String) result.getMsg(), e);
+			return result;
+		}
+		return result;
+	}
+}

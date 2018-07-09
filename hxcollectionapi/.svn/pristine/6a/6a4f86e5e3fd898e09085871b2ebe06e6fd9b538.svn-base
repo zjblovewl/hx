@@ -1,0 +1,18 @@
+package cn.com.service;
+
+import java.util.List;
+
+import cn.com.bean.RequestParamVo;
+import cn.com.bean.ResponseParamVo;
+import cn.com.bean.ResultVo;
+import org.springframework.stereotype.Service;
+
+import cn.com.model.User;
+
+@Service
+public interface UserService {
+
+	public List<User> getUserList();
+
+    ResponseParamVo login(RequestParamVo requestVo);
+}

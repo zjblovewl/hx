@@ -1,0 +1,620 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.pc.auction.dao.GoodsPcMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.auction.Goods" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="big_class_code" property="bigClassCode" jdbcType="VARCHAR" />
+    <result column="small_class_code" property="smallClassCode" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="CHAR" />
+    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+    <result column="goods_description" property="goodsDescription" jdbcType="VARCHAR" />
+    <result column="inventory" property="inventory" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="NUMERIC" />
+    <result column="postage" property="postage" jdbcType="NUMERIC" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="first_step_time" property="firstStepTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="browse_num" property="browseNum" jdbcType="BIGINT" />
+    <result column="publish_customer" property="publishCustomer" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="start_price" property="startPrice" jdbcType="NUMERIC" />
+    <result column="markup_price" property="markupPrice" jdbcType="NUMERIC" />
+    <result column="current_price" property="currentPrice" jdbcType="NUMERIC" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="is_recommend" property="isRecommend" jdbcType="CHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+
+  <!-- 拍卖列表返回Map -->
+  <resultMap id="GoodsListResultMap" type="cn.com.base.vo.auction.AuctionGoods" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="end_time" property="end_time" jdbcType="TIMESTAMP" />
+    <result column="current_time" property="current_time" jdbcType="TIMESTAMP" />
+    <result column="goods_name" property="goods_name" jdbcType="VARCHAR" />
+    <result column="user_id" property="user_id" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nick_name" jdbcType="VARCHAR" />
+    <result column="head_url" property="head_url" jdbcType="VARCHAR" />
+    <result column="head1_url" property="head1_url" jdbcType="VARCHAR" />
+    <result column="head2_url" property="head2_url" jdbcType="VARCHAR" />
+    <result column="offer_count" property="offer_count" jdbcType="NUMERIC" />
+    <result column="offer_price" property="offer_price" jdbcType="NUMERIC" />
+    <result column="start_price" property="start_price" jdbcType="NUMERIC" />
+    <result column="small_urls" property="small_urls" jdbcType="VARCHAR" />
+    <result column="big_urls" property="big_urls" jdbcType="VARCHAR" />
+    <result column="image_urls" property="image_urls" jdbcType="VARCHAR" />
+  </resultMap>
+
+  <!-- 拍卖详情返回Map -->
+  <resultMap id="GoodsDetailResultMap" type="cn.com.base.vo.auction.AuctionGoodsDetail" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="end_time" property="end_time" jdbcType="TIMESTAMP" />
+    <result column="goods_description" property="goods_description" jdbcType="VARCHAR" />
+    <result column="goods_name" property="goods_name" jdbcType="VARCHAR" />
+    <result column="current_time" property="current_time" jdbcType="TIMESTAMP" />
+    <result column="start_price" property="start_price" jdbcType="NUMERIC" />
+    <result column="markup_price" property="markup_price" jdbcType="NUMERIC" />
+    <result column="postage" property="postage" jdbcType="NUMERIC" />
+    <result column="city_code" property="city_code" jdbcType="VARCHAR" />
+    <result column="city_name" property="city_name" jdbcType="VARCHAR" />
+    <result column="create_time" property="create_time" jdbcType="TIMESTAMP" />
+    <result column="small_urls" property="small_urls" jdbcType="VARCHAR" />
+    <result column="big_urls" property="big_urls" jdbcType="VARCHAR" />
+    <result column="image_urls" property="image_urls" jdbcType="VARCHAR" />
+    <result column="user_id" property="user_id" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nick_name" jdbcType="VARCHAR" />
+    <result column="head_url" property="head_url" jdbcType="VARCHAR" />
+    <result column="head1_url" property="head1_url" jdbcType="VARCHAR" />
+    <result column="head2_url" property="head2_url" jdbcType="VARCHAR" />
+    <result column="offer_count" property="offer_count" jdbcType="NUMERIC" />
+  </resultMap>
+
+  <sql id="Base_Column_List" >
+    id, big_class_code, small_class_code, user_id, goods_type, goods_name, goods_description,
+    inventory, price, postage, status, first_step_time, last_update_time, browse_num,
+    publish_customer, publish_time, start_price, markup_price, current_price, end_time,
+    city_code, create_time,  is_recommend, sort, del_flag
+  </sql>
+
+  <!-- 我的在售宝贝 -->
+  <select id="getInSaleOfMyGoods" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <!-- goods_type 1：普通商品 2：拍卖商品' -->
+    <!-- status 1：上架 2：下架 -->
+    select count(id) as goods_num from hxdb.hx_goods where del_flag = '0' and goods_type = '2' and status = '1' and user_id = #{userId}
+  </select>
+
+  <!-- 我的已售出宝贝 -->
+  <select id="getOutSaleOfMyGoods" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <!-- order_type 1：普通订单 2：拍卖订单' -->
+    <!-- order_status 1：待付款 2：待发货 3：待收货 4：待确认收货 5：待评论 6：已完成 7：待退款 8：已退款 9：取消订单 -->
+    select count(id)as order_num from hxdb.hx_order where order_type = '2' and order_status = '6' and seller_id = #{userId}
+  </select>
+
+  <!-- 查询卖家店铺评论总分 -->
+  <select id="getTotalScoreOfMyShop" parameterType="java.lang.String" resultType="java.lang.Integer">
+    <!-- 好评：100分，中评：80分，差评：60分 -->
+    SELECT
+    SUM(
+    (CASE
+    WHEN evaluate_level = '1' THEN 100
+    WHEN evaluate_level = '2' THEN 80
+    ELSE 60 END
+    )
+    )AS score
+    FROM hxdb.hx_order_evaluate e
+    INNER JOIN hxdb.hx_order o ON o.id = e.order_id
+    WHERE o.seller_id = #{userId}
+  </select>
+
+  <!-- 查询卖家店铺下的订单总数 -->
+  <select id="getTotalOrderOfMyShop" parameterType="java.lang.String" resultType="java.lang.Integer">
+    SELECT COUNT(o.id) as order_num FROM hxdb.hx_order_evaluate e
+    INNER JOIN hxdb.hx_order o ON o.id = e.order_id
+    WHERE o.seller_id = #{userId}
+  </select>
+
+  <!-- 加载拍卖详情根据ID -->
+  <select id="getGoodsDetailById" resultMap="GoodsDetailResultMap" parameterType="java.lang.String">
+    select
+    g.id,
+    g.end_time as end_time,
+    g.create_time as create_time,
+    g.goods_description ,
+    g.goods_name,
+    u.id user_id,
+    u.nick_name ,
+    now() as current_time,
+    COALESCE(temp.offer_count,0) as offer_count,
+    COALESCE(T.image_urls,'') AS image_urls,
+    COALESCE(T.small_urls,'') AS small_urls,
+    COALESCE(T.big_urls,'') AS big_urls,
+    COALESCE(USER_IMAGE.image_url,'') AS head_url,
+    COALESCE(USER_IMAGE.image2_url,'') AS head1_url,
+    COALESCE(USER_IMAGE.image4_url,'') AS head2_url,
+    COALESCE(g.start_price,0) as start_price,
+    COALESCE(g.markup_price,0) as markup_price,
+    COALESCE(g.postage,0) as postage,
+    area.code as city_code,
+    area.city as city_name
+    from hxdb.hx_goods g
+    inner join hxdb.hx_user u on g.publish_customer = u.id
+    left join (
+      select
+        String_agg(img.image_url,',') as image_url,
+        String_agg(img.image2_url,',') as image2_url,
+        String_agg(img.image4_url,',') as image4_url,
+        service_id AS service_id
+      from (select * from hxdb.hx_images_user_rel order by sort asc) rel
+      left join hxdb.sys_images img on rel.image_id = img.id
+      group by service_id
+    ) USER_IMAGE ON USER_IMAGE.service_id = U.ID
+    left join
+    (
+      select
+        String_agg(img.image_url,',') as image_urls,
+        String_agg(img.image2_url,',') as small_urls,
+        String_agg(img.image4_url,',') as big_urls,
+        service_id AS service_id
+      from (select * from hxdb.hx_images_goods_rel  order by sort asc) rel
+      left join hxdb.sys_images img on rel.image_id = img.id
+      group by service_id
+    ) T ON G.ID = T.service_id
+    left join
+    (
+    select
+    count(1) as offer_count,
+    max(re.offer_price) as offer_price,
+    goods_id
+    from hxdb.hx_goods_offer_record re group by re.goods_id
+    ) temp
+    on g.id = temp.goods_id
+    left join hxdb.sys_area area on g.city_code = area.code
+    where g.id = #{goodsId}
+  </select>
+
+  <!-- 根据条件查询拍卖列表 -->
+  <select id="getGoodsByType" resultMap="GoodsListResultMap" >
+    select
+      g.id,
+      g.end_time end_time,
+      now() as current_time,
+      g.goods_name,
+      u.id user_id,
+      u.nick_name ,
+      COALESCE(temp.offer_count,0) as offer_count,
+      COALESCE(g.start_price,0) as start_price,
+      COALESCE(temp.offer_price,g.start_price) as offer_price,
+      COALESCE(T.image_urls,'') AS image_urls,
+      COALESCE(T.small_urls,'') AS small_urls,
+      COALESCE(T.big_urls,'') AS big_urls,
+      COALESCE(USER_IMAGE.image_url,'') AS head_url,
+      COALESCE(USER_IMAGE.image2_url,'') AS head1_url,
+      COALESCE(USER_IMAGE.image4_url,'') AS head2_url
+    from hxdb.hx_goods g
+    inner join hxdb.hx_user u on g.publish_customer = u.id
+    left join (
+      select
+        String_agg(img.image_url,',') as image_url,
+        String_agg(img.image2_url,',') as image2_url,
+        String_agg(img.image4_url,',') as image4_url,
+        service_id AS service_id
+      from (select * from hxdb.hx_images_user_rel order by sort asc) rel
+      left join hxdb.sys_images img on rel.image_id = img.id
+      group by service_id
+    ) USER_IMAGE ON USER_IMAGE.service_id = U.ID
+    left join
+    (
+      select
+        String_agg(img.image_url,',') as image_urls,
+        String_agg(img.image2_url,',') as small_urls,
+        String_agg(img.image4_url,',') as big_urls,
+        service_id AS service_id
+      from (select * from hxdb.hx_images_goods_rel  order by sort asc) rel
+      left join hxdb.sys_images img on rel.image_id = img.id
+      group by service_id
+    ) T ON G.ID = T.service_id
+    left join
+    (
+      select
+        count(1) as offer_count,
+        max(re.offer_price) as offer_price,
+        goods_id
+      from hxdb.hx_goods_offer_record re group by re.goods_id
+    ) temp
+    on g.id = temp.goods_id
+    where g.goods_type = '2'
+    and g.del_flag = '0'
+    and g.end_time >= now()
+    and (g.lock_time is null or now() > (g.lock_time + (g.lock_days || ' D')::interval))
+
+    <!-- 区间查询 -->
+    <if test="start_price_distance != null and end_price_distance != null">
+      and COALESCE(temp.offer_price,g.start_price) BETWEEN #{start_price_distance} and #{end_price_distance}
+    </if>
+
+    <!-- 结拍时间查询 -->
+    <if test="end_time_date != null">
+      and g.end_time = #{end_time_date}
+    </if>
+
+    <if test="search_content != null and search_content != ''">
+      and g.goods_description LIKE CONCAT(CONCAT('%', #{search_content}), '%') or g.goods_name LIKE CONCAT(CONCAT('%', #{search_content}), '%')
+    </if>
+
+    <if test="city_code != null and city_code != ''">
+      and g.city_code = #{city_code}
+    </if>
+
+    <!-- 捡漏 -->
+    <if test="search_type!=null and search_type==1">
+      <!--and #{endTime} >= g.end_time and g.end_time >= #{startTime}-->
+      and now() between g.end_time - INTERVAL '2 hours' and g.end_time
+    </if>
+
+    <!-- 上新 -->
+    <if test="search_type!=null and search_type==2">
+      <!--and g.create_time + '2 hours' >= #{startTime}-->
+      and g.create_time BETWEEN now() - INTERVAL '2 hours' and now()
+    </if>
+
+    <!-- 热门 -->
+    <if test="search_type!=null and search_type==3">
+      and offer_count >= 5
+    </if>
+
+    <if test="search_type!=null and search_type==4">
+      and g.publish_customer = #{user_id}
+    </if>
+
+    <if test="search_type!=null and search_type==5">
+      and g.id in
+      (
+      SELECT OF.goods_id FROM hxdb.hx_goods_offer_record OF WHERE OF.customer_id = #{user_id} GROUP BY OF.goods_id
+      )
+    </if>
+
+    <if test="search_type!=null and search_type==6">
+      and g.id in
+      (
+      select goods_id from hxdb.hx_my_collection mc where mc.goods_type = '2' and mc.user_id = #{user_id} group by goods_id
+      )
+    </if>
+
+    <if test="big_class_code != null and big_class_code !='' ">
+      and g.big_class_code = #{big_class_code}
+    </if>
+
+    <if test="small_class_code != null and small_class_code !='' ">
+      and g.small_class_code = #{small_class_code}
+    </if>
+
+    <!-- 排序 -->
+    <choose>
+
+      <when test="sort_type==null || sort_type==0">
+        order by g.end_time desc,g.create_time desc
+      </when>
+      <!-- 默认排序 -->
+      <when test="sort_type!=null and sort_type==1">
+        order by g.end_time desc,g.create_time desc
+      </when>
+      <!-- 出价次数最多 -->
+      <when test="sort_type!=null and sort_type==2">
+        order by g.end_time desc,offer_count desc
+      </when>
+      <!-- 出价次数最少 -->
+      <when test="sort_type!=null and sort_type==3">
+        order by g.end_time desc,offer_count asc
+      </when>
+      <!-- 出价最少 -->
+      <when test="sort_type!=null and sort_type==4">
+        order by g.end_time desc,offer_price asc
+      </when>
+    </choose>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hxdb.hx_goods
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hxdb.hx_goods
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.model.auction.Goods" >
+    insert into hxdb.hx_goods (id, big_class_code, small_class_code, 
+      user_id, goods_type, goods_name, 
+      goods_description, inventory, price, 
+      postage, status, first_step_time, 
+      last_update_time, browse_num, publish_customer, 
+      publish_time, start_price, markup_price, 
+      current_price, end_time, city_code, 
+      create_time,
+      is_recommend, sort, del_flag
+      )
+    values (#{id,jdbcType=VARCHAR}, #{bigClassCode,jdbcType=VARCHAR}, #{smallClassCode,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{goodsType,jdbcType=CHAR}, #{goodsName,jdbcType=VARCHAR}, 
+      #{goodsDescription,jdbcType=VARCHAR}, #{inventory,jdbcType=BIGINT}, #{price,jdbcType=NUMERIC}, 
+      #{postage,jdbcType=NUMERIC}, #{status,jdbcType=CHAR}, #{firstStepTime,jdbcType=TIMESTAMP}, 
+      #{lastUpdateTime,jdbcType=TIMESTAMP}, #{browseNum,jdbcType=BIGINT}, #{publishCustomer,jdbcType=VARCHAR}, 
+      #{publishTime,jdbcType=TIMESTAMP}, #{startPrice,jdbcType=NUMERIC}, #{markupPrice,jdbcType=NUMERIC}, 
+      #{currentPrice,jdbcType=NUMERIC}, #{endTime,jdbcType=TIMESTAMP}, #{cityCode,jdbcType=VARCHAR}, 
+      #{createTime,jdbcType=TIMESTAMP},
+      #{isRecommend,jdbcType=CHAR}, #{sort,jdbcType=INTEGER}, #{delFlag,jdbcType=CHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.model.auction.Goods" >
+    insert into hxdb.hx_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bigClassCode != null" >
+        big_class_code,
+      </if>
+      <if test="smallClassCode != null" >
+        small_class_code,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="goodsName != null" >
+        goods_name,
+      </if>
+      <if test="goodsDescription != null" >
+        goods_description,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="postage != null" >
+        postage,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="firstStepTime != null" >
+        first_step_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+      <if test="browseNum != null" >
+        browse_num,
+      </if>
+      <if test="publishCustomer != null" >
+        publish_customer,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="startPrice != null" >
+        start_price,
+      </if>
+      <if test="markupPrice != null" >
+        markup_price,
+      </if>
+      <if test="currentPrice != null" >
+        current_price,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="isRecommend != null" >
+        is_recommend,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="bigClassCode != null" >
+        #{bigClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smallClassCode != null" >
+        #{smallClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=CHAR},
+      </if>
+      <if test="goodsName != null" >
+        #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDescription != null" >
+        #{goodsDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="postage != null" >
+        #{postage,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="firstStepTime != null" >
+        #{firstStepTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="browseNum != null" >
+        #{browseNum,jdbcType=BIGINT},
+      </if>
+      <if test="publishCustomer != null" >
+        #{publishCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPrice != null" >
+        #{startPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="markupPrice != null" >
+        #{markupPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="currentPrice != null" >
+        #{currentPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="pcImageIds != null" >
+        #{pcImageIds,jdbcType=VARCHAR},
+      </if>
+      <if test="mobileImageIds != null" >
+        #{mobileImageIds,jdbcType=VARCHAR},
+      </if>
+      <if test="isRecommend != null" >
+        #{isRecommend,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.model.auction.Goods" >
+    update hxdb.hx_goods
+    <set >
+      <if test="bigClassCode != null" >
+        big_class_code = #{bigClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smallClassCode != null" >
+        small_class_code = #{smallClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=CHAR},
+      </if>
+      <if test="goodsName != null" >
+        goods_name = #{goodsName,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsDescription != null" >
+        goods_description = #{goodsDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="postage != null" >
+        postage = #{postage,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="firstStepTime != null" >
+        first_step_time = #{firstStepTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = #{browseNum,jdbcType=BIGINT},
+      </if>
+      <if test="publishCustomer != null" >
+        publish_customer = #{publishCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPrice != null" >
+        start_price = #{startPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="markupPrice != null" >
+        markup_price = #{markupPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="currentPrice != null" >
+        current_price = #{currentPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="isRecommend != null" >
+        is_recommend = #{isRecommend,jdbcType=CHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.model.auction.Goods" >
+    update hxdb.hx_goods
+    set big_class_code = #{bigClassCode,jdbcType=VARCHAR},
+      small_class_code = #{smallClassCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=CHAR},
+      goods_name = #{goodsName,jdbcType=VARCHAR},
+      goods_description = #{goodsDescription,jdbcType=VARCHAR},
+      inventory = #{inventory,jdbcType=BIGINT},
+      price = #{price,jdbcType=NUMERIC},
+      postage = #{postage,jdbcType=NUMERIC},
+      status = #{status,jdbcType=CHAR},
+      first_step_time = #{firstStepTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      browse_num = #{browseNum,jdbcType=BIGINT},
+      publish_customer = #{publishCustomer,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      start_price = #{startPrice,jdbcType=NUMERIC},
+      markup_price = #{markupPrice,jdbcType=NUMERIC},
+      current_price = #{currentPrice,jdbcType=NUMERIC},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      is_recommend = #{isRecommend,jdbcType=CHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

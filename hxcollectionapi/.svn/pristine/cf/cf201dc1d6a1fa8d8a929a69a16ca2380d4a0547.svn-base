@@ -1,0 +1,84 @@
+/**     
+ * @文件名称: StudentServiceImpl.java  
+ * @类路径: 	cn.com.service.impl  
+ * @描述: 	TODO  
+ * @作者：	user 
+ * @时间：	2018年1月2日 下午4:00:12  
+ * @版本：V1.0     
+ */
+package cn.com.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.Des3;
+import cn.com.base.util.StringUtil;
+import cn.com.bean.LoginVo;
+import cn.com.bean.RequestParamVo;
+import cn.com.bean.ResponseParamVo;
+import cn.com.bean.ResultVo;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import cn.com.dao.UserDao;
+import cn.com.model.User;
+import cn.com.service.UserService;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2018年1月2日 下午4:00:12  
+ * @版本：V1.0  
+ */
+@Service
+public class UserServiceImpl implements UserService{
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+	@Autowired
+	private RedisTemplate redisTemplate;
+
+	@Override
+	public List<User> getUserList() {
+		System.out.println("个数:" + userDao.getUserList().size());
+		return userDao.getUserList();
+	}
+
+	@Override
+	public ResponseParamVo login(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		User user = userDao.login(bodyMap.get("userName").toString(),bodyMap.get("passWord").toString());
+		if(user != null)
+		{
+			Map<String,Object> resultBodyMap = null;
+			try {
+				String Token = (String)redisTemplate.opsForValue().get(user.getId() + "Token");
+				resultBodyMap = new HashMap<String, Object>();
+				if(Token == null)
+				{
+					Token = String.valueOf(user.getId()) + String.valueOf(System.currentTimeMillis());
+					Token = Des3.encode(Token,baseConstant.getSecretKey());
+					redisTemplate.opsForValue().set(user.getId() + "Token",Token,baseConstant.getExpireTime(), TimeUnit.MINUTES);
+				}
+				resultBodyMap.put("Token", Token);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			return StringUtil.returnResponseVo(0,"登录成功",resultBodyMap);
+		}
+		else
+		{
+			return StringUtil.returnResponseVo(-1,"登录失败","");
+		}
+	}
+
+}

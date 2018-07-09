@@ -1,0 +1,444 @@
+/**     
+ * @文件名称: StudentServiceImpl.java  
+ * @类路径: 	cn.com.service.impl  
+ * @描述: 	TODO  
+ * @作者：	user 
+ * @时间：	2018年1月2日 下午4:00:12  
+ * @版本：V1.0     
+ */
+package cn.com.mobile.user.service.impl;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.service.ImageService;
+import cn.com.base.util.Des3;
+import cn.com.base.util.MD5;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.base.vo.imageenum.ImageTableName;
+import cn.com.mobile.user.dao.UserDao;
+import cn.com.mobile.user.service.UserService;
+import cn.com.model.auction.SysImageService;
+import cn.com.util.CommonUtils;
+import cn.com.util.NumberUtil;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2018年1月2日 下午4:00:12  
+ * @版本：V1.0  
+ */
+@Service("userService")
+public class UserServiceImpl implements UserService {
+
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+	
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private BaseConstant baseConstant;
+    
+    @Autowired
+    private ImageService imageService;
+
+	@Autowired
+	private RedisTemplate redisTemplate;
+
+	/**用户登录**/
+	@Override
+	public ResponseParamVo login(RequestParamVo vo) {
+		//1、存储登录日志
+
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> paramMap =new HashMap<String, String>();
+		Map<String,String> loginLogParamMap =new HashMap<String, String>();
+		paramMap.put("phone", (String)bodyMap.get("phone"));
+		String password=(String)bodyMap.get("password");
+		String version = (String) bodyMap.get("version");
+		String deviceInfo = (String) bodyMap.get("device_info");
+		loginLogParamMap.put("uuId", NumberUtil.getSysJournalNo(32, false));
+		loginLogParamMap.put("version", version);
+		loginLogParamMap.put("deviceInfo",deviceInfo);
+		loginLogParamMap.put("phone", (String)bodyMap.get("phone"));
+		paramMap.put("password", MD5.md5(password));
+		Map<String, Object> userMap=null;
+		try {
+			userMap = userDao.login(paramMap);
+		} catch (Exception e1) {
+			e1.printStackTrace();
+		}
+		String Token = "";
+		if(userMap.size() >0)
+		{
+			try {
+				//更新登录日志
+				userDao.insertLoginLog(loginLogParamMap);
+				userDao.updateUserLoginSum(paramMap);
+				//1、根据其来源，存储相对应的Token
+				String isSource = vo.getHeader().getIs_source();
+				if(isSource.equals("1"))
+				{
+					Token = String.valueOf(userMap.get("id")) + "MOBILE" + String.valueOf(System.currentTimeMillis());
+					Token = Des3.encode(Token,baseConstant.getSecretKey());
+					redisTemplate.opsForValue().set(userMap.get("id") + "MobileToken",Token);
+				}
+
+				if(isSource.equals("2"))//PC端
+				{
+					Token  = String.valueOf(userMap.get("id")) + "PC" + String.valueOf(System.currentTimeMillis());
+					Token = Des3.encode(Token,baseConstant.getSecretKey());
+					redisTemplate.opsForValue().set(userMap.get("id") + "PcToken",Token,baseConstant.getExpireTime(), TimeUnit.MINUTES);
+				}
+			} catch (Exception e) {
+				log.info("用户登录异常",e.getMessage());
+				e.printStackTrace();
+				return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"失败","","","");
+			}
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),"登录成功",Token,String.valueOf(userMap.get("id")),userMap);
+		}
+		else
+		{
+			return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"登录失败","","","");
+		}
+	}
+	
+    /**查询用户信息列表**/
+	@Override
+	public ResponseParamVo getUserList(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> paramMap =new HashMap<String, String>();
+		try {
+			Integer pageNumber = (Integer) bodyMap.get("page_num");
+			Integer pageSize = (Integer) bodyMap.get("page_size");
+			String nickName = (String) bodyMap.get("nick_name");
+			String userId = (String) bodyMap.get("user_id");
+			paramMap.put("nickName", nickName);
+			paramMap.put("userId", userId);
+			PageHelper.startPage(pageNumber,pageSize);
+			List<Object> userList = userDao.getUserList(paramMap);
+			PageInfo<Object> pageInfo = new PageInfo<>(userList);
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),"获取用户列表成功","","",pageInfo);
+		} catch (Exception e) {
+			log.info("获取用户列表异常",e.getMessage());
+			e.printStackTrace();
+			return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"获取用户列表异常","","","");
+		}
+	}
+
+    /**用户注册**/
+	@Override
+	public ResponseParamVo registerUser(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> userParamMap =new HashMap<String, String>();
+		Map<String,String> messageParamMap =new HashMap<String, String>();
+		
+		try {
+			String phone = (String) bodyMap.get("phone");
+			String password = (String) bodyMap.get("password");
+			String messageCode = (String) bodyMap.get("message_code");
+
+			userParamMap.put("uuId", NumberUtil.getSysJournalNo(32, false));
+			userParamMap.put("phone", phone);
+			userParamMap.put("password", MD5.md5(password));
+			
+			messageParamMap.put("uuId", NumberUtil.getSysJournalNo(32, false));
+			messageParamMap.put("phone", phone);
+			messageParamMap.put("messageType", "1");
+			messageParamMap.put("messageCode", messageCode);
+			
+			/**判断此用户是否已被注册**/
+			int count=userDao.selectCountByPhone(userParamMap);
+			if(count>0){
+				return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"此用户已被注册","","","");
+			}else{
+				userDao.insertMessageRecord(messageParamMap);
+				userDao.insertRegisterUser(userParamMap);
+				return StringUtil.returnResponseVo(baseConstant.getRightCode(),"用户注册成功","","","");
+			}
+			
+		} catch (Exception e) {
+			log.info("获取用户列表异常",e.getMessage());
+			e.printStackTrace();
+			return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"用户注册异常","","","");
+		}
+	}
+
+	 /**查询省市信息**/
+	@Override
+	public ResponseParamVo queryAreaInfo(RequestParamVo vo) {
+		List<Map<String, Object>> listMaps = userDao.queryAreaInfo();
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		List<Map<String, Object>> cityList = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> provinceList = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < listMaps.size(); i++) {
+			Map<String, Object> provinceMaps = new HashMap<String, Object>();
+			Map<String, Object> listMap = listMaps.get(i);
+			if (listMap.get("province") != null
+					&& listMap.get("province").toString().length() > 0) {
+				provinceMaps.put("province_name", listMap.get("province"));
+				provinceMaps.put("province_code", listMap.get("code"));
+				provinceMaps.put("province_id", listMap.get("id"));
+				provinceMaps.put("province_city", listMap.get("city"));
+				provinceList.add(provinceMaps);
+			}
+		}
+
+		for (int i = 0; i < provinceList.size(); i++) {
+			Map<String, Object> listMap = provinceList.get(i);
+			if (listMap.get("province_name").toString().length() > 0
+					&& listMap.get("province_city").toString().length() > 0) {
+				List<Map<String, Object>> getCityInfo = new ArrayList<Map<String, Object>>();
+				Map<String, Object> cityInfoMaps = new HashMap<String, Object>();
+				cityInfoMaps.put("city_name", listMap.get("province_city"));
+				cityInfoMaps.put("city_code", listMap.get("province_code"));
+				getCityInfo.add(cityInfoMaps);
+				listMap.put("city_info", getCityInfo);
+				cityList.add(listMap);
+			}else{
+				List<Map<String, Object>> getCityInfo = getCityInfo(listMaps,
+						(String) listMap.get("province_id"));
+				listMap.put("city_info", getCityInfo);
+				cityList.add(listMap);
+			}
+
+		}
+		dataMap.put("data", cityList);
+		return StringUtil.returnResponseVo(baseConstant.getRightCode(), "查询成功", "", "", dataMap);
+	}
+	
+	/**通过省Id查询下面的市信息**/
+	public static List <Map<String, Object>> getCityInfo(List <Map<String, Object>> listMaps,String provinceId){
+		List<Map<String, Object>> getCityInfo = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < listMaps.size(); i++) {
+			Map<String, Object> listMap = listMaps.get(i);
+			if (listMap.get("province").toString().length() == 0
+					&& listMap.get("city").toString().length() > 0) {
+				if (listMaps.get(i).get("parent").equals(provinceId)) {
+					Map<String, Object> cityInfoMaps = new HashMap<String, Object>();
+					cityInfoMaps.put("city_name", listMap.get("city"));
+					cityInfoMaps.put("city_code", listMap.get("code"));
+					getCityInfo.add(cityInfoMaps);
+				}
+
+			}
+		}
+		return getCityInfo;
+	}
+
+    /**修改用户信息**/
+	@Override
+	public ResponseParamVo updateUserInfo(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> userParamMap =new HashMap<String, String>();
+		try {
+			String userId = (String) bodyMap.get("user_id");
+			String nickName = (String) bodyMap.get("nick_name");
+			String sex = (String) bodyMap.get("sex");
+			String autograph = (String) bodyMap.get("autograph");
+			String cityCode = (String) bodyMap.get("city_code");
+			String headImageUrl = (String) bodyMap.get("image_ids");
+			String phone = (String) bodyMap.get("phone");
+			String walletPwd = (String) bodyMap.get("walletPwd");
+			//用户信息
+			userParamMap.put("userId", userId);
+			userParamMap.put("nickName", nickName);
+			userParamMap.put("sex", sex);
+			userParamMap.put("isFlagNickName", "1");
+			userParamMap.put("autograph", autograph);
+			userParamMap.put("cityCode", cityCode);
+			userParamMap.put("phone", phone);
+			userParamMap.put("walletPwd", walletPwd);
+			//更新图片信息
+			List<SysImageService> imageServiceList = new ArrayList<>();
+			SysImageService imageRel = new SysImageService();;
+			imageRel.setId(NumberUtil.getSysJournalNo(32,false));
+			imageRel.setImageId(headImageUrl);
+			imageRel.setServiceId(userId);
+			imageServiceList.add(imageRel);
+			imageService.batchSaveImageService(imageServiceList,ImageTableName.USER_TABLE_NAME.getTableName());
+			
+			userDao.updateUserInfo(userParamMap);
+			userDao.updateLoginLogName(userParamMap);
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),"用户信息修改成功","","","");
+		} catch (Exception e) {
+			log.info("用户信息修改异常",e.getMessage());
+			e.printStackTrace();
+			return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"用户信息修改异常","","","");
+		}
+	}
+
+	 /**新增或修改我的收货地址**/
+	@Override
+	public ResponseParamVo saveOrUpdateAddress(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> paramMap =new HashMap<String, String>();
+		String messageInfo=null;
+		try {
+			String saveOrUpdate = (String) bodyMap.get("save_or_update");
+			String userId = (String) bodyMap.get("user_id");
+			String addressId = (String) bodyMap.get("address_id");
+			String receiveUser = (String) bodyMap.get("receive_user");
+			String contactPhone = (String) bodyMap.get("contact_phone");
+			String receiveAddress = (String) bodyMap.get("receive_address");
+			String isDefault = (String) bodyMap.get("is_default");
+			
+			paramMap.put("userId", userId);
+			paramMap.put("addressId", addressId);
+			paramMap.put("receiveUser", receiveUser);
+			paramMap.put("contactPhone", contactPhone);
+			paramMap.put("receiveAddress", receiveAddress);
+			paramMap.put("isDefault", isDefault);
+			
+			//1:新增,2:修改
+			if ("1".equals(saveOrUpdate)) {
+				messageInfo="新增地址信息";
+				paramMap.put("uuId", NumberUtil.getSysJournalNo(32, false));
+				userDao.saveAddress(paramMap);
+			} else {
+				messageInfo="修改地址信息";
+				userDao.updateAddress(paramMap);
+			}
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),messageInfo+"成功","","","");
+		} catch (Exception e) {
+			log.info("用户信息修改异常",e.getMessage());
+			e.printStackTrace();
+			return StringUtil.returnResponseVo(baseConstant.getErrorCode(),messageInfo+"异常","","","");
+		}
+	}
+
+	/**查询我的收货地址**/
+	@Override
+	public ResponseParamVo selectAddressInfo(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> paramMap =new HashMap<String, String>();
+		try {
+			String addressId = (String) bodyMap.get("address_id");
+			String userId = (String) bodyMap.get("user_id");
+			paramMap.put("addressId", addressId);
+			paramMap.put("userId", userId);
+			List<Object> addressInfoList = userDao.selectAddressInfo(paramMap);
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),"获取用户列表成功","","",addressInfoList);
+		} catch (Exception e) {
+			log.info("获取用户列表异常",e.getMessage());
+			e.printStackTrace();
+			return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"获取用户列表异常","","","");
+		}
+	}
+
+    /**
+     * 保存用户操作日志
+     */
+	@Override
+	public void saveLog(Map<String, Object> paramsMap) {
+		try {
+			userDao.saveLog(paramsMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+	}
+
+	 /**
+     * 保存用户反馈与建议
+     */
+	@Override
+	public ResponseParamVo saveOpinionFeedbac(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> paramsMap =new HashMap<String, String>();
+		try {
+			String feedbackContent = (String) bodyMap.get("feedback_content");
+			String nickName = (String) bodyMap.get("nick_name");
+			String processingState = (String) bodyMap.get("processing_state");
+			paramsMap.put("uuId", NumberUtil.getSysJournalNo(32, false));
+			paramsMap.put("feedbackContent", feedbackContent);
+			paramsMap.put("nickName", nickName);//
+			paramsMap.put("processingState", processingState);
+			userDao.saveOpinionFeedbac(paramsMap);
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),"新增用户反馈建议成功","","","");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return StringUtil.returnResponseVo(baseConstant.getRightCode(),"新增用户反馈建议失败","","","");
+	}
+
+	 /**
+     * 修改用户反馈与建议
+     */
+	@Override
+	public ResponseParamVo updateOpinionFeedbac(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		Map<String,String> paramsMap =new HashMap<String, String>();
+		try {
+			String opinionFeedbacId = (String) bodyMap.get("opinion_feedbac_id");
+			String processingState = (String) bodyMap.get("processing_state");
+			paramsMap.put("opinionFeedbacId", opinionFeedbacId);
+			paramsMap.put("processingState", processingState);
+			userDao.updateOpinionFeedbac(paramsMap);
+			return StringUtil.returnResponseVo(baseConstant.getRightCode(),"修改用户反馈建议成功","","","");
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return StringUtil.returnResponseVo(baseConstant.getRightCode(),"修改用户反馈建议失败","","","");
+	}
+
+	 /**
+     * 用户实名认证
+     */
+	@Override
+	public ResponseParamVo realnameAuthentication(RequestParamVo vo) {
+		try{		
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody(); 
+            Map<String,String> paramsMap =new HashMap<String, String>();
+            String uuId = CommonUtils.getUUID();
+            String userId = (String) bodyMap.get("user_id");
+			String realName = (String) bodyMap.get("real_name");
+			String idNumber = (String) bodyMap.get("id_number");
+            
+            paramsMap.put("uuId", uuId); 
+            paramsMap.put("userId", userId);
+            paramsMap.put("realName", realName);
+            paramsMap.put("idNumber", idNumber);
+            
+            String imageIds = bodyMap.get("image_ids").toString();                       
+            Integer sort = 0;
+            List<SysImageService> imageServiceList = new ArrayList<>();
+            SysImageService imageRel = null;
+            for(String str : imageIds.split(","))
+            {
+                sort++;
+                imageRel = new SysImageService();
+                imageRel.setId(NumberUtil.getSysJournalNo(32,false));
+                imageRel.setImageId(str);
+                imageRel.setServiceId(uuId);
+                imageRel.setSort(sort);
+                imageServiceList.add(imageRel);
+            }
+            imageService.batchSaveImageService(imageServiceList, ImageTableName.AUTHENTICATION_TABLE_NAME.getTableName());
+            userDao.realnameAuthentication(paramsMap);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"实名认证成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("实名认证异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"实名认证异常","","",new JSONObject());
+        }
+	}
+
+}

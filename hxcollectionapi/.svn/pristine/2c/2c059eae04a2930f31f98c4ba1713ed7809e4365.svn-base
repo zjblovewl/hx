@@ -1,0 +1,18 @@
+#pgsql \u6570\u636e\u5e93\u8fde\u63a5
+spring.datasource.url=jdbc:postgresql://192.168.50.215/hxdb?useUnicode\=true&characterEncoding\=utf8
+spring.datasource.username=postgres
+spring.datasource.password=123456
+spring.datasource.driver-class-name=org.postgresql.Driver
+
+#mybatis\u626b\u63cf\u76ee\u5f55
+mybatis.typeAliasesPackage=cn.com.model
+mybatis.mapperLocations=classpath:cn/com/mapper/*.xml
+
+
+#\u9879\u76ee\u914d\u7f6e
+spring.mvc.view.suffix:.jsp
+spring.mvc.view.prefix=/WEB-INF/jsp/
+server.contextPath=/hxcollectionapi
+
+#\u7aef\u53e3\u53f79090
+server.port=9090

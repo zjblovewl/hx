@@ -1,0 +1,29 @@
+package cn.com.mobile.auction.dao;
+
+import cn.com.model.auction.SysImageService;
+
+import java.util.List;
+
+public interface SysImageServiceMapper {
+    int deleteByPrimaryKey(String id);
+
+    int insert(SysImageService record);
+
+    int insertSelective(SysImageService record);
+
+    SysImageService selectByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(SysImageService record);
+
+    int updateByPrimaryKey(SysImageService record);
+
+    /**
+     * @description 批量保存图片
+     * @method  
+     * @param  * @param null
+     * @return 
+     * @date: 2018/4/17 14:00:09
+     * @author:zhoujinbing
+     */
+    void batchSaveImageService(List<SysImageService> list);
+}

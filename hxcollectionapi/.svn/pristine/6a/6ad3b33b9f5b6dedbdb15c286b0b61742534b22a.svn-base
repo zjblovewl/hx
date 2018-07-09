@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.pc.transaction.dao.TransactionPcMapper">
+	<!-- 首页藏品广告 -->
+	<select id="getHomePageAdvertisementRecords" resultType="java.util.HashMap">
+		select adv.homepage_name,COALESCE(adv.html_url,'')as html_url,
+		COALESCE(t.big_image_urls,'') as big_image_urls
+		from hxdb.hx_homepage_advertisement adv
+		left join
+		(        
+		    select re.service_id,string_agg(img.image3_url,',')as big_image_urls
+		    from (select * from hxdb.hx_images_advertisement_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = adv.id
+		where del_flag = '0' order by sort asc
+	</select>
+	
+	<!-- 首页推荐藏品 -->
+	<select id="getRecommendGoodsRecords" resultType="java.util.HashMap">
+		select g.id as goods_id,g.goods_name,g.goods_description, 
+		COALESCE(t.small_image_urls,'') as small_image_urls
+		from hxdb.hx_goods g
+		left join
+		(        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls
+		    from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		<!-- goods_type 1：藏品 2：拍卖  is_recommend 0：否 1：是 -->
+		where goods_type = '1' and is_recommend = '1' order by sort asc
+	</select>
+</mapper>

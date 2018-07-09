@@ -1,0 +1,228 @@
+/**     
+ * @文件名称: Student.java  
+ * @类路径: 	model  
+ * @描述: 	TODO  
+ * @作者：	user 
+ * @时间：	2017年11月16日 下午3:14:17  
+ * @版本：V1.0     
+ */
+package cn.com.model.user;
+
+import java.io.Serializable;
+import java.util.Date;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2017年11月16日 下午3:14:17  
+ * @版本：V1.0  
+ */
+public class User implements Serializable{
+
+	private static final long serialVersionUID = 1L;
+	//主键
+	private String id;
+	//昵称
+	private String nickName;
+	//电话号码
+	private String phone;
+	//密码
+	private String password;
+	//钱包余额
+	private Double walletBalance;
+	//钱包支付/提现密码
+	private String walletPwd;
+	//城市编码
+	private String cityCode;
+	//注册时间
+	private Date registerTime;
+	//登录时间
+	private Date loginTime;
+	//登录次数
+	private Integer loginNum;
+	//0：否 1：是   身份验证
+	private String isAuthentication;
+	//性别
+	private String sex;
+	//签名
+	private String autograph;
+	//信誉度
+	private Integer credit;
+	//创建时间
+	private Date createTime;
+	//修改时间
+	private Date updateTime;
+
+	//锁定时间
+	private Date lockTime;
+	//锁定天数
+	private Integer lockDays;
+	//图片id，以","隔开
+	private String imageIds;
+	//0：未删除 1：已删除
+	private String delFlag;
+	
+	//0：否 1：是     是否已经修改过昵称
+	private String isFlagNickName;
+	
+	
+	private String imageUrl;
+	
+	private String imageUrl1;
+	
+	
+	private String city;
+	
+	
+	
+	
+	
+	public String getCity() {
+		return city;
+	}
+	public void setCity(String city) {
+		this.city = city;
+	}
+	public String getImageUrl() {
+		return imageUrl;
+	}
+	public void setImageUrl(String imageUrl) {
+		this.imageUrl = imageUrl;
+	}
+	public String getImageUrl1() {
+		return imageUrl1;
+	}
+	public void setImageUrl1(String imageUrl1) {
+		this.imageUrl1 = imageUrl1;
+	}
+	public String getIsFlagNickName() {
+		return isFlagNickName;
+	}
+	public void setIsFlagNickName(String isFlagNickName) {
+		this.isFlagNickName = isFlagNickName;
+	}
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
+	public String getNickName() {
+		return nickName;
+	}
+	public void setNickName(String nickName) {
+		this.nickName = nickName;
+	}
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	public Double getWalletBalance() {
+		return walletBalance;
+	}
+	public void setWalletBalance(Double walletBalance) {
+		this.walletBalance = walletBalance;
+	}
+	public String getWalletPwd() {
+		return walletPwd;
+	}
+	public void setWalletPwd(String walletPwd) {
+		this.walletPwd = walletPwd;
+	}
+	public String getCityCode() {
+		return cityCode;
+	}
+	public void setCityCode(String cityCode) {
+		this.cityCode = cityCode;
+	}
+	public Date getRegisterTime() {
+		return registerTime;
+	}
+	public void setRegisterTime(Date registerTime) {
+		this.registerTime = registerTime;
+	}
+	public Date getLoginTime() {
+		return loginTime;
+	}
+	public void setLoginTime(Date loginTime) {
+		this.loginTime = loginTime;
+	}
+	public Integer getLoginNum() {
+		return loginNum;
+	}
+	public void setLoginNum(Integer loginNum) {
+		this.loginNum = loginNum;
+	}
+	public String getIsAuthentication() {
+		return isAuthentication;
+	}
+	public void setIsAuthentication(String isAuthentication) {
+		this.isAuthentication = isAuthentication;
+	}
+	public String getSex() {
+		return sex;
+	}
+	public void setSex(String sex) {
+		this.sex = sex;
+	}
+	public String getAutograph() {
+		return autograph;
+	}
+	public void setAutograph(String autograph) {
+		this.autograph = autograph;
+	}
+	public Integer getCredit() {
+		return credit;
+	}
+	public void setCredit(Integer credit) {
+		this.credit = credit;
+	}
+	public Date getCreateTime() {
+		return createTime;
+	}
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+	public Date getUpdateTime() {
+		return updateTime;
+	}
+	public void setUpdateTime(Date updateTime) {
+		this.updateTime = updateTime;
+	}
+
+	public Date getLockTime() {
+		return lockTime;
+	}
+	public void setLockTime(Date lockTime) {
+		this.lockTime = lockTime;
+	}
+	public Integer getLockDays() {
+		return lockDays;
+	}
+	public void setLockDays(Integer lockDays) {
+		this.lockDays = lockDays;
+	}
+	public String getImageIds() {
+		return imageIds;
+	}
+	public void setImageIds(String imageIds) {
+		this.imageIds = imageIds;
+	}
+	public String getDelFlag() {
+		return delFlag;
+	}
+	public void setDelFlag(String delFlag) {
+		this.delFlag = delFlag;
+	}
+
+
+}

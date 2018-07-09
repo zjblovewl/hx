@@ -1,0 +1,75 @@
+package mobile.auction.controller;
+
+import cn.com.App;
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.Des3;
+import cn.com.base.vo.RequestParamVo;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import mobile.BaseControllerTest;
+import mobile.user.controller.UserMobileControllerTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @类功能说明：拍卖Controller测试
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/30 上午16:01
+ * @版本：V1.0
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class)
+@WebAppConfiguration
+public class AuctionMobileControllerTest extends BaseControllerTest{
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    String rootUrl =  super.baseUrl +  "api/auctionmobile/";
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    private Logger log = LoggerFactory.getLogger(UserMobileControllerTest.class);
+
+    /**
+     * @description 获取大小类测试
+     * @method  
+     * @param  * @param null
+     * @return 
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getSizeOfClassTest()
+    {
+        try {
+            String url = rootUrl + "getSizeOfClass";
+
+            InitParamHeader("q+gKOnfXlZWcrdiCkb3839tiAVdum8EY","1","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("classType","2");
+
+            RequestParamVo requestParam = new RequestParamVo(header,body);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = Des3.encode( paras, baseConstant.getSecretKey() );
+            String result = cn.com.util.HttpClientUtil.executeByPOST(url, paras);
+            System.out.println(result);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+}

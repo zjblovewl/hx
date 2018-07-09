@@ -1,0 +1,17 @@
+package cn.com.mobile.auction.dao;
+
+import cn.com.model.auction.GoodsComment;
+
+public interface GoodsCommentMapper {
+    int deleteByPrimaryKey(String id);
+
+    int insert(GoodsComment record);
+
+    int insertSelective(GoodsComment record);
+
+    GoodsComment selectByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(GoodsComment record);
+
+    int updateByPrimaryKey(GoodsComment record);
+}

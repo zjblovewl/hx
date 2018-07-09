@@ -1,0 +1,21 @@
+package cn.com.third.ping.controller;
+
+import cn.com.base.util.BaseLogger;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+/**
+ * @类功能说明：ping++第三方支付接口
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/4/13 上午14:51
+ * @版本：V1.0
+ */
+@RestController
+@RequestMapping("/api/pingplusplus")
+public class PingPlusController extends BaseLogger {
+    
+
+
+
+}

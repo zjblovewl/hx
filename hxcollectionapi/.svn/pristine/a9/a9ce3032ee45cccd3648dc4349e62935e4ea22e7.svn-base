@@ -1,0 +1,110 @@
+package cn.com.base.vo;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+/**
+ * @类功能说明：请求参数头对象
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/21 上午10:07
+ * @版本：V1.0
+ */
+public class RequestParamHeader {
+    private static final long serialVersionUID = -5125820210117783676L;
+
+    private long appId;//应用ID
+
+    @JsonProperty("Token")
+    private String Token;//Token 由服务端生成
+
+    private String signature;//签名
+
+    private long timestamp;//时间戳
+
+    private String userId;//用户ID
+
+    private String isSource;//来源(1、手机端 2、PC端)
+
+    private String deviceInfo;//设备信息
+
+    private String version;//版本
+
+    public String getDeviceInfo() {
+        return deviceInfo;
+    }
+
+    public void setDeviceInfo(String deviceInfo) {
+        this.deviceInfo = deviceInfo;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public void setVersion(String version) {
+        this.version = version;
+    }
+
+    public String getIsSource() {
+        return isSource;
+    }
+
+    public void setIsSource(String isSource) {
+        this.isSource = isSource;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    public long getAppId() {
+        return appId;
+    }
+
+    public void setAppId(long appId) {
+        this.appId = appId;
+    }
+
+    @JsonIgnore
+    public String getToken() {
+        return Token;
+    }
+
+    @JsonIgnore
+    public void setToken(String token) {
+        Token = token;
+    }
+
+    public String getSignature() {
+        return signature;
+    }
+
+    public void setSignature(String signature) {
+        this.signature = signature;
+    }
+
+    public long getTimestamp() {
+        return timestamp;
+    }
+
+    public void setTimestamp(long timestamp) {
+        this.timestamp = timestamp;
+    }
+
+    public RequestParamHeader(long appId, String token, String signature, long timestamp,String userId,String isSource) {
+        this.appId = appId;
+        this.Token = token;
+        this.signature = signature;
+        this.timestamp = timestamp;
+        this.userId = userId;
+        this.isSource = isSource;
+    }
+
+    public RequestParamHeader() {
+    }
+}

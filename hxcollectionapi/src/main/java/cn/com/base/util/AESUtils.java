@@ -1,0 +1,91 @@
+package cn.com.base.util;
+
+import cn.com.base.constant.BaseConstant;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import sun.misc.BASE64Decoder;
+import sun.misc.BASE64Encoder;
+
+import javax.crypto.BadPaddingException;
+import javax.crypto.Cipher;
+import javax.crypto.IllegalBlockSizeException;
+import javax.crypto.NoSuchPaddingException;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.IOException;
+import java.security.InvalidAlgorithmParameterException;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+
+/**
+ * @类功能说明：AES加密
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/4/18 上午10:21
+ * @版本：V1.0
+ */
+public class AESUtils {
+    public static final Logger LOGGER = LoggerFactory.getLogger(AESUtils.class);
+
+    private static final String AES = "AES";
+
+    /**
+     * 加密
+     *
+     * @param content 加密内容
+     * @return 密文
+     * @throws Exception e
+     */
+    public static String encrypt(String ivString,String key,String content) {
+        byte[] encryptedBytes = new byte[0];
+        try {
+            byte[] byteContent = content.getBytes("UTF-8");
+            // 注意，为了能与 iOS 统一
+            // 这里的 key 不可以使用 KeyGenerator、SecureRandom、SecretKey 生成
+            byte[] enCodeFormat = key.getBytes();
+            SecretKeySpec secretKeySpec = new SecretKeySpec(enCodeFormat, AES);
+            byte[] initParam = ivString.getBytes();
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(initParam);
+            // 指定加密的算法、工作模式和填充方式
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.ENCRYPT_MODE, secretKeySpec, ivParameterSpec);
+            encryptedBytes = cipher.doFinal(byteContent);
+            // 同样对加密后数据进行 base64 编码
+        } catch (IOException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+            LOGGER.error("AES encrypt Exception,content = {},Exception = {}", content, e.getStackTrace());
+        }
+
+
+        return new BASE64Encoder().encode(encryptedBytes);
+    }
+
+    /**
+     * 解密
+     *
+     * @param content 密文
+     * @return 明文
+     * @throws Exception e
+     */
+    public static String decrypt(String ivString,String key,String content) {
+        // base64 解码
+        try {
+            byte[] encryptedBytes = new BASE64Decoder().decodeBuffer(content);
+            byte[] enCodeFormat = key.getBytes();
+            SecretKeySpec secretKey = new SecretKeySpec(enCodeFormat, AES);
+            byte[] initParam = ivString.getBytes();
+            IvParameterSpec ivParameterSpec = new IvParameterSpec(initParam);
+            Cipher cipher = Cipher.getInstance("AES/CBC/PKCS5Padding");
+            cipher.init(Cipher.DECRYPT_MODE, secretKey, ivParameterSpec);
+            byte[] result = cipher.doFinal(encryptedBytes);
+
+            return new String(result, "UTF-8");
+        } catch (IOException | NoSuchAlgorithmException | NoSuchPaddingException | InvalidKeyException | InvalidAlgorithmParameterException | IllegalBlockSizeException | BadPaddingException e) {
+
+            LOGGER.error("AES decrypt Exception,content = {},Exception = {}", content, e.getStackTrace());
+        }
+        return null;
+    }
+
+
+}

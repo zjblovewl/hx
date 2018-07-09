@@ -1,0 +1,42 @@
+package cn.com.mobile.order.dao;
+
+import java.util.Map;
+
+/**  
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年5月7日 下午3:19:56 
+ * @版本：V1.0  
+ */
+public interface OrderMobileMapper {
+	/**
+	 * @description 创建订单
+	 * @method  saveOrder
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年5月8日 上午10:11:25
+	 * @author:chenchen
+	 */
+	public void saveOrder(Map<String, Object> paramsMap);
+	
+	/**	 
+	 * @description 创建订单商品数据
+	 * @method  saveOrderGoods
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年5月8日 上午10:12:27
+	 * @author:chenchen
+	 */
+	public void saveOrderGoods(Map<String, Object> paramsMap);
+	
+	/**	 
+	 * @description 保存订单商品图片数据
+	 * @method  saveImagesOrderGoodsRel
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年5月8日 上午10:42:33
+	 * @author:chenchen
+	 */
+	public void saveImagesOrderGoodsRel(Map<String, Object> paramsMap);
+}

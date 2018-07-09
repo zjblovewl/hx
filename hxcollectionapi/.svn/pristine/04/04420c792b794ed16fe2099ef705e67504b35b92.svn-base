@@ -1,0 +1,217 @@
+package cn.com.base.vo.auction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.math.BigDecimal;
+
+/**
+ * @类功能说明：加载拍卖详情
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：${DATE} 上午${TIME}
+ * @版本：V1.0
+ */
+public class AuctionGoodsDetail {
+    private String id;//商品ID
+
+    private String end_time;//结拍时间
+
+    private String goods_name;//商品标题
+
+    private String goods_description;//商品描述
+
+    private String image_urls;//原图
+
+    private String small_urls;//小图规格 200*200;
+
+    private String big_urls;//大规格图片 800*800
+
+    private BigDecimal start_price;//起拍价
+
+    private BigDecimal markup_price;//加价
+
+    private BigDecimal postage;//邮费
+
+    private String city_code;//城市Code
+
+    private String city_name;//城市名称
+
+    private String create_time;//创建时间
+
+    @JsonIgnore
+    private String user_id;//创建人ID
+
+    private String current_time;//创建时间
+
+    @JsonIgnore
+    private String nick_name;//店铺名称
+
+    private String head_url;//头像url(原图)
+
+    private String head1_url;//头像url(200*200)
+
+    private String head2_url;//头像url（800*800）
+
+    @JsonIgnore
+    private Integer offer_count;//竞拍次数
+
+    public String getCurrent_time() {
+        return current_time;
+    }
+
+    public void setCurrent_time(String current_time) {
+        this.current_time = current_time;
+    }
+
+    public String getHead1_url() {
+        return head1_url;
+    }
+
+    public void setHead1_url(String head1_url) {
+        this.head1_url = head1_url;
+    }
+
+    public String getHead2_url() {
+        return head2_url;
+    }
+
+    public void setHead2_url(String head2_url) {
+        this.head2_url = head2_url;
+    }
+
+    public String getImage_urls() {
+        return image_urls;
+    }
+
+    public void setImage_urls(String image_urls) {
+        this.image_urls = image_urls;
+    }
+
+    public String getGoods_name() {
+        return goods_name;
+    }
+
+    public void setGoods_name(String goods_name) {
+        this.goods_name = goods_name;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(String end_time) {
+        this.end_time = end_time;
+    }
+
+    public String getGoods_description() {
+        return goods_description;
+    }
+
+    public void setGoods_description(String goods_description) {
+        this.goods_description = goods_description;
+    }
+
+    public String getSmall_urls() {
+        return small_urls;
+    }
+
+    public void setSmall_urls(String small_urls) {
+        this.small_urls = small_urls;
+    }
+
+    public String getBig_urls() {
+        return big_urls;
+    }
+
+    public void setBig_urls(String big_urls) {
+        this.big_urls = big_urls;
+    }
+
+    public BigDecimal getStart_price() {
+        return start_price;
+    }
+
+    public void setStart_price(BigDecimal start_price) {
+        this.start_price = start_price;
+    }
+
+    public BigDecimal getMarkup_price() {
+        return markup_price;
+    }
+
+    public void setMarkup_price(BigDecimal markup_price) {
+        this.markup_price = markup_price;
+    }
+
+    public BigDecimal getPostage() {
+        return postage;
+    }
+
+    public void setPostage(BigDecimal postage) {
+        this.postage = postage;
+    }
+
+    public String getCity_code() {
+        return city_code;
+    }
+
+    public void setCity_code(String city_code) {
+        this.city_code = city_code;
+    }
+
+    public String getCity_name() {
+        return city_name;
+    }
+
+    public void setCity_name(String city_name) {
+        this.city_name = city_name;
+    }
+
+    public String getCreate_time() {
+        return create_time;
+    }
+
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getNick_name() {
+        return nick_name;
+    }
+
+    public void setNick_name(String nick_name) {
+        this.nick_name = nick_name;
+    }
+
+    public String getHead_url() {
+        return head_url;
+    }
+
+    public void setHead_url(String head_url) {
+        this.head_url = head_url;
+    }
+
+    public Integer getOffer_count() {
+        return offer_count;
+    }
+
+    public void setOffer_count(Integer offer_count) {
+        this.offer_count = offer_count;
+    }
+}

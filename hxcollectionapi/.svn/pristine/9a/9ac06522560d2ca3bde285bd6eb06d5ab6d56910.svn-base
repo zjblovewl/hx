@@ -1,0 +1,35 @@
+package cn.com.pc.transaction.dao;
+
+import java.util.List;
+import java.util.Map;
+
+/**  
+ * @类功能说明：藏品pc端mapper
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年4月16日 上午10:07:54 
+ * @版本：V1.0  
+ */
+public interface TransactionPcMapper {
+	/**
+	 * 首页藏品广告
+	 * @description 
+	 * @method  getHomePageAdvertisementRecords
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月16日 上午10:21:12
+	 * @author:chenchen
+	 */
+	public List<Map<String, Object>> getHomePageAdvertisementRecords();
+	
+	/**
+	 * 首页藏品推荐
+	 * @description 
+	 * @method  getRecommendGoodsRecords
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月16日 下午3:11:02
+	 * @author:chenchen
+	 */
+	public List<Map<String, Object>> getRecommendGoodsRecords();
+}

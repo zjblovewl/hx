@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.pc.transaction.dao.TransactionPcMapper">
+	<!-- 首页藏品广告 -->
+	<select id="getHomePageAdvertisementRecords" resultType="java.util.HashMap">
+		select adv.homepage_name,COALESCE(adv.html_url,'')as html_url,
+		COALESCE(t.original_image_urls,'') as original_image_urls
+		from hxdb.hx_homepage_advertisement adv
+		left join
+		(        
+		    select re.service_id,string_agg(img.image_url,',')as original_image_urls
+		    from (select * from hxdb.hx_images_advertisement_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = adv.id
+		where del_flag = '0' order by sort asc
+	</select>
+	
+	<!-- 首页推荐藏品 -->
+	<select id="getRecommendGoodsRecords" resultType="java.util.HashMap">
+		select g.id as goods_id,g.goods_name,g.goods_description,g.price,g.user_id,u.nick_name,
+	    COALESCE(t1.head_image_urls,'') as head_image_urls,
+		COALESCE(t.small_image_urls,'') as small_image_urls
+		from hxdb.hx_goods g
+		left join hxdb.hx_user u on u.id = g.user_id
+		left join
+		(        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls
+		    from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id		
+		left join
+        (
+            select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+            from (select * from hxdb.hx_images_user_rel order by sort asc) re
+            left join hxdb.sys_images img on img.id = re.image_id
+            group by re.service_id 	
+        )t1 on t1.service_id = u.id
+		<!-- goods_type 1：藏品 2：拍卖  is_recommend 0：否 1：是 -->
+		where g.del_flag = '0' and g.goods_type = '1' and g.status = '1' and g.inventory > 0 and g.is_recommend = '1' 
+		<!-- lock_time is null 或者 当前时间 > （锁定时间 + 锁定天数） -->
+		and (g.lock_time is null or now() > (g.lock_time + (g.lock_days || ' D')::"interval"))
+		order by g.sort asc				
+	</select>
+	
+	<!-- 首页卖家推荐 -->
+	<select id="getRecommendSellerRecords" resultType="java.util.HashMap">
+		select id as user_id,nick_name,COALESCE(t.head_image_urls,'') as head_image_urls from hxdb.hx_user u 
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = u.id
+		where u.del_flag = '0' and u.is_recommend = '1' 
+		<!-- lock_time is null 或者 当前时间 > （锁定时间 + 锁定天数） -->
+		and (u.lock_time is null or now() > (u.lock_time + (u.lock_days || ' D')::"interval"))
+		order by u.sort asc
+	</select>
+	
+	<!-- 我的藏品（在售） -->
+	<select id="getMyInSaleGoodsRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<!-- goods_type 1：普通商品 2：拍卖商品' -->
+		<!-- status 1：上架 2：下架 -->
+		<!-- inventory 库存 -->
+		select g.id as goods_id,g.goods_name,g.price,
+		hxdb.datestr_to_timestamp(to_char(g.create_time,'YYYY-MM-DD HH24:MI:SS')) as create_time,
+		hxdb.datestr_to_timestamp(to_char(now(),'YYYY-MM-DD HH24:MI:SS')) as current_time,	
+		COALESCE(t.small_image_urls,'') as small_image_urls,
+		COALESCE(t.big_image_urls,'') as big_image_urls,
+		COALESCE(t.original_image_urls,'') as original_image_urls
+		from hxdb.hx_goods g
+		left join
+		(        
+			select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',')as original_image_urls
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		where del_flag = '0' and goods_type = '1' and status = '1' and inventory > 0 and user_id = #{user_id}
+	</select>
+	
+	<!-- 查询收藏品数据 -->
+	<select id="getGoodsRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select g.id as goods_id,g.user_id,u.nick_name,g.goods_name,g.goods_description,g.price,g.city_code,a.city as city_name,g.browse_num,
+		hxdb.datestr_to_timestamp(to_char(g.create_time,'YYYY-MM-DD HH24:MI:SS')) as create_time,
+		hxdb.datestr_to_timestamp(to_char(now(),'YYYY-MM-DD HH24:MI:SS')) as current_time,	
+		COALESCE(t.small_image_urls,'') as small_image_urls,
+		COALESCE(t.big_image_urls,'') as big_image_urls,
+		COALESCE(t.original_image_urls,'') as original_image_urls, 
+		COALESCE(t1.head_image_urls,'') as head_image_urls
+		from hxdb.hx_goods g
+		left join hxdb.hx_user u on u.id = g.user_id
+		left join hxdb.sys_area a on a.code = g.city_code
+		left join
+		(		        
+			select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',') as original_image_urls 
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t1 on t1.service_id = u.id
+		<!-- del_flag ='0':未删除 '1':已删除、 goods_type = '1'：收藏品 '2':拍卖 、status = '1'：上架 '2'：下架、 inventory：库存-->
+		where g.del_flag = '0' and g.goods_type = '1' and g.status = '1' and g.inventory > 0 
+		<!-- lock_time is null 或者 当前时间 > （锁定时间 + 锁定天数） -->
+		and (g.lock_time is null or now() > (g.lock_time + (g.lock_days || ' D')::"interval"))			
+		<!-- 商品描述 -->
+		<if test="search_content != null and search_content != ''">
+			and (g.goods_name like '%${search_content}%' or g.goods_description like '%${search_content}%')
+		</if>
+						
+		<!-- 大类 -->
+		<if test="big_class_code != null and big_class_code != ''">
+			and g.big_class_code = #{big_class_code}
+		</if>
+		
+		<!-- 小类 -->
+		<if test="small_class_code != null and small_class_code != ''">
+			and g.small_class_code = #{small_class_code}
+		</if>
+		
+		<!-- 城市 -->
+		<if test="city_code != null and city_code != ''">
+			and g.city_code = #{city_code}
+		</if>
+		
+		<!-- 价格区间 -->		
+		<if test="begin_price != null and begin_price != ''">
+			and g.price >= ${begin_price}
+		</if>
+		
+		<if test="end_price != null and end_price != ''">
+			<![CDATA[and g.price <= ${end_price}]]>
+		</if>
+		
+		<!-- "sortType" : '',//排序方式  1：默认排序 2：价格最低 3：价格最高 4：新品上架 5：最热商品 -->
+		<choose>  
+            <when test="sort_type != null and sort_type != '' and sort_type == 1">  
+               	order by g.create_time desc
+           	</when>  
+           	<when test="sort_type != null and sort_type != '' and sort_type == 2">  
+               	order by g.price asc
+           	</when>
+           	<when test="sort_type != null and sort_type != '' and sort_type == 3">
+               	order by g.price desc
+           	</when>  
+           	<when test="sort_type != null and sort_type != '' and sort_type == 4">
+               	order by g.create_time desc
+           	</when>
+           	<when test="sort_type != null and sort_type != '' and sort_type == 5">
+               	order by g.browse_num desc
+           	</when>  
+           	<otherwise>  
+                order by g.create_time desc
+            </otherwise>  
+      	</choose>      	
+	</select>
+	
+	<!-- 查询本店铺其他藏品 -->
+	<select id="getMyOtherGoodsRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<!-- goods_type 1：普通商品 2：拍卖商品' -->
+		<!-- status 1：上架 2：下架 -->
+		<!-- inventory 库存 -->
+		select g.id as goods_id,g.goods_name,g.price,
+		hxdb.datestr_to_timestamp(to_char(g.create_time,'YYYY-MM-DD HH24:MI:SS')) as create_time,
+		hxdb.datestr_to_timestamp(to_char(now(),'YYYY-MM-DD HH24:MI:SS')) as current_time,			
+		COALESCE(t.small_image_urls,'') as small_image_urls,
+		COALESCE(t.big_image_urls,'') as big_image_urls,
+		COALESCE(t.original_image_urls,'') as original_image_urls
+		from hxdb.hx_goods g
+		left join
+		(        
+			select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',')as original_image_urls
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		where g.del_flag = '0' and g.goods_type = '1' and g.status = '1' and g.inventory > 0 and g.user_id = #{user_id} and g.id != #{goods_id} 
+	</select>
+	
+	<!-- 我的足迹 -->
+	<select id="getMyTrackRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select g.id as goods_id,g.goods_name,g.goods_description,g.price,
+		hxdb.datestr_to_timestamp(to_char(tr.create_time,'YYYY-MM-DD HH24:MI:SS')) as create_time,
+		hxdb.datestr_to_timestamp(to_char(now(),'YYYY-MM-DD HH24:MI:SS')) as current_time,		
+		COALESCE(t.small_image_urls,'') as small_image_urls,
+		COALESCE(t.big_image_urls,'') as big_image_urls,
+		COALESCE(t.original_image_urls,'') as original_image_urls
+		from hxdb.hx_my_track tr 
+		left join hxdb.hx_goods g on g.id = tr.goods_id
+		left join
+		(        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',')as original_image_urls
+		    from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		where g.del_flag = '0' and g.status = '1' and g.inventory > 0 and tr.goods_type = '1'  and tr.user_id = #{user_id}
+	</select>
+</mapper>

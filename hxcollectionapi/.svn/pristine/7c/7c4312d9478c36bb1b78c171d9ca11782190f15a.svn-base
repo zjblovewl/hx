@@ -1,0 +1,66 @@
+package cn.com.base.vo.auction;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * @类功能说明：大小类返回数据对象
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/30 上午9:15
+ * @版本：V1.0
+ */
+public class ParentClassIfication implements Serializable{
+
+    /**
+     * 大类ID
+     */
+    private String parent_class_id;
+
+    /**
+     * 大类编码
+     */
+    private String parent_class_code;
+
+    /**
+     * 大类名称
+     */
+    private String parent_class_name;
+
+    /**
+     * 小类集合
+     */
+    private List<ChildClassIfication> small_class_list;
+
+    public String getParent_class_id() {
+        return parent_class_id;
+    }
+
+    public void setParent_class_id(String parent_class_id) {
+        this.parent_class_id = parent_class_id;
+    }
+
+    public String getParent_class_code() {
+        return parent_class_code;
+    }
+
+    public void setParent_class_code(String parent_class_code) {
+        this.parent_class_code = parent_class_code;
+    }
+
+    public String getParent_class_name() {
+        return parent_class_name;
+    }
+
+    public void setParent_class_name(String parent_class_name) {
+        this.parent_class_name = parent_class_name;
+    }
+
+    public List<ChildClassIfication> getSmall_class_list() {
+        return small_class_list;
+    }
+
+    public void setSmall_class_list(List<ChildClassIfication> small_class_list) {
+        this.small_class_list = small_class_list;
+    }
+}

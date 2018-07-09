@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.mobile.order.dao.OrderMobileMapper">
+	<!-- 保存订单 -->
+	<insert id="saveOrder" parameterType="java.util.HashMap">
+		insert into hxdb.hx_order(id,order_code,buyer_id,buyer_name,seller_id,seller_name,order_type,pay_money,pay_method,receive_address,
+		consignee,contact_information,order_status,order_generation_time,remark,del_flag)
+		values(#{order_id},#{order_code},#{buyer_id},#{buyer_name},#{seller_id},#{seller_name},#{order_type},#{pay_money},#{pay_method},#{receive_address},
+		#{consignee},#{contact_information},'1',now(),#{remark},'0')
+	</insert>
+	
+	<!-- 保存订单商品 -->
+	<insert id="saveOrderGoods" parameterType="java.util.HashMap">
+		insert into hxdb.hx_order_goods(id,big_class_code,small_class_code,goods_type,goods_name,goods_description,amount,price,order_id,goods_id,create_time,del_flag)
+		select #{order_goods_id},big_class_code,small_class_code,goods_type,goods_name,goods_description,#{amount},price,#{order_id},#{goods_id},now(),'0'
+		from hxdb.hx_goods where id = #{goods_id}		
+	</insert>
+	
+	<!-- 保存订单商品图片数据 -->
+	<insert id="saveImagesOrderGoodsRel" parameterType="java.util.HashMap">
+		insert into hxdb.hx_images_ordergoods_rel(id,image_id,service_id,sort)
+		select id,image_id,#{order_goods_id},sort from hxdb.hx_images_goods_rel where service_id = #{goods_id}
+	</insert>
+</mapper>

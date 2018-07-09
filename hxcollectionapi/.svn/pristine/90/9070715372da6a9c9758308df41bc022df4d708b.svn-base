@@ -1,0 +1,41 @@
+package cn.com.bean;
+
+import java.io.Serializable;
+
+/**
+ * @类功能说明：响应头部分
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/21 上午10:13
+ * @版本：V1.0
+ */
+public class ResponseParamHeader implements Serializable {
+
+    private Integer respCode;//响应状态码
+
+    private String respMsg;//响应提示语
+
+    public Integer getRespCode() {
+        return respCode;
+    }
+
+    public void setRespCode(Integer respCode) {
+        this.respCode = respCode;
+    }
+
+    public String getRespMsg() {
+        return respMsg;
+    }
+
+    public void setRespMsg(String respMsg) {
+        this.respMsg = respMsg;
+    }
+
+    public ResponseParamHeader() {
+    }
+
+    public ResponseParamHeader(Integer respCode, String respMsg) {
+        this.respCode = respCode;
+        this.respMsg = respMsg;
+    }
+}

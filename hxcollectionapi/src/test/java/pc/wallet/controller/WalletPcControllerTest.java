@@ -1,0 +1,429 @@
+package pc.wallet.controller;
+
+import cn.com.App;
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.AESUtils;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.wallet.BankRequestParam;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import mobile.BaseControllerTest;
+import mobile.user.controller.UserMobileControllerTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.*;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @类功能说明：钱包测试Controller
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/4/9 14:36
+ * @版本：V1.0
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class)
+@WebAppConfiguration
+public class WalletPcControllerTest extends BaseControllerTest{
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    String rootUrl =  super.baseUrl +  "api/walletpc/";
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    private Logger log = LoggerFactory.getLogger(UserMobileControllerTest.class);
+
+    /**
+     * @description 获取余额查询
+     * @method  
+     * @param  * @param null
+     * @return 
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getBalanceTest()
+    {
+        try {
+            String url = rootUrl + "getBalance";
+
+            InitParamHeader("iLNd30gcpEcgNh8aedKZpuvBvHEV89MnoyilHQmtbYU=","2","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+
+            RequestParamVo requestParam = new RequestParamVo(header,"");
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 设置或修改支付密码
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void settingPayPasswordTest()
+    {
+        try {
+            String url = rootUrl + "settingPayPassword";
+
+            String token = "fIb5Os5ebQFTLVolgm83Kbt4RNigErnQcu7cESp5a075E+KCw4sSTdafWvsE/IO6+R1l1n+i0BKy\n" +
+                            "6nTnpslamQ==";
+
+            String user_id = "8af93ee7f81e4a5a8173e87d7ee344b7";
+            InitParamHeader(token,user_id,"1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+            Map<String,Object> paraMap = new HashMap<>();
+            paraMap.put("code","551658");
+            paraMap.put("password","199412");
+
+            RequestParamVo requestParam = new RequestParamVo(header,paraMap);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 加载银行卡列表
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getBankCardTypeTest()
+    {
+        try {
+            String url = rootUrl + "getBankCardType";
+
+            InitParamHeader("q+gKOnfXlZWcrdiCkb3839tiAVdum8EY","10","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+
+            RequestParamVo requestParam = new RequestParamVo(header,"");
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 绑定银行卡
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void bindBankCardTest()
+    {
+        try {
+            String url = rootUrl + "bindBankCard";
+
+            InitParamHeader("q+gKOnfXlZWcrdiCkb3839tiAVdum8EY","10","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            BankRequestParam param = new BankRequestParam();
+            param.setBank_code("1");
+            param.setCard_no("62222323232232");
+            param.setConfirm_card_no("62222323232232");
+            param.setName("小周");
+            param.setBank_city("110000");
+
+            RequestParamVo requestParam = new RequestParamVo(header,param);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 查询收支明细
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getWalletDetailRecordsTest()
+    {
+        try {
+            String url = rootUrl + "getWalletDetailRecords";
+
+            InitParamHeader("PuxwPC0F6VjEQH84LaATCG/QqDMI+mb/mf0bE3sMxjs=","2","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            Map<String,Object> paraMap = new HashMap<>();
+            paraMap.put("page_num",1);
+            paraMap.put("page_size",10);
+
+            RequestParamVo requestParam = new RequestParamVo(header,paraMap);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 查询提现
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getWithdrawalsRecordsTest()
+    {
+        try {
+            String url = rootUrl + "getWithdrawalsRecords";
+
+            InitParamHeader("q+gKOnfXlZWcrdiCkb3839tiAVdum8EY","2","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            Map<String,Object> paraMap = new HashMap<>();
+            paraMap.put("page_num",1);
+            paraMap.put("page_size",10);
+
+            RequestParamVo requestParam = new RequestParamVo(header,paraMap);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 查询提现
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getMyBankInfoTest()
+    {
+        try {
+            String url = rootUrl + "getMyBankInfo";
+
+            InitParamHeader("iLNd30gcpEcgNh8aedKZpuvBvHEV89MnoyilHQmtbYU=","2","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            RequestParamVo requestParam = new RequestParamVo(header,null);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 获取余额查询
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void withdrawalMoneyTest()
+    {
+        try {
+            String url = rootUrl + "withdrawalMoney";
+
+            InitParamHeader("PuxwPC0F6VjEQH84LaATCG/QqDMI+mb/mf0bE3sMxjs=","2","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+            Map<String,Object> parMap =  new HashMap<>();
+            parMap.put("card_no","6222222");
+            parMap.put("money","30");
+            parMap.put("real_name","小周");
+            parMap.put("bank_code","1");
+            parMap.put("password","321233");
+
+            RequestParamVo requestParam = new RequestParamVo(header,parMap);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 余额支付
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void balancePaymentTest()
+    {
+        try {
+            String url = rootUrl + "balancePayment";
+
+            String token = "113D3910976E9ABB40BCAC3F0E935D6105B4119AD9F62434E4C57DAD9A45FD5DD6402592863FCD0372D74BAB140C9E98F5844E5073A5B71A6E749603BEED463E";
+
+            String user_id = "8af93ee7f81e4a5a8173e87d7ee344b7";
+            InitParamHeader(token,user_id,"1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+            Map<String,Object> parMap =  new HashMap<>();
+            parMap.put("order_no","6222222");
+            parMap.put("money","30");
+            parMap.put("password","199412");
+
+            RequestParamVo requestParam = new RequestParamVo(header,parMap);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    /**
+     * @description 实名认证
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void realNameAuthentication()
+    {
+        try {
+            String url = rootUrl + "realNameAuthentication";
+
+            String token = "113D3910976E9ABB40BCAC3F0E935D6105B4119AD9F62434E4C57DAD9A45FD5DD6402592863FCD0372D74BAB140C9E98F5844E5073A5B71A6E749603BEED463E";
+
+            String user_id = "8af93ee7f81e4a5a8173e87d7ee344b7";
+            InitParamHeader(token,user_id,"1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+            Map<String,Object> parMap =  new HashMap<>();
+            parMap.put("user_name","小周");
+            parMap.put("card_no","340222199412044711");
+            parMap.put("image_ids","2222,3333");
+
+            RequestParamVo requestParam = new RequestParamVo(header,parMap);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

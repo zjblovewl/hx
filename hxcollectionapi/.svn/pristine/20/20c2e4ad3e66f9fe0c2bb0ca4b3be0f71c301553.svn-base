@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.auction.dao.GoodsOfferRecordMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.auction.GoodsOfferRecord" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="goods_id" property="goodsId" jdbcType="VARCHAR" />
+    <result column="customer_id" property="customerId" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="offer_price" property="offerPrice" jdbcType="NUMERIC" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="create_time_str" property="createTimeStr" jdbcType="VARCHAR" />
+    <result column="image_url" property="headUrl" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, goods_id, customer_id, nick_name, offer_price, create_time, update_time
+  </sql>
+  <select id="selectAllById" resultMap="BaseResultMap">
+    select
+      goods_id,
+      re.customer_id,
+        re.nick_name,
+        image.image_url,
+        re.offer_price,
+        to_char(re.create_time,'yyyy-MM-dd HH24:MI:SS') create_time_str
+    from hxdb.hx_goods_offer_record re
+    left join hxdb.hx_user us on re.customer_id = us.id
+    left join hxdb.sys_images image on us.image_ids = image.id
+    where goods_id = #{goodsId,jdbcType=VARCHAR}
+    order by re.create_time desc
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+    <include refid="Base_Column_List" />
+    from hxdb.hx_goods_offer_record
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hxdb.hx_goods_offer_record
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.model.auction.GoodsOfferRecord" >
+    insert into hxdb.hx_goods_offer_record (id, goods_id, customer_id, 
+      nick_name, offer_price, create_time, 
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{goodsId,jdbcType=VARCHAR}, #{customerId,jdbcType=VARCHAR}, 
+      #{nickName,jdbcType=VARCHAR}, #{offerPrice,jdbcType=NUMERIC}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.model.auction.GoodsOfferRecord" >
+    insert into hxdb.hx_goods_offer_record
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="goodsId != null" >
+        goods_id,
+      </if>
+      <if test="customerId != null" >
+        customer_id,
+      </if>
+      <if test="nickName != null" >
+        nick_name,
+      </if>
+      <if test="offerPrice != null" >
+        offer_price,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsId != null" >
+        #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="offerPrice != null" >
+        #{offerPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.model.auction.GoodsOfferRecord" >
+    update hxdb.hx_goods_offer_record
+    <set >
+      <if test="goodsId != null" >
+        goods_id = #{goodsId,jdbcType=VARCHAR},
+      </if>
+      <if test="customerId != null" >
+        customer_id = #{customerId,jdbcType=VARCHAR},
+      </if>
+      <if test="nickName != null" >
+        nick_name = #{nickName,jdbcType=VARCHAR},
+      </if>
+      <if test="offerPrice != null" >
+        offer_price = #{offerPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.model.auction.GoodsOfferRecord" >
+    update hxdb.hx_goods_offer_record
+    set goods_id = #{goodsId,jdbcType=VARCHAR},
+      customer_id = #{customerId,jdbcType=VARCHAR},
+      nick_name = #{nickName,jdbcType=VARCHAR},
+      offer_price = #{offerPrice,jdbcType=NUMERIC},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

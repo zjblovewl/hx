@@ -1,0 +1,27 @@
+package cn.com.interceptor;
+
+import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+
+/**
+ * @类功能说明：拦截器注册
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/12 上午15:45
+ * @版本：V1.0
+ */
+@Configuration
+public class InterceptorConfig extends WebMvcConfigurerAdapter {
+    @Bean
+    public AppInterceptor appInterceptor() {
+        return new AppInterceptor();
+    }
+
+    @Override
+    public void addInterceptors(InterceptorRegistry registry) {
+        registry.addInterceptor(new ExcuteTimeInterceptor());
+        registry.addInterceptor(appInterceptor());
+    }
+}

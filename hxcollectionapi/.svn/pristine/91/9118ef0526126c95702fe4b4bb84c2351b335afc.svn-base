@@ -1,0 +1,553 @@
+package cn.com.mobile.wallet.service.impl;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.service.DictionaryService;
+import cn.com.base.service.ImageService;
+import cn.com.base.util.BaseLogger;
+import cn.com.base.util.IdNumber;
+import cn.com.base.util.MD5;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.base.vo.imageenum.ImageTableName;
+import cn.com.base.vo.wallet.BankRequestParam;
+import cn.com.mobile.user.dao.UserDao;
+import cn.com.mobile.wallet.dao.IncomeOutRecordMapper;
+import cn.com.mobile.wallet.dao.MyBankMapper;
+import cn.com.mobile.wallet.dao.RealNameAuthenticationMapper;
+import cn.com.mobile.wallet.dao.WithdrawalsRecordMapper;
+import cn.com.mobile.wallet.service.WalletMobileService;
+import cn.com.model.auction.SysImageService;
+import cn.com.model.wallet.IncomeOutRecord;
+import cn.com.model.wallet.MyBank;
+import cn.com.model.wallet.RealNameAuthentication;
+import cn.com.model.wallet.WithdrawalsRecord;
+import cn.com.util.Configuration;
+import cn.com.util.NumberUtil;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.math.BigDecimal;
+import java.util.*;
+
+/**
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/4/9 上午14:23
+ * @版本：V1.0
+ */
+@Service
+public class WalletMobileServiceImpl extends BaseLogger implements WalletMobileService {
+
+    ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Autowired
+    private DictionaryService dictionaryService;
+
+    @Autowired
+    private MyBankMapper myBankMapper;
+
+    @Autowired
+    private IncomeOutRecordMapper incomeOutRecordMapper;
+
+    @Autowired
+    private WithdrawalsRecordMapper withdrawalsRecordMapper;
+
+    @Autowired
+    private ImageService imageService;
+
+    @Autowired
+    private RealNameAuthenticationMapper realNameAuthenticationMapper;
+
+    @Override
+    public ResponseParamVo getBalance(RequestParamVo vo) {
+        if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+        }
+
+        Map<String, String> paramMap = new HashMap<>();
+        paramMap.put("userId", vo.getHeader().getUser_id());
+        List<Object> userList = userDao.getUserList(paramMap);
+        BigDecimal walletBalance = null;
+        boolean is_setting_pay = false;
+        if (userList != null && userList.size() > 0) {
+            Map<String, Object> resultMap = (Map<String, Object>) userList.get(0);
+            if (resultMap.containsKey("wallet_balance")) {
+                String tempBalance = resultMap.get("wallet_balance").toString();
+                if(StringUtil.isNullOrBlank(tempBalance))
+                {
+                    walletBalance = new BigDecimal("0");
+                }
+                else
+                {
+                    walletBalance = new BigDecimal(tempBalance);
+                }
+            }
+            if (resultMap.containsKey("wallet_pwd")) {
+                String wallet_pwd = resultMap.get("wallet_pwd").toString();
+                if(!StringUtil.isNullOrBlank(wallet_pwd))
+                {
+                    is_setting_pay = true;
+                }
+            }
+        }
+
+        Map<String, Object> reusltMap = new HashMap<>();
+        reusltMap.put("wallet_balance", walletBalance);
+        reusltMap.put("is_setting_pay", is_setting_pay);
+        return StringUtil.returnResponseVo(baseConstant.getRightCode(), "查询余额成功", "", "", reusltMap);
+    }
+
+    @Override
+    public ResponseParamVo settingPayPassword(RequestParamVo vo) {
+        try {
+            if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+            }
+
+            Map<String, String> paramMap = (Map<String, String>) vo.getBody();
+            String code = String.valueOf(paramMap.get("code"));
+            String password = String.valueOf(paramMap.get("password"));
+
+            if (StringUtil.isNullOrBlank(code)) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "验证码不能为空", "", "", "");
+
+            }
+
+//            String serverCode = (String) redisTemplate.opsForValue().get(vo.getHeader().getUser_id() + "set_pay_password");
+//            if (StringUtil.isNullOrBlank(serverCode)) {
+//                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "请先发送验证码", "", "", "");
+//            } else {
+//                if (!serverCode.equals(code)) {
+//                    return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "验证码错误", "", "", "");
+//                }
+//            }
+
+            if (StringUtil.isNullOrBlank(password) || password.length() > 6) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "支付密码不能为空并且长度不能大于6位", "", "", "");
+            }
+
+            String encryptPassword = MD5.md5(password + Configuration.getInstance().getValue("payPasswordKey"));
+
+            paramMap.put("userId", vo.getHeader().getUser_id());
+            paramMap.put("walletPwd", encryptPassword);
+            userDao.updateUserInfo(paramMap);
+
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "设置支付密码成功", "", "", "");
+        } catch (Exception e) {
+            log.error("设置支付密码异常", e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "设置支付密码异常", "", "", "");
+        }
+    }
+
+    @Override
+    public ResponseParamVo bindBankCard(RequestParamVo vo) {
+        try {
+            String bodyJson = objectMapper.writeValueAsString(vo.getBody());
+            BankRequestParam param = objectMapper.readValue(bodyJson,BankRequestParam.class);
+            if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+            }
+            if (StringUtil.isNullOrBlank(param.getBank_city())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "城市编码不能为空", "", "", "");
+            }
+            if (StringUtil.isNullOrBlank(param.getBank_code())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "银行编码不能为空", "", "", "");
+            }
+            if (StringUtil.isNullOrBlank(param.getCard_no())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "银行卡号不能为空", "", "", "");
+            }
+            if (StringUtil.isNullOrBlank(param.getConfirm_card_no())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "再次确认银行卡号不能为空", "", "", "");
+            }
+            if(!param.getCard_no().equals(param.getConfirm_card_no()))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "再次确认银行卡号不能为空", "", "", "");
+            }
+            if (StringUtil.isNullOrBlank(param.getName())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "开户姓名不能为空", "", "", "");
+            }
+
+            MyBank bank = new MyBank();
+            bank.setId(NumberUtil.getSysJournalNo(32,false));
+            bank.setBankCity(param.getBank_city());
+            bank.setBankCode(param.getBank_code());
+            bank.setBankNo(param.getCard_no());
+            bank.setCreateTime(new Date());
+            bank.setIsDefault("0");
+            bank.setRealName(param.getName());
+            bank.setUserId(vo.getHeader().getUser_id());
+            myBankMapper.insertSelective(bank);
+            log.info("绑定银行卡成功");
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "绑定银行卡成功", "", "", "");
+        } catch (Exception e) {
+            log.error("绑定银行卡异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "绑定银行卡异常", "", "", "");
+        }
+    }
+
+    @Override
+    public ResponseParamVo getBankCardType(RequestParamVo vo) {
+        return StringUtil.returnResponseVo(baseConstant.getRightCode(), "获取银行卡类型成功", "", "", dictionaryService.getValueByKey("bank_type"));
+    }
+
+    @Override
+    public ResponseParamVo getWalletDetailRecords(RequestParamVo vo) {
+        try {
+            if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+            }
+
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+            Integer pageNum = baseConstant.getPageNum();
+            Integer pageSize = baseConstant.getPageSize();
+            if(bodyMap != null)
+            {
+                String tempPageNum = String.valueOf(bodyMap.get("page_num").toString());
+                String tempPageSize = String.valueOf(bodyMap.get("page_size").toString());
+                if(!StringUtil.isNullOrBlank(tempPageNum))
+                {
+                    pageNum = Integer.parseInt(tempPageNum);
+                }
+                if(!StringUtil.isNullOrBlank(tempPageSize))
+                {
+                    pageSize = Integer.parseInt(tempPageSize);
+                }
+            }
+
+            PageHelper.startPage(pageNum,pageSize);
+            List<Map<String,Object>> mapLists = incomeOutRecordMapper.selectDetailByUserId(vo.getHeader().getUser_id());
+            PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(mapLists);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "查询成功", "", "", pageInfo);
+        } catch (Exception e) {
+            log.error("查询收支明细异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "查询收支明细异常", "", "", "");
+        }
+    }
+
+    @Override
+    public ResponseParamVo getWithdrawalsRecords(RequestParamVo vo) {
+        try {
+            if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+            }
+
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+            Integer pageNum = baseConstant.getPageNum();
+            Integer pageSize = baseConstant.getPageSize();
+            if(bodyMap != null)
+            {
+                String tempPageNum = String.valueOf(bodyMap.get("page_num").toString());
+                String tempPageSize = String.valueOf(bodyMap.get("page_size").toString());
+                if(!StringUtil.isNullOrBlank(tempPageNum))
+                {
+                    pageNum = Integer.parseInt(tempPageNum);
+                }
+                if(!StringUtil.isNullOrBlank(tempPageSize))
+                {
+                    pageSize = Integer.parseInt(tempPageSize);
+                }
+            }
+
+            PageHelper.startPage(pageNum,pageSize);
+            List<Map<String,Object>> mapLists = withdrawalsRecordMapper.selectDetailByUserId(vo.getHeader().getUser_id());
+            PageInfo<Map<String,Object>> pageInfo = new PageInfo<>(mapLists);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "查询成功", "", "", pageInfo);
+        } catch (Exception e) {
+            log.error("查询收支明细异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "查询提现记录异常", "", "", "");
+        }
+    }
+
+    @Override
+    public ResponseParamVo getMyBankInfo(RequestParamVo vo) {
+        if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+        }
+
+        List<Map<String,Object>> resultMap = myBankMapper.getMyBankInfo(vo.getHeader().getUser_id());
+        return StringUtil.returnResponseVo(baseConstant.getRightCode(), "获取银行卡列表成功", "", "", resultMap);
+
+    }
+
+    @Override
+    public ResponseParamVo withdrawalMoney(RequestParamVo vo) {
+        if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+        }
+
+
+        Map<String,Object> bodyMap = null;
+        try {
+            bodyMap = (Map<String, Object>) vo.getBody();
+            BigDecimal money = null;
+            String card_no = "";
+            String real_name = "";
+            String bank_code = "";
+            String password = "";
+            if(bodyMap != null)
+            {
+                card_no = bodyMap.get("card_no").toString();
+                real_name = bodyMap.get("real_name").toString();
+                bank_code = bodyMap.get("bank_code").toString();
+                password = bodyMap.get("password").toString();
+                money = new BigDecimal(bodyMap.get("money").toString());
+            }
+
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("userId", vo.getHeader().getUser_id());
+            List<Object> userList = userDao.getUserList(paramMap);
+
+            BigDecimal walletBalance = null;
+            boolean is_setting_pay = false;
+            String wallet_pwd = "";
+            if (userList != null && userList.size() > 0) {
+                Map<String, Object> resultMap = (Map<String, Object>) userList.get(0);
+                if (resultMap.containsKey("wallet_balance")) {
+                    String tempBalance = resultMap.get("wallet_balance").toString();
+                    if(!StringUtil.isNullOrBlank(tempBalance))
+                    {
+                        walletBalance = new BigDecimal(tempBalance);
+                    }
+                    else
+                    {
+                        walletBalance = new BigDecimal("0");
+                    }
+                }
+                if (resultMap.containsKey("wallet_pwd")) {
+                    wallet_pwd = resultMap.get("wallet_pwd").toString();
+                    if(!StringUtil.isNullOrBlank(wallet_pwd))
+                    {
+                        is_setting_pay = true;
+                    }
+                }
+            }
+
+            //若没设置提现密码，则不允许提现
+            if(!is_setting_pay)
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "请先设置支付密码", "", "", "");
+            }
+
+            //若提现金额大于余额，则不允许提现
+            if(money.compareTo(walletBalance) > 0)//为1大于 为-1小于 为0等于
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "提现金额不能大于余额", "", "", "");
+            }
+
+            String encryptPassword = MD5.md5(password + Configuration.getInstance().getValue("payPasswordKey"));
+            if(!encryptPassword.equals(wallet_pwd))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "支付密码错误", "", "", "");
+            }
+
+            //调用支付流程  (省略)
+
+            //存储提现记录
+            WithdrawalsRecord record = new WithdrawalsRecord();
+            record.setId(NumberUtil.getSysJournalNo(32,false));
+            record.setBankCode(bank_code);
+            record.setBankNo(card_no);
+            record.setCreateTime(new Date());
+            record.setCustomerId(vo.getHeader().getUser_id());
+            record.setWithdrawalsAmount(money);
+            record.setRealName(real_name);
+            record.setUpdateTime(new Date());
+            withdrawalsRecordMapper.insertSelective(record);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "提现余额成功", "", "", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("提现余额异常,原因为:{}",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "提现余额异常", "", "", "");
+        }
+    }
+
+    @Override
+    public ResponseParamVo balancePayment(RequestParamVo vo) {
+        if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+        }
+
+        Map<String,Object> bodyMap = null;
+        try {
+            bodyMap = (Map<String, Object>) vo.getBody();
+            BigDecimal money = null;
+            String password = "";
+            String order_no = "";
+            if(bodyMap != null)
+            {
+                password = bodyMap.get("password").toString();
+                money = new BigDecimal(bodyMap.get("money").toString());
+                order_no = bodyMap.get("order_no").toString();
+            }
+
+            Map<String, String> paramMap = new HashMap<>();
+            paramMap.put("userId", vo.getHeader().getUser_id());
+            List<Object> userList = userDao.getUserList(paramMap);
+
+            BigDecimal walletBalance = null;
+            boolean is_setting_pay = false;
+            String wallet_pwd = "";
+            if (userList != null && userList.size() > 0) {
+                Map<String, Object> resultMap = (Map<String, Object>) userList.get(0);
+                if (resultMap.containsKey("wallet_balance")) {
+                    String tempBalance = resultMap.get("wallet_balance").toString();
+                    if(!StringUtil.isNullOrBlank(tempBalance))
+                    {
+                        walletBalance = new BigDecimal(tempBalance);
+                    }
+                    else
+                    {
+                        walletBalance = new BigDecimal("0");
+                    }
+                }
+                if (resultMap.containsKey("wallet_pwd")) {
+                    wallet_pwd = resultMap.get("wallet_pwd").toString();
+                    if(!StringUtil.isNullOrBlank(wallet_pwd))
+                    {
+                        is_setting_pay = true;
+                    }
+                }
+            }
+
+            //判断订单参数
+            if(StringUtil.isNullOrBlank(order_no))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "订单号不能为空", "", "", "");
+            }
+
+            //若没设置支付密码，则不允许支付
+            if(!is_setting_pay)
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "请先设置支付密码", "", "", "");
+            }
+
+            //若支付金额大于余额，则不允许支付
+            if(money.compareTo(walletBalance) > 0)//为1大于 为-1小于 为0等于
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "余额不足", "", "", "");
+            }
+
+            String encryptPassword = MD5.md5(password + Configuration.getInstance().getValue("payPasswordKey"));
+            if(!encryptPassword.equals(wallet_pwd))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "支付密码错误", "", "", "");
+            }
+
+            //减少个人余额
+            userDao.updateWalletBalance(vo.getHeader().getUser_id(),money);
+            log.info("本次扣款余额：{}",money );
+
+
+            //存储提现记录
+            IncomeOutRecord incomeOutRecord = new IncomeOutRecord();
+            incomeOutRecord.setId(NumberUtil.getSysJournalNo(32,false));
+            incomeOutRecord.setUserId(vo.getHeader().getUser_id());
+            incomeOutRecord.setOrderCode(order_no);
+            incomeOutRecord.setMoney(money);
+            incomeOutRecord.setInoutType("1");
+            incomeOutRecord.setCreateTime(new Date());
+            incomeOutRecordMapper.insertSelective(incomeOutRecord);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "余额支付成功", "", "", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("余额支付异常,原因为:{}",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "余额支付异常", "", "", "");
+        }
+    }
+
+    @Override
+    public ResponseParamVo realNameAuthentication(RequestParamVo vo) {
+        if (StringUtil.isNullOrBlank(vo.getHeader().getUser_id())) {
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "用户ID不能为空", "", "", "");
+        }
+
+        Map<String,Object> bodyMap = null;
+        try {
+            bodyMap = (Map<String, Object>) vo.getBody();
+            String user_name = "";
+            String card_no = "";
+            String image_ids = "";
+            if(bodyMap != null && bodyMap.containsKey("user_name") && bodyMap.containsKey("card_no") && bodyMap.containsKey("image_ids"))
+            {
+                user_name = bodyMap.get("user_name").toString();
+                card_no = bodyMap.get("card_no").toString();
+                image_ids = bodyMap.get("image_ids").toString();
+            }
+
+
+            //姓名校验
+            if(StringUtil.isNullOrBlank(user_name) || user_name.length() > 10)
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "姓名不能为空且不能大于10个字", "", "", "");
+            }
+
+            //身份证校验
+            if(StringUtil.isNullOrBlank(card_no))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "身份证号不能为空", "", "", "");
+            }
+
+            if(!IdNumber.strongVerifyIdNumber(card_no))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "身份证号违法", "", "", "");
+            }
+
+            //正反面校验
+            if(StringUtil.isNullOrBlank(image_ids) || image_ids.indexOf(",") == -1)
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "身份证正反面不能为空", "", "", "");
+            }
+
+            RealNameAuthentication realNameAuthentication = new RealNameAuthentication();
+            realNameAuthentication.setId(NumberUtil.getSysJournalNo(32,false));
+            realNameAuthentication.setIdNumber(card_no);
+            realNameAuthentication.setRealName(user_name);
+            realNameAuthentication.setUserId(vo.getHeader().getUser_id());
+            realNameAuthentication.setIsPass("0");
+            realNameAuthentication.setCreateTime(new Date());
+            realNameAuthenticationMapper.insertSelective(realNameAuthentication);
+            log.info("实名认证基本信息存储  end");
+
+            List<SysImageService> images = new ArrayList<>();
+            SysImageService image = null;
+            int idx = 0;
+            for(String str : image_ids.split(","))
+            {
+                idx++;
+                image = new SysImageService();
+                image.setId(NumberUtil.getSysJournalNo(32,false));
+                image.setImageId(str);
+                image.setSort(idx);
+                image.setServiceId(realNameAuthentication.getId());
+                images.add(image);
+            }
+            imageService.batchSaveImageService(images, ImageTableName.AUTHENTICATION_TABLE_NAME.getTableName());
+
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(), "实名认证成功", "", "", "");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error("实名认证异常,原因为:{}",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(), "实名认证异常", "", "", "");
+        }
+
+
+
+    }
+}

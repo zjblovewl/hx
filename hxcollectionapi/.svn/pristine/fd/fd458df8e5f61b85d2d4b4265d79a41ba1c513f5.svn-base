@@ -1,0 +1,96 @@
+package cn.com.third.express.bean;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+import java.util.List;
+
+/**
+ * @类功能说明：物流信息封装bean
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/5/9 上午13:35
+ * @版本：V1.0
+ */
+public class ExpressInfo implements Serializable{
+
+    @JsonProperty(value = "LogisticCode")
+    private String LogisticCode;
+
+    @JsonProperty(value = "ShipperCode")
+    private String ShipperCode;
+
+    @JsonProperty(value = "Traces")
+    private List<Trace> Traces;
+
+    @JsonProperty(value = "State")
+    private String State;
+
+    @JsonProperty(value = "EBusinessID")
+    private String EBusinessID;
+
+    @JsonProperty(value = "Success")
+    private boolean Success;
+
+    @JsonIgnore
+    public String getLogisticCode() {
+        return LogisticCode;
+    }
+
+    @JsonIgnore
+    public void setLogisticCode(String logisticCode) {
+        LogisticCode = logisticCode;
+    }
+
+    @JsonIgnore
+    public String getShipperCode() {
+        return ShipperCode;
+    }
+
+    @JsonIgnore
+    public void setShipperCode(String shipperCode) {
+        ShipperCode = shipperCode;
+    }
+
+    @JsonIgnore
+    public List<Trace> getTraces() {
+        return Traces;
+    }
+
+    @JsonIgnore
+    public void setTraces(List<Trace> traces) {
+        Traces = traces;
+    }
+
+    @JsonIgnore
+    public String getState() {
+        return State;
+    }
+
+    @JsonIgnore
+    public void setState(String state) {
+        State = state;
+    }
+
+    @JsonIgnore
+    public String getEBusinessID() {
+        return EBusinessID;
+    }
+
+    @JsonIgnore
+    public void setEBusinessID(String EBusinessID) {
+        this.EBusinessID = EBusinessID;
+    }
+
+    @JsonIgnore
+    public boolean isSuccess() {
+        return Success;
+    }
+
+    @JsonIgnore
+    public void setSuccess(boolean success) {
+        Success = success;
+    }
+}

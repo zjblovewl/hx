@@ -1,0 +1,105 @@
+package cn.com.model.auction;
+
+import java.util.Date;
+
+public class GoodsClassIfication {
+    private String id;
+
+    private String classType;
+
+    private String classCode;
+
+    private String className;
+
+    private String parentCode;
+
+    private Integer sort;
+
+    private String describe;
+
+    private String imageIds;
+
+    private Date createTime;
+
+    private Date updateTime;
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id == null ? null : id.trim();
+    }
+
+    public String getClassType() {
+        return classType;
+    }
+
+    public void setClassType(String classType) {
+        this.classType = classType == null ? null : classType.trim();
+    }
+
+    public String getClassCode() {
+        return classCode;
+    }
+
+    public void setClassCode(String classCode) {
+        this.classCode = classCode == null ? null : classCode.trim();
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className == null ? null : className.trim();
+    }
+
+    public String getParentCode() {
+        return parentCode;
+    }
+
+    public void setParentCode(String parentCode) {
+        this.parentCode = parentCode == null ? null : parentCode.trim();
+    }
+
+    public Integer getSort() {
+        return sort;
+    }
+
+    public void setSort(Integer sort) {
+        this.sort = sort;
+    }
+
+    public String getDescribe() {
+        return describe;
+    }
+
+    public void setDescribe(String describe) {
+        this.describe = describe == null ? null : describe.trim();
+    }
+
+    public String getImageIds() {
+        return imageIds;
+    }
+
+    public void setImageIds(String imageIds) {
+        this.imageIds = imageIds == null ? null : imageIds.trim();
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+}

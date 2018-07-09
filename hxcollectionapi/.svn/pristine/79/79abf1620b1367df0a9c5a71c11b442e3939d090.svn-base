@@ -1,0 +1,86 @@
+package cn.com.mobile.transaction.service;
+
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+
+/**  
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年4月2日 上午9:16:15 
+ * @版本：V1.0  
+ */
+public interface TransactionMobileService {
+	
+	/**
+	 * 发布交易帖
+	 * @description 
+	 * @method  publishGoods
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月2日 上午10:12:07
+	 * @author:chenchen
+	 */
+	public ResponseParamVo publishGoods(RequestParamVo vo);
+	
+	/**
+	 * 查询交易帖数据
+	 * @description 
+	 * @method  getGoodsRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月3日 上午11:07:57
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getGoodsRecords(RequestParamVo vo);
+	
+	/**
+	 * 查询交易帖详情
+	 * @description 
+	 * @method  getGoodsInfoById
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月4日 下午3:19:16
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getGoodsInfoById(RequestParamVo vo);
+	
+	/**
+	 * 保存商品评论和回复(公用)
+	 * @description 
+	 * @method  saveGoodsComment
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月8日 下午2:49:32
+	 * @author:chenchen
+	 */
+	public ResponseParamVo saveGoodsComment(RequestParamVo vo);
+	
+	/**
+	 * 收藏交易帖
+	 * @description 
+	 * @method  saveGoodsCollection
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月9日 上午9:35:00
+	 * @author:chenchen
+	 */
+	public ResponseParamVo saveGoodsCollection(RequestParamVo vo);
+	
+	/**
+	 * 获取首页数据（交易帖）
+	 * @description 
+	 * @method  getHomePageRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月9日 下午2:48:18
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getHomePageRecords(RequestParamVo vo);
+}

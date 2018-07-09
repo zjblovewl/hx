@@ -1,0 +1,16 @@
+package cn.com.base.service;
+
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import org.springframework.stereotype.Service;
+
+public interface RedisHelperService {
+
+    /**
+     *
+     * 方法功能说明：  延长缓存时间，覆盖更新key值
+     * 创建：2018/3/26 by zhoujinbing
+     * throws
+     */
+    void extendedCacheTime(String userId,String type,String Token);
+}

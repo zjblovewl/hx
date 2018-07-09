@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.mobile.message.dao.MessageMobileMapper">
+	<!-- 我的留言 -->
+	<select id="getMyGoodsCommentRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		 select c1.goods_id,c1.comment_content,
+		 extract(epoch from to_timestamp(to_char(c1.create_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))as create_time,		 
+		 c1.user_id,u.nick_name,g.goods_name,g.goods_description, 
+	 	 COALESCE(t.small_image_urls,'') as small_image_urls, 		
+	     COALESCE(t1.head_image_urls,'') as head_image_urls
+		 from
+		 (
+		    select max(create_time) as create_time,goods_id from hxdb.hx_goods_comment where reply_user_id = #{user_id} group by goods_id 
+		 )c 
+		 left join hxdb.hx_goods_comment c1 on c1.goods_id = c.goods_id and c1.create_time = c.create_time
+		 left join hxdb.hx_goods g on g.id = c1.goods_id
+		 left join hxdb.hx_user u on u.id = g.user_id
+		left join
+		(		        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls
+		    from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t1 on t1.service_id = u.id
+		order by c1.create_time desc
+	</select>
+	
+	<!-- 系统消息 -->
+	<select id="getSysMessageRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select id as message_id,message_title,message_content,relate_type,relate_id,relate_url,
+		extract(epoch from to_timestamp(to_char(create_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))as create_time
+		from hxdb.hx_message 
+		where platform = #{platform}
+		order by create_time desc
+	</select>
+</mapper>

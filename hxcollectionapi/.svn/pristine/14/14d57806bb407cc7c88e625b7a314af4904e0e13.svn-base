@@ -1,0 +1,13 @@
+baseConstant : #配置常量
+  #应用ID
+  appId : 597372707625
+  #本地密钥
+  pwdKey : 0SS3DWOAUD25WSJJBU9BXP7BZ21OX1X9
+  #DES3密钥
+  secretKey : 6L08E9N6MFSHMCN9BZOUG6BZBHYBFE8L
+  #Token过期时间
+  expireTime : 30
+  #正确响应码
+  rightCode : 200
+  #错误响应码
+  errorCode : 400

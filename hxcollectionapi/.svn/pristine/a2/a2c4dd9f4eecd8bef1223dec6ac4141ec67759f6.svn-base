@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.user.dao.UserDao" >
+  <resultMap id="BaseResultMap" type="cn.com.model.user.User" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+    <result column="phone" property="phone" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="wallet_balance" property="walletBalance" jdbcType="NUMERIC" />
+    <result column="wallet_pwd" property="walletPwd" jdbcType="VARCHAR" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="register_time" property="registerTime" jdbcType="TIMESTAMP" />
+    <result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+    <result column="login_num" property="loginNum" jdbcType="INTEGER" />
+    <result column="is_authentication" property="isAuthentication" jdbcType="VARCHAR" />
+    <result column="sex" property="sex" jdbcType="VARCHAR" />
+    <result column="autograph" property="autograph" jdbcType="VARCHAR" />
+    <result column="credit" property="credit" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="is_lock" property="isLock" jdbcType="VARCHAR" />
+    <result column="lock_time" property="lockTime" jdbcType="TIMESTAMP" />
+    <result column="lock_days" property="lockDays" jdbcType="INTEGER" />
+    <result column="image_ids" property="lockTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="is_flag_nick_name" property="isFlagNickName" jdbcType="VARCHAR" />
+  </resultMap>
+  
+    <sql id="Base_Column_List" >
+      id, nick_name, phone,password,wallet_balance,wallet_pwd,city_code,register_time,login_time,login_num,is_authentication,
+      sex,autograph,credit,create_time,update_time,is_lock,lock_time,lock_days,image_ids,del_flag,is_flag_nick_name
+  </sql>
+  <!-- 查询所有用户 -->
+	<select id="getUserList" resultMap="BaseResultMap"
+		parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM hxdb.hx_user where 1=1
+		<if test="nickName!='' and nickName!=null">
+			and nick_name like '%' || #{nickName,jdbcType=VARCHAR} || '%'
+		</if>
+		<if test="userId!='' and userId!=null">
+			and id = #{userId}
+		</if>
+	</select>
+<!-- 用户登录 -->
+	<select id="login" resultMap="BaseResultMap" parameterType="map">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM hxdb.hx_user
+		where 1=1
+		<if test="phone!='' and phone!=null">
+			and phone = #{phone}
+		</if>
+		<if test="password!='' and password!=null">
+			and password = #{password}
+		</if>
+	</select>
+    
+    <!-- 新增短信数据 -->
+	<insert id="insertMessageRecord" parameterType="map">
+		insert into hxdb.hx_short_message_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="phone != '' and phone!=null">
+				phone,
+			</if>
+			<if test="messageType != '' and messageType!=null">
+				message_type,
+			</if>
+			<if test="messageCode != '' and messageCode!=null">
+				message_code,
+			</if>
+			<if test="messageContent != '' and messageContent!=null">
+				message_content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != '' and phone!=null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="messageType != '' and messageType!=null">
+				#{messageType,jdbcType=VARCHAR},
+			</if>
+			<if test="messageCode != '' and messageCode!=null">
+				#{messageCode,jdbcType=VARCHAR},
+			</if>
+			<if test="messageContent != '' and messageContent!=null">
+				#{messageContent,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+    
+    <!-- 新增用户数据 -->
+	<insert id="insertRegisterUser" parameterType="map">
+		insert into hxdb.hx_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="phone != '' and phone!=null">
+				phone,
+			</if>
+			<if test="password != '' and password!=null">
+				password,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != '' and phone!=null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="password != '' and password!=null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+</mapper>

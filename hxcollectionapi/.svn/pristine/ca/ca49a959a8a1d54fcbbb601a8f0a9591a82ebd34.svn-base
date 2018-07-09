@@ -1,0 +1,7 @@
+1、spring boot整合jsp页面问题：
+    1）tomcat-embed-jasper jar包的scope范围影响页面是否访问到
+    2）pageContext.request.contextPath 部署到服务解析不了，原因为：
+        https://blog.csdn.net/baidu_23177933/article/details/50812584
+2、spring boot整合静态资源问题
+    1)自定义配置访问resources/static/目录下所以的资源文件，详见：MvcStaticResourcesConfig
+    2）页面正常访问就可以了

@@ -1,0 +1,42 @@
+package cn.com.third.express.bean;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+
+/**
+ * @类功能说明：物流轨迹信息实体类
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/5/9 上午11:30
+ * @版本：V1.0
+ */
+public class Trace implements Serializable {
+
+    @JsonProperty(value = "AcceptStation")
+    private String AcceptStation;//到达地点
+
+    @JsonProperty(value = "AcceptTime")
+    private String AcceptTime;//到达时间
+
+    @JsonIgnore
+    public String getAcceptStation() {
+        return AcceptStation;
+    }
+
+    @JsonIgnore
+    public void setAcceptStation(String acceptStation) {
+        AcceptStation = acceptStation;
+    }
+
+    @JsonIgnore
+    public String getAcceptTime() {
+        return AcceptTime;
+    }
+
+    @JsonIgnore
+    public void setAcceptTime(String acceptTime) {
+        AcceptTime = acceptTime;
+    }
+}

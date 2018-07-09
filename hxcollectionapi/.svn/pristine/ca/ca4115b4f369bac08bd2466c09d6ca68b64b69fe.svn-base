@@ -1,0 +1,33 @@
+package cn.com.mobile.user.service;
+
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.model.user.User;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+
+/**
+ *
+ * 方法功能说明：  用户管理业务层接口
+ * 创建：2018/3/26 by zhoujinbing
+ * throws
+ */
+public interface UserService {
+
+    /**
+     *
+     * 方法功能说明：  用户登录
+     * 创建：2018/3/23 by zhoujinbing
+     * throws
+     */
+    ResponseParamVo login(RequestParamVo requestVo);
+
+    /**
+     *
+     * 方法功能说明：  分页演示
+     * 创建：2018/3/23 by zhoujinbing
+     * throws
+     */
+    ResponseParamVo getUserList(RequestParamVo vo);
+}

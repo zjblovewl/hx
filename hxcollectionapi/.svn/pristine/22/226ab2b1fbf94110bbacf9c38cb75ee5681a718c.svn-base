@@ -1,0 +1,61 @@
+package cn.com.mobile.order.service.impl;
+
+import java.util.Map;
+
+import cn.com.base.util.BaseLogger;
+import net.sf.json.JSONObject;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.mobile.order.dao.OrderMobileMapper;
+import cn.com.mobile.order.service.OrderMobileService;
+import cn.com.util.CommonUtils;
+
+/**  
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年5月7日 下午3:20:54 
+ * @版本：V1.0  
+ */
+@Service
+public class OrderMobileServiceImpl extends BaseLogger implements OrderMobileService{
+
+	@Autowired
+    private BaseConstant baseConstant;
+	
+	@Autowired
+	private OrderMobileMapper orderMobileMapper;
+	
+	/**	 
+	 * @description 创建订单 
+	 * @method  saveOrder
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年5月8日 上午10:52:08
+	 * @author:chenchen
+	 */
+	public ResponseParamVo saveOrder(RequestParamVo vo){
+		try{		
+			Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();      
+            bodyMap.put("order_id", CommonUtils.getUUID());//订单表id
+            bodyMap.put("order_code", CommonUtils.getOrderCode());//订单号
+            bodyMap.put("order_goods_id", CommonUtils.getUUID());//订单商品表id
+//            bodyMap.put("uuid", CommonUtils.getUUID());//订单商品图片表id
+            orderMobileMapper.saveOrder(bodyMap);
+            orderMobileMapper.saveOrderGoods(bodyMap);
+            orderMobileMapper.saveImagesOrderGoodsRel(bodyMap);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"创建订单成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("创建订单异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"创建订单异常","","",new JSONObject());
+        }
+	}		
+}

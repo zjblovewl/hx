@@ -1,0 +1,13 @@
+baseConstant : #配置常量
+  appId : 10000222
+  pwdKey : 132432143124312431fdafaf
+  secretKey : 132432143124312431fdafaf
+  arrays : 1,2,3,4,5
+  listMap :
+    -name : name
+     value: 周金兵
+  listString :
+    - hi
+    - heihei
+  map :
+    password : 123456

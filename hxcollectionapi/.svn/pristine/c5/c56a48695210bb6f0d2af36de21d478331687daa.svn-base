@@ -1,0 +1,65 @@
+package cn.com.base.vo.auction;
+
+import java.io.Serializable;
+
+/**
+ * @类功能说明：小类对象
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/30 上午9:16
+ * @版本：V1.0
+ */
+public class ChildClassIfication implements Serializable{
+
+    /**
+     * 小类Id
+     */
+    private String class_id;
+
+    /**
+     * 小类编码
+     */
+    private String class_code;
+
+    /**
+     * 小类图片Url
+     */
+    private String pic_url;
+
+    /**
+     * 小类图片名称
+     */
+    private String class_name;
+
+    public String getClass_id() {
+        return class_id;
+    }
+
+    public void setClass_id(String class_id) {
+        this.class_id = class_id;
+    }
+
+    public String getClass_code() {
+        return class_code;
+    }
+
+    public void setClass_code(String class_code) {
+        this.class_code = class_code;
+    }
+
+    public String getPic_url() {
+        return pic_url;
+    }
+
+    public void setPic_url(String pic_url) {
+        this.pic_url = pic_url;
+    }
+
+    public String getClass_name() {
+        return class_name;
+    }
+
+    public void setClass_name(String class_name) {
+        this.class_name = class_name;
+    }
+}

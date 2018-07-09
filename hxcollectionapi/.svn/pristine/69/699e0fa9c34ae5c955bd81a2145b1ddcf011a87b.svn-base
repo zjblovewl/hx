@@ -1,0 +1,176 @@
+package cn.com.mobile.transaction.dao;
+
+import java.util.List;
+import java.util.Map;
+
+/**  
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年4月2日 上午9:16:15 
+ * @版本：V1.0  
+ */
+public interface TransactionMobileMapper {
+	
+	/**
+	 * 发布交易帖
+	 * @description 
+	 * @method  publishGoods
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月2日 上午9:58:18
+	 * @author:chenchen
+	 */
+	public void publishGoods(Map<String, Object> paramsMap);
+	
+	/**
+	 * 查询交易帖数据
+	 * @description 
+	 * @method  getGoodsRecords
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月3日 上午11:05:00
+	 * @author:chenchen
+	 */
+	public List<Map<String, Object>> getGoodsRecords(Map<String, Object> paramsMap);
+	
+	/**
+	 * 根据图片id查询图片url
+	 * @description 
+	 * @method  getImageUrlsByIds
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月3日 上午11:05:03
+	 * @author:chenchen
+	 */
+	public Map<String, Object> getImageUrlsByIds(Map<String, Object> paramsMap);
+	
+	/**
+	 * 查询交易帖详情
+	 * @description 
+	 * @method  getGoodsInfoById
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return Map<String,Object>
+	 * @date: 2018年4月4日 上午9:38:17
+	 * @author:chenchen
+	 */
+	public Map<String, Object> getGoodsInfoById(Map<String, Object> paramsMap);
+	
+	/**
+	 * 根据交易帖id查询卖家个人信息
+	 * @description 
+	 * @method  getUserInfoByUserId
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return Map<String,Object>
+	 * @date: 2018年4月4日 下午2:27:40
+	 * @author:chenchen
+	 */
+	public Map<String, Object> getUserInfoByUserId(Map<String, Object> paramsMap);
+	
+	/**
+	 * 我的在售宝贝（交易帖）
+	 * @description 
+	 * @method  getInSaleOfMyGoods
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return int
+	 * @date: 2018年4月4日 下午2:28:36
+	 * @author:chenchen
+	 */
+	public int getInSaleOfMyGoods(Map<String, Object> paramsMap);
+	
+	/**
+	 * 我的已售出宝贝（交易帖）
+	 * @description 
+	 * @method  getOutSaleOfMyGoods
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return int
+	 * @date: 2018年4月4日 下午2:29:26
+	 * @author:chenchen
+	 */
+	public int getOutSaleOfMyGoods(Map<String, Object> paramsMap);
+	
+	/**
+	 * 查询卖家店铺评论总分
+	 * @description 
+	 * @method  getTotalScoreOfMyShop
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return int
+	 * @date: 2018年4月4日 下午2:32:36
+	 * @author:chenchen
+	 */
+	public int getTotalScoreOfMyShop(Map<String, Object> paramsMap);
+	
+	/**
+	 * 查询卖家店铺下的订单总数
+	 * @description 
+	 * @method  getTotalOrderOfMyShop
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return int
+	 * @date: 2018年4月4日 下午2:33:03
+	 * @author:chenchen
+	 */
+	public int getTotalOrderOfMyShop(Map<String, Object> paramsMap);
+	
+	/**
+	 * 保存商品评论和回复(公用)
+	 * @description 
+	 * @method  saveGoodsComment
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月8日 下午2:48:33
+	 * @author:chenchen
+	 */
+	public void saveGoodsComment(Map<String, Object> paramsMap);
+	
+	/**
+	 * 收藏交易帖
+	 * @description 
+	 * @method  saveGoodsCollection
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月9日 上午9:30:37
+	 * @author:chenchen
+	 */
+	public void saveGoodsCollection(Map<String, Object> paramsMap);
+	
+	/**
+	 * 交易帖首页广告
+	 * @description 
+	 * @method  getHomePageAdvertisement
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月9日 下午2:46:31
+	 * @author:chenchen
+	 */
+	public List<Map<String, Object>> getHomePageAdvertisement();
+	
+	/**
+	 * 交易帖首页大类分类
+	 * @description 
+	 * @method  getGoodsClassification
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月9日 下午2:47:16
+	 * @author:chenchen
+	 */
+	public List<Map<String, Object>> getGoodsBigClassification();
+	
+	/**
+	 * 交易帖首页列表
+	 * @description 
+	 * @method  getHomePageGoodsRecords
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月9日 下午2:47:18
+	 * @author:chenchen
+	 */
+	public List<Map<String, Object>> getHomePageGoodsRecords();
+}

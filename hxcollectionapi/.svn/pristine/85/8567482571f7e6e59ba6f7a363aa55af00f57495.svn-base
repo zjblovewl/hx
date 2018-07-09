@@ -1,0 +1,69 @@
+package cn.com.mobile.message.service.impl;
+
+import java.util.List;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.mobile.message.dao.MessageMobileMapper;
+import cn.com.mobile.message.service.MessageMobileService;
+
+/**  
+ * @类功能说明：我的消息serviceImpl
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年4月13日 上午9:37:21 
+ * @版本：V1.0  
+ */
+@Service
+public class MessageMobileServiceImpl implements MessageMobileService{
+	private static final Logger log = LoggerFactory.getLogger(MessageMobileServiceImpl.class);
+	
+	@Autowired
+    private BaseConstant baseConstant;
+	
+	@Autowired
+	private MessageMobileMapper messageMobileMapper;
+	
+	/**
+	 * 获取我的消息记录
+	 * @description 
+	 * @method  getMyMessageRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月13日 下午2:51:57
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getMyMessageRecords(RequestParamVo vo){
+		try{
+			JSONObject jsonObj = new JSONObject();
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();            
+            PageHelper.startPage(1, 1);
+            List<Map<String, Object>> goodsList = messageMobileMapper.getMyGoodsCommentRecords(bodyMap);
+            List<Map<String, Object>> sysMessageList = messageMobileMapper.getSysMessageRecords(bodyMap);
+            PageInfo<Map<String, Object>> newestGoodComment = new PageInfo<>(goodsList);            
+            PageInfo<Map<String, Object>> newestSysMessage = new PageInfo<>(sysMessageList);
+            jsonObj.put("leave_message", newestGoodComment.getList());
+            jsonObj.put("sys_message", newestSysMessage.getList());
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询我的消息成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("查询我的消息异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询我的消息异常","","",new JSONObject());
+        }
+	}
+}

@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.pc.transaction.dao.TransactionPcMapper">
+	<!-- 首页藏品广告 -->
+	<select id="getHomePageAdvertisementRecords" resultType="java.util.HashMap">
+		select adv.homepage_name,COALESCE(adv.html_url,'')as html_url,
+		COALESCE(t.original_image_urls,'') as original_image_urls
+		from hxdb.hx_homepage_advertisement adv
+		left join
+		(        
+		    select re.service_id,string_agg(img.image_url,',')as original_image_urls
+		    from (select * from hxdb.hx_images_advertisement_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = adv.id
+		where del_flag = '0' order by sort asc
+	</select>
+	
+	<!-- 首页推荐藏品 -->
+	<select id="getRecommendGoodsRecords" resultType="java.util.HashMap">
+		select g.id as goods_id,g.goods_name,g.goods_description, 
+		COALESCE(t.small_image_urls,'') as small_image_urls
+		from hxdb.hx_goods g
+		left join
+		(        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls
+		    from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		<!-- goods_type 1：藏品 2：拍卖  is_recommend 0：否 1：是 -->
+		where goods_type = '1' and is_recommend = '1' order by sort asc
+	</select>
+	
+	<!-- 首页卖家推荐 -->
+	<select id="getRecommendSellerRecords" resultType="java.util.HashMap">
+		select id as user_id,nick_name,COALESCE(t.head_image_urls,'') as head_image_urls from hxdb.hx_user u 
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = u.id
+		where u.del_flag = '0' and u.is_recommend = '1' order by u.sort asc
+	</select>
+	
+	<!-- 我的藏品（在售） -->
+	<select id="getMyInSaleGoodsRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		<!-- goods_type 1：普通商品 2：拍卖商品' -->
+		<!-- status 1：上架 2：下架 -->
+		<!-- inventory 库存 -->
+		select g.id as goods_id,g.goods_name,g.price,
+		extract(epoch from to_timestamp(to_char(g.create_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))as create_time,
+		extract(epoch from to_timestamp(to_char(now(),'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))as current_time,		
+		COALESCE(t.small_image_urls,'') as small_image_urls,
+		COALESCE(t.big_image_urls,'') as big_image_urls,
+		COALESCE(t.original_image_urls,'') as original_image_urls
+		from hxdb.hx_goods g
+		left join
+		(        
+			select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',')as original_image_urls
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		where del_flag = '0' and goods_type = '1' and status = '1' and inventory > 0 and user_id = #{user_id}
+	</select>
+	
+	<!-- 查询收藏品数据 -->
+	<select id="getGoodsRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select g.id as goods_id,g.user_id,u.nick_name,g.goods_name,g.goods_description,g.price,g.city_code,a.city as city_name,g.browse_num,
+		extract(epoch from to_timestamp(to_char(g.create_time,'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))as create_time,
+		extract(epoch from to_timestamp(to_char(now(),'yyyy-mm-dd hh24:mi:ss'),'yyyy-mm-dd hh24:mi:ss'))as current_time,
+		COALESCE(t.small_image_urls,'') as small_image_urls,
+		COALESCE(t.big_image_urls,'') as big_image_urls,
+		COALESCE(t.original_image_urls,'') as original_image_urls, 
+		COALESCE(t1.head_image_urls,'') as head_image_urls
+		from hxdb.hx_goods g
+		left join hxdb.hx_user u on u.id = g.user_id
+		left join hxdb.sys_area a on a.code = g.city_code
+		left join
+		(		        
+			select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',') as original_image_urls 
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t1 on t1.service_id = u.id
+		<!-- del_flag ='0':未删除 '1':已删除、 goods_type = '1'：收藏品 '2':拍卖 、status = '1'：上架 '2'：下架、 inventory：库存-->
+		where g.del_flag = '0' and g.goods_type = '1' and g.status = '1' and g.inventory > 0 
+		<!-- lock_time is null 或者 当前时间 > （锁定时间 + 锁定天数） -->
+		and (g.lock_time is null or now() > (g.lock_time + (g.lock_days || ' D')::interval))			
+		<!-- 商品描述 -->
+		<if test="search_content != null and search_content != ''">
+			and (g.goods_name like '%${search_content}%' or g.goods_description like '%${search_content}%')
+		</if>
+						
+		<!-- 大类 -->
+		<if test="big_class_code != null and big_class_code != ''">
+			and g.big_class_code = #{big_class_code}
+		</if>
+		
+		<!-- 小类 -->
+		<if test="small_class_code != null and small_class_code != ''">
+			and g.small_class_code = #{small_class_code}
+		</if>
+		
+		<!-- 城市 -->
+		<if test="city_code != null and city_code != ''">
+			and g.city_code = #{city_code}
+		</if>
+		
+		<!-- 价格区间 -->
+		<choose>  
+            <when test="price_range != null and price_range != '' and price_range == 1">  
+               	<![CDATA[ and (g.price >= 0 and g.price <= 50) ]]>
+           	</when>  
+           	<when test="price_range != null and price_range != '' and price_range == 2">  
+               	<![CDATA[ and (g.price >= 51 and g.price <= 1000) ]]>
+           	</when>
+           	<when test="price_range != null and price_range != '' and price_range == 3">
+               	<![CDATA[ and (g.price >= 1001 and g.price <= 5000) ]]>
+           	</when>  
+           	<when test="price_range != null and price_range != '' and price_range == 4">
+               	<![CDATA[ and (g.price >= 5001 and g.price <= 10000) ]]>
+           	</when>
+           	<when test="price_range != null and price_range != '' and price_range == 5">
+               	and g.price >= 10000
+           	</when>        
+      	</choose>
+		
+		<!-- "sortType" : '',//排序方式  1：默认排序 2：价格最低 3：价格最高 4：新品上架 5：最热商品 -->
+		<choose>  
+            <when test="sort_type != null and sort_type != '' and sort_type == 1">  
+               	order by g.create_time desc
+           	</when>  
+           	<when test="sort_type != null and sort_type != '' and sort_type == 2">  
+               	order by g.price asc
+           	</when>
+           	<when test="sort_type != null and sort_type != '' and sort_type == 3">
+               	order by g.price desc
+           	</when>  
+           	<when test="sort_type != null and sort_type != '' and sort_type == 4">
+               	order by g.create_time desc
+           	</when>
+           	<when test="sort_type != null and sort_type != '' and sort_type == 5">
+               	order by g.browse_num desc
+           	</when>  
+           	<otherwise>  
+                order by g.create_time desc
+            </otherwise>  
+      	</choose>      	
+	</select>
+</mapper>

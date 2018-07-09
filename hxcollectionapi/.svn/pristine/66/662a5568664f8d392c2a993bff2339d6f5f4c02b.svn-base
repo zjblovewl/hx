@@ -1,0 +1,5 @@
+bussinessConstant :
+  #业务常量,在换行时使用\
+  urls: login*getuserinfo*getSizeOfClass*addGoodsOfferRecord*getGoodsOfferRecord*getGoodsByType*getGoodsRecords\
+  *getGoodsInfoById*getBalance*settingPayPassword*getBankCardType*getWalletDetailRecords*getWithdrawalsRecords\
+  *getHomePageRecords*getUserList*registerUser*queryAreaInfo*updateUserInfo*saveOrUpdateAddress*selectAddressInfo

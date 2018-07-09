@@ -1,0 +1,28 @@
+/**     
+ * @文件名称: StudentDao.java  
+ * @类路径: 	cn.com.dao  
+ * @描述: 	TODO  
+ * @作者：	user 
+ * @时间：	2018年1月2日 下午4:00:40  
+ * @版本：V1.0     
+ */
+package cn.com.dao;
+
+import java.util.List;
+
+import cn.com.model.User;
+import org.apache.ibatis.annotations.Param;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2018年1月2日 下午4:00:40  
+ * @版本：V1.0  
+ */
+public interface UserDao {
+	
+	public List<User> getUserList();
+
+	User login(@Param("name")String userName,@Param("pwd") String passWord);
+}

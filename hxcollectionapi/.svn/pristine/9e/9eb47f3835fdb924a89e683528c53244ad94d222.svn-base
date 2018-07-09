@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.auction.dao.GoodsClassIficationMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.auction.GoodsClassIfication" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="class_type" property="classType" jdbcType="CHAR" />
+    <result column="class_code" property="classCode" jdbcType="VARCHAR" />
+    <result column="class_name" property="className" jdbcType="VARCHAR" />
+    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="image_ids" property="imageIds" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, class_type, class_code, class_name, parent_code, sort, describe, image_ids, create_time, 
+    update_time
+  </sql>
+
+  <!-- 查询大小类 -->
+  <select id="selectListByClassType" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select
+      cls.id,cls.class_type,cls.class_code,cls.class_name,cls.parent_code,cls.sort,images.image_url image_ids from hxdb.hx_goods_classification cls
+    left join hxdb.sys_images images on cls.image_ids = images.id
+    where cls.class_type = #{classType}
+    order by parent_code,sort
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hxdb.hx_goods_classification
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hxdb.hx_goods_classification
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.model.auction.GoodsClassIfication" >
+    insert into hxdb.hx_goods_classification (id, class_type, class_code, 
+      class_name, parent_code, sort, 
+      describe, image_ids, create_time, 
+      update_time)
+    values (#{id,jdbcType=VARCHAR}, #{classType,jdbcType=CHAR}, #{classCode,jdbcType=VARCHAR}, 
+      #{className,jdbcType=VARCHAR}, #{parentCode,jdbcType=VARCHAR}, #{sort,jdbcType=INTEGER}, 
+      #{describe,jdbcType=VARCHAR}, #{imageIds,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.model.auction.GoodsClassIfication" >
+    insert into hxdb.hx_goods_classification
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="classType != null" >
+        class_type,
+      </if>
+      <if test="classCode != null" >
+        class_code,
+      </if>
+      <if test="className != null" >
+        class_name,
+      </if>
+      <if test="parentCode != null" >
+        parent_code,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="describe != null" >
+        describe,
+      </if>
+      <if test="imageIds != null" >
+        image_ids,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="classType != null" >
+        #{classType,jdbcType=CHAR},
+      </if>
+      <if test="classCode != null" >
+        #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="describe != null" >
+        #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="imageIds != null" >
+        #{imageIds,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.model.auction.GoodsClassIfication" >
+    update hxdb.hx_goods_classification
+    <set >
+      <if test="classType != null" >
+        class_type = #{classType,jdbcType=CHAR},
+      </if>
+      <if test="classCode != null" >
+        class_code = #{classCode,jdbcType=VARCHAR},
+      </if>
+      <if test="className != null" >
+        class_name = #{className,jdbcType=VARCHAR},
+      </if>
+      <if test="parentCode != null" >
+        parent_code = #{parentCode,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="describe != null" >
+        describe = #{describe,jdbcType=VARCHAR},
+      </if>
+      <if test="imageIds != null" >
+        image_ids = #{imageIds,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.model.auction.GoodsClassIfication" >
+    update hxdb.hx_goods_classification
+    set class_type = #{classType,jdbcType=CHAR},
+      class_code = #{classCode,jdbcType=VARCHAR},
+      class_name = #{className,jdbcType=VARCHAR},
+      parent_code = #{parentCode,jdbcType=VARCHAR},
+      sort = #{sort,jdbcType=INTEGER},
+      describe = #{describe,jdbcType=VARCHAR},
+      image_ids = #{imageIds,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

@@ -1,0 +1,177 @@
+package cn.com.base.vo.auction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
+
+/**
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/4/4 上午10:08
+ * @版本：V1.0
+ */
+public class GoodsQueryParams {
+    private Integer page_num;//页数
+
+    private Integer page_size;//条数
+
+    private Integer search_type;//查询类型
+
+    private String search_content;//查询关键字
+
+    private Integer sort_type;//排序方式
+
+    private String city_code;//城市code
+
+    private String big_class_code;//大类Code
+
+    private String small_class_code;//小类Code
+
+    private Integer start_price_distance;//价格开始区间
+
+    private Integer end_price_distance;//价格结束区间
+
+    private String user_id;//用户ID
+
+    private Long end_time;//结拍时间
+
+    @JsonIgnore
+    private Date startTime;//开始时间
+
+    private String goods_id;//商品ID
+
+    @JsonIgnore
+    private Date end_time_date;//结束时间
+
+    public String getGoods_id() {
+        return goods_id;
+    }
+
+    public void setGoods_id(String goods_id) {
+        this.goods_id = goods_id;
+    }
+
+    public Long getEnd_time() {
+        return end_time;
+    }
+
+    public void setEnd_time(Long end_time) {
+        this.end_time = end_time;
+    }
+
+    public Date getEnd_time_date() {
+        return end_time_date;
+    }
+
+    public void setEnd_time_date(Date end_time_date) {
+        this.end_time_date = end_time_date;
+    }
+
+    public Integer getStart_price_distance() {
+        return start_price_distance;
+    }
+
+    public void setStart_price_distance(Integer start_price_distance) {
+        this.start_price_distance = start_price_distance;
+    }
+
+    public Integer getEnd_price_distance() {
+        return end_price_distance;
+    }
+
+    public void setEnd_price_distance(Integer end_price_distance) {
+        this.end_price_distance = end_price_distance;
+    }
+
+    public String getUser_id() {
+        return user_id;
+    }
+
+    public void setUser_id(String user_id) {
+        this.user_id = user_id;
+    }
+
+    public String getCity_code() {
+        return city_code;
+    }
+
+    public void setCity_code(String city_code) {
+        this.city_code = city_code;
+    }
+
+    @JsonIgnore
+    private Date startCreateTime;//起始创建时间
+
+    public Date getStartCreateTime() {
+        return startCreateTime;
+    }
+
+    public void setStartCreateTime(Date startCreateTime) {
+        this.startCreateTime = startCreateTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Integer getPage_num() {
+        return page_num;
+    }
+
+    public void setPage_num(Integer page_num) {
+        this.page_num = page_num;
+    }
+
+    public Integer getPage_size() {
+        return page_size;
+    }
+
+    public void setPage_size(Integer page_size) {
+        this.page_size = page_size;
+    }
+
+    public Integer getSearch_type() {
+        return search_type;
+    }
+
+    public void setSearch_type(Integer search_type) {
+        this.search_type = search_type;
+    }
+
+    public String getSearch_content() {
+        return search_content;
+    }
+
+    public void setSearch_content(String search_content) {
+        this.search_content = search_content;
+    }
+
+    public Integer getSort_type() {
+        return sort_type;
+    }
+
+    public void setSort_type(Integer sort_type) {
+        this.sort_type = sort_type;
+    }
+
+    public String getBig_class_code() {
+        return big_class_code;
+    }
+
+    public void setBig_class_code(String big_class_code) {
+        this.big_class_code = big_class_code;
+    }
+
+    public String getSmall_class_code() {
+        return small_class_code;
+    }
+
+    public void setSmall_class_code(String small_class_code) {
+        this.small_class_code = small_class_code;
+    }
+}

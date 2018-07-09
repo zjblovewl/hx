@@ -1,0 +1,13 @@
+spring-boot-starter-redis is deprecated as of Spring Boot 1.4, please migrate to spring-boot-starter-data-redis
+spring-boot-starter-redis is deprecated as of Spring Boot 1.4, please migrate to spring-boot-starter-data-redis
+spring-boot-starter-redis is deprecated as of Spring Boot 1.4, please migrate to spring-boot-starter-data-redis
+spring-boot-starter-redis is deprecated as of Spring Boot 1.4, please migrate to spring-boot-starter-data-redis
+spring-boot-starter-redis is deprecated as of Spring Boot 1.4, please migrate to spring-boot-starter-data-redis
+初始化HttpClient:null
+HttpClient POST请求结果：{"header":{"respCode":0,"respMsg":"登录成功","userId":"1","Token":"a9VZohX5QCX8IM5989NAWi5pjuXILbxo"},"body":""}
+准备关闭连接
+关闭成功!
+验证signature不匹配
+验证signature不匹配
+验证signature不匹配
+验证signature不匹配

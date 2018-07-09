@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="hxcollectionapi:war">
+    <output-path>$PROJECT_DIR$/target</output-path>
+    <root id="archive" name="hxcollectionapi.war">
+      <element id="artifact" artifact-name="hxcollectionapi:war exploded" />
+    </root>
+  </artifact>
+</component>

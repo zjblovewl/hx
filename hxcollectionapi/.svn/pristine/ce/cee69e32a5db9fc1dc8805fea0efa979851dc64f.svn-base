@@ -1,0 +1,24 @@
+package cn.com.third.express.service.impl;
+
+import cn.com.base.util.BaseLogger;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.third.express.service.ExpressService;
+import org.springframework.stereotype.Service;
+
+/**
+ * @类功能说明：物流快递信息业务实现层
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/5/9 上午10:08
+ * @版本：V1.0
+ */
+@Service
+public class ExpressServiceImpl extends BaseLogger implements ExpressService {
+
+    @Override
+    public ResponseParamVo getExpressInfo(RequestParamVo vo) {
+        log.info("哈哈哈");
+        return null;
+    }
+}

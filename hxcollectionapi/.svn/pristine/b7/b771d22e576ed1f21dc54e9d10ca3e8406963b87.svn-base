@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.third.ping.dao.ChargeOrdersMapper">
+	<!-- 查询订单价格 -->
+	<select id="getOrderPriceById" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select id as order_id,buyer_id,order_code,pay_money,order_status from hxdb.hx_order where id = #{order_id}
+	</select>
+	<!-- 查询订单价格 -->
+	<select id="getOrderPriceByOrderCode" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select id as order_id,buyer_id,seller_id,order_code,pay_money,order_status from hxdb.hx_order where order_code = #{order_code}
+	</select>
+	<!-- 保存支付交易流水 -->
+	<insert id="saveChargeOrderFlow" parameterType="java.util.HashMap">
+		insert into hxdb.hx_order_flow(id,user_id,third_precode,order_id,transaction_type,pay_type,transaction_price,transaction_state)
+		values(#{id},#{user_id},#{third_precode},#{order_id},'1',#{pay_type},#{transaction_price},'0')
+	</insert>
+	<!-- 更改订单交易状态 -->
+	<update id="changeOrderStatus" parameterType="java.util.HashMap">		
+		update hxdb.hx_order set pay_method = #{pay_method},order_pay_time = now() where id = #{order_id}
+	</update>
+	<!-- 更改订单交易流水信息 -->
+	<update id="changeOrderFlowStatus" parameterType="java.util.HashMap">		
+		update hxdb.hx_order_flow set third_flowcode = #{third_flowcode} ,channel_flowcode=#{channel_flowcode},transaction_state=#{transaction_state} where order_id = #{order_id}
+	</update>
+	<!-- 保存收支明细记录 -->
+	<insert id="saveIncomeOutRecord" parameterType="java.util.HashMap">
+		insert into hxdb.hx_income_out_record(id,user_id,order_code,money,inout_type)
+		values(#{id},#{user_id},#{order_code},#{money},#{inout_type})
+	</insert>
+	
+</mapper>

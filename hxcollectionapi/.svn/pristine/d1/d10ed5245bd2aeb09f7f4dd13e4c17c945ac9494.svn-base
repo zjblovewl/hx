@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.auction.dao.SysImageServiceMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.auction.SysImageService" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="image_id" property="imageId" jdbcType="VARCHAR" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, image_id, service_id, sort
+  </sql>
+
+  <!-- 批量保存图片 -->
+  <update id="batchSaveImageService" parameterType="map">
+      insert into ${maps.tableName} (id, image_id,
+      service_id, sort)
+      values
+      <foreach collection="maps.list" item="item" separator=",">
+        (#{item.id,jdbcType=VARCHAR}, #{item.imageId,jdbcType=VARCHAR},
+        #{item.serviceId,jdbcType=VARCHAR}, #{item.sort,jdbcType=INTEGER})
+      </foreach>
+
+  </update>
+
+</mapper>

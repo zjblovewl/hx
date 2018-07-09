@@ -1,0 +1,67 @@
+package cn.com.base.vo;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.io.Serializable;
+
+/**
+ * @类功能说明：响应头部分对象
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/21 上午10:13
+ * @版本：V1.0
+ */
+public class ResponseParamHeader implements Serializable {
+
+    private Integer respCode;//响应状态码
+
+    private String respMsg;//响应提示语
+
+    private String userId;//用户ID
+
+    @JsonProperty("Token")
+    private String Token;//服务端生成Token
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
+    }
+
+    @JsonIgnore
+    public String getToken() {
+        return Token;
+    }
+
+    @JsonIgnore
+    public void setToken(String token) {
+        Token = token;
+    }
+
+    public Integer getRespCode() {
+        return respCode;
+    }
+
+    public void setRespCode(Integer respCode) {
+        this.respCode = respCode;
+    }
+
+    public String getRespMsg() {
+        return respMsg;
+    }
+
+    public void setRespMsg(String respMsg) {
+        this.respMsg = respMsg;
+    }
+
+    public ResponseParamHeader() {
+    }
+
+    public ResponseParamHeader(Integer respCode, String respMsg) {
+        this.respCode = respCode;
+        this.respMsg = respMsg;
+    }
+}

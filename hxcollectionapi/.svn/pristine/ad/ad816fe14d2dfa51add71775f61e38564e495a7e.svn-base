@@ -1,0 +1,83 @@
+#\u6781\u5149\u63a8\u9001\u53c2\u6570
+jpush_appkey=593078631d4691ef763e8f79
+jpush_mastersecret=0587ea98dbf3a12c4c5f03c1
+#\u5e73\u53f0token\u79c1\u76d0
+tokenkey=CT1AET8G
+#\u652f\u4ed8\u5b9d\u79c1\u76d0
+payPasswordKey=BC1AGT8G
+#ping++\u53c2\u6570
+pingplusplus_secretkey=sk_test_ibbTe5jLGCi5rzfH4OqPW9KC
+pingplusplus_appID=app_1Gqj58ynP0mHeX1q
+pingplusplus_privatekey="-----BEGIN PRIVATE KEY-----\n" +
+                "MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQDHYyS3FwoESp1h\n" +
+                "GLYiBhy6k9Ag3lzGCIEvm50IIEkE0Ftc9qq44TWqyl+EHUpTMdcBOcI42JLO5stw\n" +
+                "FOfCLa3PQStEJ4llIRFEKlsrHh67pvWd5RNaSBrvGlnFY40S+SZmjk2WF/h9dE9R\n" +
+                "ic79t0YI0alD8dIl9Yu3OaEKo7VonBWFwOYMxjPhtORlq+EUF1XJd//yftQrKWTT\n" +
+                "d7KaUonWzBCl4VzFop/OyTWYlTuZz3eYJaNpH5VaQ1vDgBAcPIeBvMf7NgBHMKW6\n" +
+                "LLmFd2LEYQ/6I7hkGTjysSzWEpO8bPWT6OEsJ2R2kFGOrSkr+G2MDcJ7ykXYAmz5\n" +
+                "+A3plS6ZAgMBAAECggEAVrgwR9GlcahiOtDcpn+yDxQq+aC9CQS561LrQZWJLKbS\n" +
+                "leRS7IZHKTlLwdJbeUO8F7RfXQoVEBghc2YkRrhHWFUn1ES95VY0hElHzcET7Nn5\n" +
+                "CeuQNzwVOtljIg7iVNY4dXJ/HEDguu/Tb8tYU9FajItj60FJ/WiGk/JksJPzWsOC\n" +
+                "VPVniy9fTbTLy1e+dCpCI6OXirtm7hvbodRNDjree0wSEzm7vL0wVzEZFo6kX+AB\n" +
+                "GUwaoO7pPyH+hgyI5Iuhc65NHsHzTJpf8yNFl9QGhkxvm2Ff2oEtDt1idOTBrHB6\n" +
+                "tg+ti9Ctb2+2yzBnk14hsSYJnKitR7wM6ZCFPX4eYQKBgQD+JAREeFkodec/SC+G\n" +
+                "X+4Q4Y68uMPkfUPrMKXM4cyY5wgXk64RBvRVxIxX7x6Y3tIKn9v8tWAprbsyVr15\n" +
+                "eb4RcAFEVwjuoZixhd9sIPsRhfdNolKn/fSPIsHL4ywcJMSIt7KVKHuQeqBNHy0o\n" +
+                "0PxQjNej1ozsmrAWqV55cbKHswKBgQDI2JQRTPIEC/2y6LdmBVhGJW9OKWTYdVNj\n" +
+                "q7rX+Yw4uxOtfd5hBqpvgZEklKEk72aazFdEcERlAm9SqoX09qk6zK/wcq4Xn5Q/\n" +
+                "qy8ecmjuyf2AK9X+HUdMerMVxhK9RpeevKYP/RO2F/wIN64anlQVYygVkXXgdOvW\n" +
+                "hBE4YABKgwKBgDRtmbPGYB5ItHwJmERQZfx1i8zDESaB8RED6DBsJJkmkDTM8ovw\n" +
+                "s1c+RPWfDuDalto6QFfR0xTGEmhAHLaCtwNB6AEBM4aHL8jvpTfZVfI3gN0zL3oY\n" +
+                "mestcG1vYBouO504yE6dG2Ci6479b4OMGYFEjPfvuwLUpp8GMcc7/WihAoGANCp8\n" +
+                "mtm/ammq5VMof2kX+nAyrrx1ovsmQ5cRGpOIZhvBCqjMn6rZjci7aCLqj+tWXRKC\n" +
+                "ABagzROK0o/T50JBxjHv6KYArcYW/Up7HI9ezdbM7wNzu2LjZ+veo+MkbuDs9J/P\n" +
+                "CgwTmJI2NfQwVl2VPVDZ0nBLi5cSwk7fIiNdL/0CgYEAtECmC1QDs53Di2MIsa/F\n" +
+                "e4sWfJGSDqEWqhcA/aPwf1skM6VJJXBBMV1qFtwgO1AlLnu9dQYra6ylsUoubVYI\n" +
+                "XM9XK7EMhbqi57+Q75jHFTc0DnzOTyho5Gp4Ddi8dztmZGNWdWTGdeMqh+svqMXk\n" +
+                "D6VdJeddyGu/Zlgj7Wk6whU=\n" +
+                "-----END PRIVATE KEY-----\n";
+pingplusplus_publickey="-----BEGIN PUBLIC KEY-----\n" +
+				"MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAx2MktxcKBEqdYRi2IgYc\n" +
+				"upPQIN5cxgiBL5udCCBJBNBbXPaquOE1qspfhB1KUzHXATnCONiSzubLcBTnwi2t\n" +
+				"z0ErRCeJZSERRCpbKx4eu6b1neUTWkga7xpZxWONEvkmZo5Nlhf4fXRPUYnO/bdG\n" +
+				"CNGpQ/HSJfWLtzmhCqO1aJwVhcDmDMYz4bTkZavhFBdVyXf/8n7UKylk03eymlKJ\n" +
+				"1swQpeFcxaKfzsk1mJU7mc93mCWjaR+VWkNbw4AQHDyHgbzH+zYARzCluiy5hXdi\n" +
+				"xGEP+iO4ZBk48rEs1hKTvGz1k+jhLCdkdpBRjq0pK/htjA3Ce8pF2AJs+fgN6ZUu\n" +
+				"mQIDAQAB\n" +
+				"-----END PUBLIC KEY-----\n" +
+
+# \u652f\u4ed8\u5b9d\u7f51\u5173\u540d\u3001partnerId\u548cappId
+open_api_domain = https://openapi.alipaydev.com/gateway.do
+mcloud_api_domain = http://mcloudmonitor.com/gateway.do
+pid = \u6b64\u5904\u8bf7\u586b\u5199\u4f60\u7684PID
+appid = 2016091600522172
+
+# RSA\u79c1\u94a5\u3001\u516c\u94a5\u548c\u652f\u4ed8\u5b9d\u516c\u94a5
+private_key = MIIEvQIBADANBgkqhkiG9w0BAQEFAASCBKcwggSjAgEAAoIBAQCNFrw9/83aVxxJ38gOrbmMTSzpdYRomYyfM+FvtUDPqC/V3SqX7piugqrl7vbGdgddeaAU6Hohzif0Nv6rP+OB8wagRR8DMq9E3GsQwRU01joLnoCBKv1eZbK9TCF3ZZxRj9z2hBfsnaoKD2iAptZusqIN2DbqdTBXpUPbJ5TwY2JGZsGV22iY+MUmr7t7fKRg90qCAE+7I3f9IgZTUFsneK6M2QPIWD+ytRIM4N/rDl5fMRIVUGrsmwYRAYWJM//q5ETdq+vk0W7vc/zXqijpNXar7Nt7Dyp1EZsiSVfrsH4Lt9MhjmZgpMffEagZmpJqZi2i9INMibh59ey+u/PrAgMBAAECggEAdCne7VEbZQTJ5s0YQ3WnyquUKde3IAQkssOdfkMGzLKWSAhj1Fn/Xdd56/zXM8nkAINuWSibvg+l97376nWc1NaKgxTGFvT5N8IfaNkAo9MqUXy8Ix2JJNqo0pDHES4ZCVJgxJs3s3qQkN3k1eAHt3beVHXLqTi5h8ArYVpyl4SF03wzvTZqKZDZ12plE5aSK3151wZFdzKGckD8+EVUdipXtBR60nQOGrldBbf9+Ex40hFVrih/iIL2dhy4meA2x3wCs8OGh6bZt3GUe4EvvKWENfd31GHv0TqqLkzr7tjQfUbBJgrL+UQ+9hg1XRRexJAHnQcCsydnoJMsG6vq8QKBgQD+3xuM77sYEVeFQuWSWUVE0+tKEh0M+u73kGTDHZohylE8D85QfIS5G2k04aAfflxThdPJk5x+VEdsPy27dB/B2pIaUB1mm2BBGwayr+8M66TRzU8XLD3FFPbbDnP2ktzMEKGOhbM46842m06KkEStiWYXc8DOsJkYPeHwPOUm0wKBgQCNtqgxl3OE4juHZ56fzwkQmtS0b1/0OF/lJfExbAroOUmsbKKOye52I3+69QUxUdER33XLL+7oRxKVooBp5b7iRFMfqm84iDU8vDD/uIZq4oytrXPBsv7w1HAwcVH/sf0S5KBInmY+YRFDbDKIupGfDoX0+nwQEd6c2OmrFxr/iQKBgB4M0iPA1C9XRBlrNMQXkGo4DkLSdehk4a4AsVCr+dNIFmHdfzbQJ5nnmHTqsUVlUZ9rZPgcVlQyvaUOoea7H09s5NMDZSQG58dlV1nUEnxUgD9YVJ3n0nSdLynOv29wC2ZoA5RZQTNR4iNgFleSAPbw/z9+n1n/Sl2oVi5MD7yPAoGAVIhReguCoBCnO9UGnQNNv/brzJnnHfIG2dSxNC7jrrSFivHeYdh4g0YXqjkAGPRaBxRJ2qNEGpBSuKmPehvOqn/hKbFr2Mf/IbSMce3rWJS9H9iohTG1u4itR2hBZooQkRWJuuepy6nxN0uyNTc9KCjspT5JhPhz1xHZCPKmaykCgYEAxFjxTuaHGrxJrdjwy8uPPiHVmZNJKHVE+yh57pVcLjPzoHbSBPrSiG43gy2iyOCQCce8wtcUrtQQ57wuLmQVJCj5lWofRpoC6zpZsYHUkBIcpD+IciLkbMmqe4SzKwERWqfsDQSPj+Rb5rCIBSZG+1tQRtTQF2/DtcZbPUoTJlI=
+public_key = MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjRa8Pf/N2lccSd/IDq25jE0s6XWEaJmMnzPhb7VAz6gv1d0ql+6YroKq5e72xnYHXXmgFOh6Ic4n9Db+qz/jgfMGoEUfAzKvRNxrEMEVNNY6C56AgSr9XmWyvUwhd2WcUY/c9oQX7J2qCg9ogKbWbrKiDdg26nUwV6VD2yeU8GNiRmbBldtomPjFJq+7e3ykYPdKggBPuyN3/SIGU1BbJ3iujNkDyFg/srUSDODf6w5eXzESFVBq7JsGEQGFiTP/6uRE3avr5NFu73P816oo6TV2q+zbew8qdRGbIklX67B+C7fTIY5mYKTH3xGoGZqSamYtovSDTIm4efXsvrvz6wIDAQAB
+
+
+#SHA1withRsa\u5bf9\u5e94\u652f\u4ed8\u5b9d\u516c\u94a5
+#alipay_public_key = MIGfMA0GCSqGSIb3DQEBAQUAA4GNADCBiQKBgQDDI6d306Q8fIfCOaTXyiUeJHkrIvYISRcc73s3vF1ZT7XN8RNPwJxo8pWaJMmvyTn9N4HQ632qJBVHf8sxHi/fEsraprwCtzvzQETrNRwVxLO5jVmRGi60j8Ue1efIlzPXV9je9mkjzOmdssymZkh2QhUrCmZYI/FCEa3/cNMW0QIDAQAB
+
+#SHA256withRsa\u5bf9\u5e94\u652f\u4ed8\u5b9d\u516c\u94a5
+alipay_public_key = MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtPUBo06BGrNVpClfXJuKl48exsaoIgCRsxR+yhNxUbn11CSVZq973we2jGV2kfnWnxO8CJWnqQpDsg7yqzW1h5ySunyJI4jfkl6qsYwVNmmniyQbfGGTXce+LLAMXTTE/eIpeQytNi/bHg2Oa5w+X0gR/XAUHWsYS1ZPFp4eHkd7yc83RX4y8DhI6U0qPQiG/MMNoqIYuiSo49biHIznqZ3cscjGqGwutBC1P4xWJkzyALlK4Trf8TX9FYc0nf6o+Ttrk49aPEnvNzIHgQCDg7VHC8bH6c6ZdtHThlfonKwDXfNvjD3nPbAA3jfK1h1HRBCo2iJEIZpCEw+P+ZViCQIDAQAB
+
+# \u7b7e\u540d\u7c7b\u578b: RSA->SHA1withRsa,RSA2->SHA256withRsa
+sign_type = RSA2
+# \u5f53\u9762\u4ed8\u6700\u5927\u67e5\u8be2\u6b21\u6570\u548c\u67e5\u8be2\u95f4\u9694\uff08\u6beb\u79d2\uff09
+max_query_retry = 5
+query_duration = 5000
+
+# \u5f53\u9762\u4ed8\u6700\u5927\u64a4\u9500\u6b21\u6570\u548c\u64a4\u9500\u95f4\u9694\uff08\u6beb\u79d2\uff09
+max_cancel_retry = 3
+cancel_duration = 2000
+
+# \u4ea4\u6613\u4fdd\u969c\u7ebf\u7a0b\u7b2c\u4e00\u6b21\u8c03\u5ea6\u5ef6\u8fdf\u548c\u8c03\u5ea6\u95f4\u9694\uff08\u79d2\uff09
+heartbeat_delay = 5
+heartbeat_duration = 900
+#App\u652f\u4ed8\u56de\u8c03\u5730\u5740
+app_pay_notify_url =
+
+
+

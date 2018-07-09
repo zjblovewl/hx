@@ -1,0 +1,117 @@
+package cn.com.base.vo.auction;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import java.util.Date;
+
+/**
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/4/4 上午10:08
+ * @版本：V1.0
+ */
+public class GoodsQueryParams {
+    private Integer page_num;//页数
+
+    private Integer page_size;//条数
+
+    private Integer search_type;//查询类型
+
+    private String search_content;//查询关键字
+
+    private Integer sort_type;//排序方式
+
+    private String big_class_code;//大类Code
+
+    private String small_class_code;//小类Code
+
+    @JsonIgnore
+    private Date startTime;//开始时间
+
+    @JsonIgnore
+    private Date endTime;//结束时间
+
+    @JsonIgnore
+    private Date startCreateTime;//起始创建时间
+
+    public Date getStartCreateTime() {
+        return startCreateTime;
+    }
+
+    public void setStartCreateTime(Date startCreateTime) {
+        this.startCreateTime = startCreateTime;
+    }
+
+    public Date getStartTime() {
+        return startTime;
+    }
+
+    public void setStartTime(Date startTime) {
+        this.startTime = startTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(Date endTime) {
+        this.endTime = endTime;
+    }
+
+    public Integer getPage_num() {
+        return page_num;
+    }
+
+    public void setPage_num(Integer page_num) {
+        this.page_num = page_num;
+    }
+
+    public Integer getPage_size() {
+        return page_size;
+    }
+
+    public void setPage_size(Integer page_size) {
+        this.page_size = page_size;
+    }
+
+    public Integer getSearch_type() {
+        return search_type;
+    }
+
+    public void setSearch_type(Integer search_type) {
+        this.search_type = search_type;
+    }
+
+    public String getSearch_content() {
+        return search_content;
+    }
+
+    public void setSearch_content(String search_content) {
+        this.search_content = search_content;
+    }
+
+    public Integer getSort_type() {
+        return sort_type;
+    }
+
+    public void setSort_type(Integer sort_type) {
+        this.sort_type = sort_type;
+    }
+
+    public String getBig_class_code() {
+        return big_class_code;
+    }
+
+    public void setBig_class_code(String big_class_code) {
+        this.big_class_code = big_class_code;
+    }
+
+    public String getSmall_class_code() {
+        return small_class_code;
+    }
+
+    public void setSmall_class_code(String small_class_code) {
+        this.small_class_code = small_class_code;
+    }
+}

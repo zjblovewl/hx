@@ -1,0 +1,64 @@
+spring.druid.url = jdbc:postgresql://192.168.50.215/hxdb?useUnicode\=true&characterEncoding\=utf8
+spring.druid.username = postgres
+spring.druid.password = 123456
+spring.druid.driverClassName = org.postgresql.Driver
+
+#初始化大小
+spring.druid.initialSize=5
+#最小连接池个数
+spring.druid.minIdle=5
+#最大连接池个数
+spring.druid.maxActive=20
+
+#配置获取连接等待超时的时间 (10秒)
+spring.druid.maxWait=10000
+#配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 1分钟
+spring.druid.timeBetweenEvictionRunsMillis=60000
+#配置一个连接在池中最小生存的时间，单位是毫秒 5分钟
+spring.druid.minEvictableIdleTimeMillis=300000
+#初始化校验
+spring.druid.validationQuery=select now()
+spring.druid.testWhileIdle=true
+
+#mybatis扫描目录
+mybatis.typeAliasesPackage=cn.com.model
+mybatis.mapperLocations=classpath:cn/com/**/**/mapper/*.xml
+
+
+#配置项目基本信息
+spring.mvc.view.suffix:.jsp
+spring.mvc.view.prefix=/WEB-INF/jsp/
+server.contextPath=/hxcollectionapi
+
+#配置项目端口
+server.port=9090
+
+# Redis数据库索引（默认为0）
+spring.redis.database=0
+# Redis服务器地址
+spring.redis.host=192.168.50.215
+# Redis服务器连接端口
+spring.redis.port=6379
+# Redis服务器连接密码（默认为空）
+spring.redis.password=HSOK35VHQJRWVN0OOUB7
+# 连接池最大连接数（使用负值表示没有限制）
+spring.redis.pool.max-active=8
+# 连接池最大阻塞等待时间（使用负值表示没有限制）
+spring.redis.pool.max-wait=-1
+# 连接池中的最大空闲连接
+spring.redis.pool.max-idle=8
+# 连接池中的最小空闲连接
+spring.redis.pool.min-idle=0
+# 连接超时时间（毫秒）
+spring.redis.timeout=0
+
+# 显示打印sql语句
+logging.level.cn.com=DEBUG
+
+#  配置分页插件
+pagehelper.autoDialect=true
+pagehelper.closeConn=false
+pagehelper.reasonable=true
+
+
+

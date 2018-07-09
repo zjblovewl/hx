@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.complaints.dao.GoodsComplaintsMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.complaints.GoodsComplaints" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="report_people" property="reportPeople" jdbcType="VARCHAR" />
+    <result column="report_object" property="reportObject" jdbcType="CHAR" />
+    <result column="report_type" property="reportType" jdbcType="CHAR" />
+    <result column="report_content" property="reportContent" jdbcType="VARCHAR" />
+    <result column="report_time" property="reportTime" jdbcType="TIMESTAMP" />
+    <result column="deal_status" property="dealStatus" jdbcType="CHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="remarks" property="remarks" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, report_people, report_object, report_type, report_content, report_time, deal_status, 
+    create_time, remarks
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hxdb.hx_goods_complaints
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hxdb.hx_goods_complaints
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.model.complaints.GoodsComplaints" >
+    insert into hxdb.hx_goods_complaints (id, report_people, report_object, 
+      report_type, report_content, report_time, 
+      deal_status, create_time, remarks
+      )
+    values (#{id,jdbcType=VARCHAR}, #{reportPeople,jdbcType=VARCHAR}, #{reportObject,jdbcType=CHAR}, 
+      #{reportType,jdbcType=CHAR}, #{reportContent,jdbcType=VARCHAR}, #{reportTime,jdbcType=TIMESTAMP}, 
+      #{dealStatus,jdbcType=CHAR}, #{createTime,jdbcType=TIMESTAMP}, #{remarks,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.model.complaints.GoodsComplaints" >
+    insert into hxdb.hx_goods_complaints
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="reportPeople != null" >
+        report_people,
+      </if>
+      <if test="reportObject != null" >
+        report_object,
+      </if>
+      <if test="reportType != null" >
+        report_type,
+      </if>
+      <if test="reportContent != null" >
+        report_content,
+      </if>
+      <if test="reportTime != null" >
+        report_time,
+      </if>
+      <if test="dealStatus != null" >
+        deal_status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="remarks != null" >
+        remarks,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="reportPeople != null" >
+        #{reportPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="reportObject != null" >
+        #{reportObject,jdbcType=CHAR},
+      </if>
+      <if test="reportType != null" >
+        #{reportType,jdbcType=CHAR},
+      </if>
+      <if test="reportContent != null" >
+        #{reportContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null" >
+        #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealStatus != null" >
+        #{dealStatus,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        #{remarks,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.model.complaints.GoodsComplaints" >
+    update hxdb.hx_goods_complaints
+    <set >
+      <if test="reportPeople != null" >
+        report_people = #{reportPeople,jdbcType=VARCHAR},
+      </if>
+      <if test="reportObject != null" >
+        report_object = #{reportObject,jdbcType=CHAR},
+      </if>
+      <if test="reportType != null" >
+        report_type = #{reportType,jdbcType=CHAR},
+      </if>
+      <if test="reportContent != null" >
+        report_content = #{reportContent,jdbcType=VARCHAR},
+      </if>
+      <if test="reportTime != null" >
+        report_time = #{reportTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="dealStatus != null" >
+        deal_status = #{dealStatus,jdbcType=CHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remarks != null" >
+        remarks = #{remarks,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.model.complaints.GoodsComplaints" >
+    update hxdb.hx_goods_complaints
+    set report_people = #{reportPeople,jdbcType=VARCHAR},
+      report_object = #{reportObject,jdbcType=CHAR},
+      report_type = #{reportType,jdbcType=CHAR},
+      report_content = #{reportContent,jdbcType=VARCHAR},
+      report_time = #{reportTime,jdbcType=TIMESTAMP},
+      deal_status = #{dealStatus,jdbcType=CHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      remarks = #{remarks,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

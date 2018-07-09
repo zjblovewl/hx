@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="cn.com.mobile.order.dao.OrderMobileMapper">
+	<!-- 保存订单 -->
+	<insert id="saveOrder" parameterType="java.util.HashMap">
+		insert into hxdb.hx_order(id,order_code,buyer_id,buyer_name,seller_id,seller_name,order_type,pay_money,pay_method,receive_address,
+		consignee,contact_information,order_status,order_generation_time,remark,del_flag)
+		values(#{order_id},#{order_code},#{buyer_id},#{buyer_name},#{seller_id},#{seller_name},#{order_type},#{pay_money},#{pay_method},#{receive_address},
+		#{consignee},#{contact_information},'1',now(),#{remark},'0')
+	</insert>
+	
+	<!-- 保存订单商品 -->
+	<insert id="saveOrderGoods" parameterType="java.util.HashMap">
+		insert into hxdb.hx_order_goods(id,big_class_code,small_class_code,goods_type,goods_name,goods_description,amount,price,order_id,goods_id,create_time,del_flag)
+		select #{order_goods_id},big_class_code,small_class_code,goods_type,goods_name,goods_description,#{amount},price,#{order_id},#{goods_id},now(),'0'
+		from hxdb.hx_goods where id = #{goods_id}		
+	</insert>
+	
+	<!-- 保存订单商品图片数据 -->
+	<insert id="saveImagesOrderGoodsRel" parameterType="java.util.HashMap">
+		<!-- hxdb.random_uuid(32) 0-9 a-z 随机生成的 32位  组合id -->
+		insert into hxdb.hx_images_ordergoods_rel(id,image_id,service_id,sort)
+		select hxdb.random_uuid(32),image_id,#{order_goods_id},sort from hxdb.hx_images_goods_rel where service_id = #{goods_id}
+	</insert>
+	
+	<!-- 售出记录（已完成的订单） -->
+	<select id="getSellOrderRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select o.id as order_id,o.seller_id,o.seller_name,g.goods_name,g.amount,g.price,
+		    hxdb.datestr_to_timestamp(to_char(o.order_generation_time,'YYYY-MM-DD HH24:MI:SS')) as order_generation_time,
+		    COALESCE(t1.head_image_urls,'')as head_image_urls,
+		    COALESCE(t.small_image_urls,'') as small_image_urls,
+		    COALESCE(t.big_image_urls,'') as big_image_urls,
+		    COALESCE(t.original_image_urls,'') as original_image_urls    
+		 from hxdb.hx_order o
+		left join hxdb.hx_order_goods g on g.order_id = o.id
+		left join
+		(		        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',') as original_image_urls 
+		    from (select * from hxdb.hx_images_ordergoods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t1 on t1.service_id = o.seller_id
+		<!-- 1：待付款 2：待发货 3：待收货 4：待确认收货 5：待评论 6：已完成 7：待退款 8：已退款 9：取消订单 -->
+		where o.order_status = '6' and o.seller_id = #{user_id} 		
+	</select>
+	
+	<!-- 购买记录（已完成的订单） -->
+	<select id="getBuyOrderRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select o.id as order_id,o.seller_id,o.seller_name,g.goods_name,g.amount,g.price,
+		    hxdb.datestr_to_timestamp(to_char(o.order_generation_time,'YYYY-MM-DD HH24:MI:SS')) as order_generation_time,
+		    COALESCE(t1.head_image_urls,'')as head_image_urls,
+		    COALESCE(t.small_image_urls,'') as small_image_urls,
+		    COALESCE(t.big_image_urls,'') as big_image_urls,
+		    COALESCE(t.original_image_urls,'') as original_image_urls    
+		 from hxdb.hx_order o
+		left join hxdb.hx_order_goods g on g.order_id = o.id
+		left join
+		(		        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',') as original_image_urls 
+		    from (select * from hxdb.hx_images_ordergoods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t1 on t1.service_id = o.seller_id
+		<!-- 1：待付款 2：待发货 3：待收货 4：待确认收货 5：待评论 6：已完成 7：待退款 8：已退款 9：取消订单 -->
+		where o.order_status = '6' and o.buyer_id = #{user_id}
+	</select>
+	
+	<!-- 查询订单评论 -->
+	<select id="getOrderEvaluateRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select user_type,user_id,evaluate_level,evaluate_content from hxdb.hx_order_evaluate where order_id = #{order_id}
+	</select>
+	
+	<!-- 我售出的 -->
+	<select id="getMySellOrderRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select o.id as order_id,o.order_status,o.seller_id,o.seller_name,g.goods_name,g.amount,g.price,		    
+		    COALESCE(t1.head_image_urls,'')as head_image_urls,
+		    COALESCE(t.small_image_urls,'') as small_image_urls,
+		    COALESCE(t.big_image_urls,'') as big_image_urls,
+		    COALESCE(t.original_image_urls,'') as original_image_urls    
+		 from hxdb.hx_order o
+		left join hxdb.hx_order_goods g on g.order_id = o.id
+		left join
+		(		        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',') as original_image_urls 
+		    from (select * from hxdb.hx_images_ordergoods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t1 on t1.service_id = o.seller_id
+		where o.seller_id = #{user_id}
+		<if test="order_status != null and order_status != ''">
+			<!-- 1：待付款 2：待发货 3：待收货 4：待确认收货 5：待评论 6：已完成 7：待退款 8：已退款 9：取消订单 -->
+			and o.order_status = #{order_status}	
+		</if>
+	</select>
+	
+	<!-- 我购买的 -->
+	<select id="getMyBuyOrderRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select o.id as order_id,o.order_status,o.seller_id,o.seller_name,g.goods_name,g.amount,g.price,		    
+		    COALESCE(t1.head_image_urls,'')as head_image_urls,
+		    COALESCE(t.small_image_urls,'') as small_image_urls,
+		    COALESCE(t.big_image_urls,'') as big_image_urls,
+		    COALESCE(t.original_image_urls,'') as original_image_urls    
+		 from hxdb.hx_order o
+		left join hxdb.hx_order_goods g on g.order_id = o.id
+		left join
+		(		        
+		    select re.service_id,string_agg(img.image1_url,',')as small_image_urls,string_agg(img.image3_url,',')as big_image_urls,string_agg(img.image_url,',') as original_image_urls 
+		    from (select * from hxdb.hx_images_ordergoods_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t on t.service_id = g.id
+		left join
+		(
+		    select re.service_id,string_agg(img.image1_url,',')as head_image_urls 
+		    from (select * from hxdb.hx_images_user_rel order by sort asc) re
+		    left join hxdb.sys_images img on img.id = re.image_id
+		    group by re.service_id 	
+		)t1 on t1.service_id = o.seller_id
+		where o.buyer_id = #{user_id}
+		<if test="order_status != null and order_status != ''">
+			<!-- 1：待付款 2：待发货 3：待收货 4：待确认收货 5：待评论 6：已完成 7：待退款 8：已退款 9：取消订单 -->
+			and o.order_status = #{order_status}	
+		</if>
+	</select>
+</mapper>

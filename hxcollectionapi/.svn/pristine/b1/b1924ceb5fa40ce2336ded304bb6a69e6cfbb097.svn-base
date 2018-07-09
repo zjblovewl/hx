@@ -1,0 +1,37 @@
+package web;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.MD5;
+import cn.com.base.vo.RequestParamHeader;
+import org.springframework.beans.factory.annotation.Autowired;
+
+/**
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/14 上午9:54
+ * @版本：V1.0
+ */
+public class BaseController {
+
+    String baseUrl = "http://localhost:9090/hxcollectionapi/";
+
+    RequestParamHeader header;
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    public void InitParamHeader()
+    {
+        if(header == null)
+        {
+            header = new RequestParamHeader();
+            header.setAppId(Long.parseLong(baseConstant.getAppId()));
+            header.setTimestamp(System.currentTimeMillis());
+            header.setSignature(MD5.md5(baseConstant.getAppId() +
+                    baseConstant.getPwdKey() + header.getTimestamp()));
+            header.setToken("");
+        }
+    }
+
+}

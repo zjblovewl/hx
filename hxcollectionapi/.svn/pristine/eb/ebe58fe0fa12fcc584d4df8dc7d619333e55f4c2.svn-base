@@ -1,0 +1,410 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.auction.dao.GoodsMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.auction.Goods" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="big_class_code" property="bigClassCode" jdbcType="VARCHAR" />
+    <result column="small_class_code" property="smallClassCode" jdbcType="VARCHAR" />
+    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+    <result column="goods_type" property="goodsType" jdbcType="CHAR" />
+    <result column="goods_description" property="goodsDescription" jdbcType="VARCHAR" />
+    <result column="inventory" property="inventory" jdbcType="BIGINT" />
+    <result column="price" property="price" jdbcType="NUMERIC" />
+    <result column="postage" property="postage" jdbcType="NUMERIC" />
+    <result column="status" property="status" jdbcType="CHAR" />
+    <result column="first_step_time" property="firstStepTime" jdbcType="TIMESTAMP" />
+    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+    <result column="browse_num" property="browseNum" jdbcType="BIGINT" />
+    <result column="publish_customer" property="publishCustomer" jdbcType="VARCHAR" />
+    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+    <result column="start_price" property="startPrice" jdbcType="NUMERIC" />
+    <result column="markup_price" property="markupPrice" jdbcType="NUMERIC" />
+    <result column="current_price" property="currentPrice" jdbcType="NUMERIC" />
+    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="image_ids" property="imageIds" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+
+  <resultMap id="GoodsListResultMap" type="cn.com.base.vo.auction.AuctionGoods" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="end_time" property="end_time" jdbcType="VARCHAR" />
+    <result column="goods_description" property="goods_description" jdbcType="VARCHAR" />
+    <result column="user_id" property="user_id" jdbcType="VARCHAR" />
+    <result column="nick_name" property="nick_name" jdbcType="VARCHAR" />
+    <result column="head_url" property="head_url" jdbcType="VARCHAR" />
+    <result column="offer_count" property="offer_count" jdbcType="NUMERIC" />
+    <result column="offer_price" property="offer_price" jdbcType="NUMERIC" />
+    <result column="small_urls" property="small_urls" jdbcType="VARCHAR" />
+    <result column="big_urls" property="big_urls" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    id, big_class_code, small_class_code, user_id, goods_type, goods_description, inventory, 
+    price, postage, status, first_step_time, last_update_time, browse_num, publish_customer, 
+    publish_time, start_price, markup_price, current_price, end_time, city_code, create_time, 
+    image_ids, del_flag
+  </sql>
+
+  <!-- 根据条件查询拍卖列表 -->
+  <select id="getGoodsByType" resultMap="GoodsListResultMap" >
+      select
+        g.id,
+        to_char(g.end_time,'yyyy-MM-dd HH24:MI:SS') end_time,
+        g.goods_description ,
+        u.id user_id,
+        u.nick_name ,
+        COALESCE(temp.offer_count,0) as offer_count,
+        COALESCE(temp.offer_price,g.start_price) as offer_price,
+        (
+        select String_agg(image_url,',') from hxdb.sys_images
+        where id in
+        (
+        select regexp_split_to_table(g.image_ids,',')
+        )
+        ) as small_urls,
+        (
+        select String_agg(image1_url,',') from hxdb.sys_images
+        where id in
+        (
+        select regexp_split_to_table(g.image_ids,',')
+        )
+        ) as big_urls,
+        COALESCE((select image_url from hxdb.sys_images ima where ima.id = u.image_ids),'') as head_url
+      from hxdb.hx_goods g
+      inner join hxdb.hx_user u on g.publish_customer = u.id
+      left join
+      (
+      select
+        count(1) as offer_count,
+        max(re.offer_price) as offer_price,
+        goods_id
+      from hxdb.hx_goods_offer_record re group by re.goods_id
+      ) temp
+      on g.id = temp.goods_id
+      where g.goods_type = '2'
+
+      <if test="search_content != null and search_content != ''">
+        and g.goods_description LIKE CONCAT(CONCAT('%', #{search_content}), '%')
+      </if>
+
+      <!-- 捡漏 -->
+      <if test="search_type!=null and search_type==1">
+        and (now() + '2 hours' >= g.end_time and  g.end_time >= now())
+      </if>
+
+      <!-- 上新 -->
+      <if test="search_type!=null and search_type==2">
+        and g.create_time + '2 hours' >= now()
+      </if>
+
+      <!-- 热门 -->
+      <if test="search_type!=null and search_type==3">
+        and offer_count >= 5
+      </if>
+
+      <if test="big_class_code != null and big_class_code !='' ">
+        and g.big_class_code = #{big_class_code}
+      </if>
+
+      <if test="small_class_code != null and small_class_code !='' ">
+        and g.small_class_code = #{small_class_code}
+      </if>
+
+      <!-- 排序 -->
+      <choose>
+
+        <when test="sort_type==null || sort_type==0">
+          order by g.end_time desc,g.create_time desc
+        </when>
+        <!-- 默认排序 -->
+        <when test="sort_type!=null and sort_type==1">
+          order by g.end_time desc,g.create_time desc
+        </when>
+        <!-- 出价次数最多 -->
+        <when test="sort_type!=null and sort_type==2">
+          order by g.end_time desc,offer_count desc
+        </when>
+        <!-- 出价次数最少 -->
+        <when test="sort_type!=null and sort_type==3">
+          order by g.end_time desc,offer_count asc
+        </when>
+        <!-- 出价最少 -->
+        <when test="sort_type!=null and sort_type==4">
+          order by g.end_time desc,offer_price asc
+        </when>
+      </choose>
+  </select>
+
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hxdb.hx_goods
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from hxdb.hx_goods
+    where id = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="cn.com.model.auction.Goods" >
+    insert into hxdb.hx_goods (id, big_class_code, small_class_code, 
+      user_id, goods_type, goods_description, 
+      inventory, price, postage, 
+      status, first_step_time, last_update_time, 
+      browse_num, publish_customer, publish_time, 
+      start_price, markup_price, current_price, 
+      end_time, city_code, create_time, 
+      image_ids, del_flag)
+    values (#{id,jdbcType=VARCHAR}, #{bigClassCode,jdbcType=VARCHAR}, #{smallClassCode,jdbcType=VARCHAR}, 
+      #{userId,jdbcType=VARCHAR}, #{goodsType,jdbcType=CHAR}, #{goodsDescription,jdbcType=VARCHAR}, 
+      #{inventory,jdbcType=BIGINT}, #{price,jdbcType=NUMERIC}, #{postage,jdbcType=NUMERIC}, 
+      #{status,jdbcType=CHAR}, #{firstStepTime,jdbcType=TIMESTAMP}, #{lastUpdateTime,jdbcType=TIMESTAMP}, 
+      #{browseNum,jdbcType=BIGINT}, #{publishCustomer,jdbcType=VARCHAR}, #{publishTime,jdbcType=TIMESTAMP}, 
+      #{startPrice,jdbcType=NUMERIC}, #{markupPrice,jdbcType=NUMERIC}, #{currentPrice,jdbcType=NUMERIC}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{cityCode,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{imageIds,jdbcType=VARCHAR}, #{delFlag,jdbcType=CHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="cn.com.model.auction.Goods" >
+    insert into hxdb.hx_goods
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="bigClassCode != null" >
+        big_class_code,
+      </if>
+      <if test="smallClassCode != null" >
+        small_class_code,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="goodsType != null" >
+        goods_type,
+      </if>
+      <if test="goodsDescription != null" >
+        goods_description,
+      </if>
+      <if test="inventory != null" >
+        inventory,
+      </if>
+      <if test="price != null" >
+        price,
+      </if>
+      <if test="postage != null" >
+        postage,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="firstStepTime != null" >
+        first_step_time,
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time,
+      </if>
+      <if test="browseNum != null" >
+        browse_num,
+      </if>
+      <if test="publishCustomer != null" >
+        publish_customer,
+      </if>
+      <if test="publishTime != null" >
+        publish_time,
+      </if>
+      <if test="startPrice != null" >
+        start_price,
+      </if>
+      <if test="markupPrice != null" >
+        markup_price,
+      </if>
+      <if test="currentPrice != null" >
+        current_price,
+      </if>
+      <if test="endTime != null" >
+        end_time,
+      </if>
+      <if test="cityCode != null" >
+        city_code,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="imageIds != null" >
+        image_ids,
+      </if>
+      <if test="delFlag != null" >
+        del_flag,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="bigClassCode != null" >
+        #{bigClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smallClassCode != null" >
+        #{smallClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        #{goodsType,jdbcType=CHAR},
+      </if>
+      <if test="goodsDescription != null" >
+        #{goodsDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        #{inventory,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="postage != null" >
+        #{postage,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="firstStepTime != null" >
+        #{firstStepTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="browseNum != null" >
+        #{browseNum,jdbcType=BIGINT},
+      </if>
+      <if test="publishCustomer != null" >
+        #{publishCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPrice != null" >
+        #{startPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="markupPrice != null" >
+        #{markupPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="currentPrice != null" >
+        #{currentPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityCode != null" >
+        #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageIds != null" >
+        #{imageIds,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        #{delFlag,jdbcType=CHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.com.model.auction.Goods" >
+    update hxdb.hx_goods
+    <set >
+      <if test="bigClassCode != null" >
+        big_class_code = #{bigClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="smallClassCode != null" >
+        small_class_code = #{smallClassCode,jdbcType=VARCHAR},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=VARCHAR},
+      </if>
+      <if test="goodsType != null" >
+        goods_type = #{goodsType,jdbcType=CHAR},
+      </if>
+      <if test="goodsDescription != null" >
+        goods_description = #{goodsDescription,jdbcType=VARCHAR},
+      </if>
+      <if test="inventory != null" >
+        inventory = #{inventory,jdbcType=BIGINT},
+      </if>
+      <if test="price != null" >
+        price = #{price,jdbcType=NUMERIC},
+      </if>
+      <if test="postage != null" >
+        postage = #{postage,jdbcType=NUMERIC},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="firstStepTime != null" >
+        first_step_time = #{firstStepTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="lastUpdateTime != null" >
+        last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="browseNum != null" >
+        browse_num = #{browseNum,jdbcType=BIGINT},
+      </if>
+      <if test="publishCustomer != null" >
+        publish_customer = #{publishCustomer,jdbcType=VARCHAR},
+      </if>
+      <if test="publishTime != null" >
+        publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="startPrice != null" >
+        start_price = #{startPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="markupPrice != null" >
+        markup_price = #{markupPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="currentPrice != null" >
+        current_price = #{currentPrice,jdbcType=NUMERIC},
+      </if>
+      <if test="endTime != null" >
+        end_time = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="cityCode != null" >
+        city_code = #{cityCode,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="imageIds != null" >
+        image_ids = #{imageIds,jdbcType=VARCHAR},
+      </if>
+      <if test="delFlag != null" >
+        del_flag = #{delFlag,jdbcType=CHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.com.model.auction.Goods" >
+    update hxdb.hx_goods
+    set big_class_code = #{bigClassCode,jdbcType=VARCHAR},
+      small_class_code = #{smallClassCode,jdbcType=VARCHAR},
+      user_id = #{userId,jdbcType=VARCHAR},
+      goods_type = #{goodsType,jdbcType=CHAR},
+      goods_description = #{goodsDescription,jdbcType=VARCHAR},
+      inventory = #{inventory,jdbcType=BIGINT},
+      price = #{price,jdbcType=NUMERIC},
+      postage = #{postage,jdbcType=NUMERIC},
+      status = #{status,jdbcType=CHAR},
+      first_step_time = #{firstStepTime,jdbcType=TIMESTAMP},
+      last_update_time = #{lastUpdateTime,jdbcType=TIMESTAMP},
+      browse_num = #{browseNum,jdbcType=BIGINT},
+      publish_customer = #{publishCustomer,jdbcType=VARCHAR},
+      publish_time = #{publishTime,jdbcType=TIMESTAMP},
+      start_price = #{startPrice,jdbcType=NUMERIC},
+      markup_price = #{markupPrice,jdbcType=NUMERIC},
+      current_price = #{currentPrice,jdbcType=NUMERIC},
+      end_time = #{endTime,jdbcType=TIMESTAMP},
+      city_code = #{cityCode,jdbcType=VARCHAR},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      image_ids = #{imageIds,jdbcType=VARCHAR},
+      del_flag = #{delFlag,jdbcType=CHAR}
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

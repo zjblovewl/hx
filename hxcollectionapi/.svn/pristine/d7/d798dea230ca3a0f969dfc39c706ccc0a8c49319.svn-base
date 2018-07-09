@@ -1,0 +1,107 @@
+package cn.com.third.express.service.impl;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.service.DictionaryService;
+import cn.com.base.util.BaseLogger;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.third.express.bean.ExpressInfo;
+import cn.com.third.express.service.ExpressService;
+import cn.kuaidi.api.KdniaoTrackQueryAPI;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Map;
+
+/**
+ * @类功能说明：物流快递信息业务实现层
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/5/9 上午10:08
+ * @版本：V1.0
+ */
+@Service
+public class ExpressServiceImpl extends BaseLogger implements ExpressService {
+
+    @Autowired
+    private DictionaryService dictionaryService;
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    @Autowired
+    private RedisTemplate redisTemplate;
+
+    @Override
+    public ResponseParamVo getExpressInfo(RequestParamVo vo) {
+        try{
+            String express_company = "";//快递公司
+            String express_number = "";//快递单号
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+            if(bodyMap != null && bodyMap.containsKey("express_company") && bodyMap.containsKey("express_number"))
+            {
+                express_company = bodyMap.get("express_company").toString();
+                express_number = bodyMap.get("express_number").toString();
+            }
+
+            if(StringUtil.isNullOrBlank(express_company) || StringUtil.isNullOrBlank(express_number))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"快递公司或单号不能为空","","","");
+            }
+
+            String express_code = getCodeByCompany(express_company);
+            if(StringUtil.isNullOrBlank(express_code))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"暂不支持该快递公司查询物流信息","","","");
+            }
+
+            String expressJsonStr = KdniaoTrackQueryAPI.getOrderTracesByJson(express_code,express_number);
+            if(StringUtil.isNullOrBlank(expressJsonStr))
+            {
+                return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询不到物流信息","","","");
+            }
+
+            ExpressInfo expressInfo = objectMapper.readValue(expressJsonStr,ExpressInfo.class);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询物流信息成功","","",expressInfo);
+        }catch (Exception e)
+        {
+            log.error("查询物流信息异常:{}",e.getMessage());
+            e.printStackTrace();
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询不到物流信息","","","");
+        }
+    }
+
+    public String getCodeByCompany(String company)
+    {
+        String value = (String)redisTemplate.opsForValue().get(company);
+        if(!StringUtil.isNullOrBlank(value))
+        {
+            return value;
+        }
+
+        List<Map<String,Object>> lists = (List<Map<String, Object>>) redisTemplate.opsForValue().get("expressCodeList");
+        if(lists == null)
+        {
+            lists = dictionaryService.getValueByKey("express_type");
+            redisTemplate.opsForValue().set("expressCodeList",lists);
+        }
+
+        for(Map<String,Object> item : lists)
+        {
+            String dic_name = item.get("dic_name").toString();
+            String dic_value = item.get("dic_value").toString();
+            if(dic_name.equals(company))
+            {
+                value = dic_value;
+                redisTemplate.opsForValue().set(company,dic_value);
+                break;
+            }
+        }
+
+        return value;
+    }
+}

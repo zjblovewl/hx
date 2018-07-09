@@ -1,0 +1,25 @@
+
+Ssquid:S26292"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Ssquid:S2629K"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Ssquid:S2629d"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Ssquid:S2629}"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Tsquid:S2629–"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Tsquid:S2629¯"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Tsquid:S2629È"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Tsquid:S2629á"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+Tsquid:S2629ú"7Use the built-in formatting to construct this argument.(æ¨ şÿÿÿÿ
+hsquid:S11921"LDefine a constant instead of duplicating this literal "requestJson" 9 times.(Â¥“Øûÿÿÿÿ
+nsquid:S11922"RDefine a constant instead of duplicating this literal "è¯·æ±‚å‚æ•° ï¼š " 9 times.(æ¨ şÿÿÿÿ
+Psquid:UselessImportCheck
+"-Remove this unused import 'org.slf4j.Logger'.(íØ®6
+lsquid:UselessImportCheck	"HRemove this unused import 'com.fasterxml.jackson.databind.ObjectMapper'.(´‘¨™
+Xsquid:UselessImportCheck"4Remove this unused import 'org.slf4j.LoggerFactory'.(–ÿÚŞ
+]squid:S34572"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+]squid:S3457K"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+]squid:S3457d"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+]squid:S3457}"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+^squid:S3457–"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+^squid:S3457¯"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+^squid:S3457È"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+^squid:S3457á"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ
+^squid:S3457ú"AFormat specifiers should be used instead of string concatenation.(æ¨ şÿÿÿÿ

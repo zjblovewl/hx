@@ -1,0 +1,84 @@
+package third.express;
+
+import cn.com.App;
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.AESUtils;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.auction.GoodsQueryParams;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import mobile.BaseControllerTest;
+import mobile.user.controller.UserMobileControllerTest;
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.http.*;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.test.context.web.WebAppConfiguration;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import java.util.HashMap;
+import java.util.Map;
+
+/**
+ * @类功能说明：拍卖Controller测试
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/30 上午16:01
+ * @版本：V1.0
+ */
+@RunWith(SpringRunner.class)
+@SpringBootTest(classes = App.class)
+@WebAppConfiguration
+public class ExpressControllerTest extends BaseControllerTest{
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    String rootUrl =  super.baseUrl +  "api/express/";
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    private Logger log = LoggerFactory.getLogger(ExpressControllerTest.class);
+
+    /**
+     * @description 获取大小类测试
+     * @method
+     * @param  * @param null
+     * @return
+     * @date: 2018/3/30 16:03:18
+     * @author:zhoujinbing
+     */
+    @Test
+    public void getExpressInfoTest()
+    {
+        try {
+            String url = rootUrl + "getExpressInfo";
+
+            InitParamHeader("q+gKOnfXlZWcrdiCkb3839tiAVdum8EY","2","1","Iphone","ios10.1");//初始化头请 默认不校验Token
+
+            // 业务参数
+            Map<String, Object> body = new HashMap<String, Object>();
+            body.put("express_company","2");
+            body.put("express_number","ssss");
+
+            RequestParamVo requestParam = new RequestParamVo(header,body);
+            String paras = objectMapper.writeValueAsString(requestParam);
+            log.info("params==========" + paras);
+            paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);
+
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
+            MultiValueMap<String, String> params = new LinkedMultiValueMap<String, String>();
+            params.add( "paras", paras );
+            HttpEntity<MultiValueMap<String, String>> requestEntity = new HttpEntity<MultiValueMap<String, String>>(params, headers);
+            ResponseEntity<String> response = super.getInstance().exchange(url, HttpMethod.POST, requestEntity, String.class);
+            System.out.println(response.getBody());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+}

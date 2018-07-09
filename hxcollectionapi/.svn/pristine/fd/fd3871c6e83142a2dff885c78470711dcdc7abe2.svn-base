@@ -1,0 +1,205 @@
+package cn.com.mobile.transaction.service.impl;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageInfo;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.mobile.transaction.dao.TransactionMobileMapper;
+import cn.com.mobile.transaction.service.TransactionMobileService;
+import cn.com.model.user.User;
+import cn.com.util.NumberUtil;
+
+/**  
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年4月2日 上午9:16:15 
+ * @版本：V1.0  
+ */
+@Service
+public class TransactionMobileServiceImpl implements TransactionMobileService{
+	private static final Logger log = LoggerFactory.getLogger(TransactionMobileServiceImpl.class);
+	
+	@Autowired
+    private BaseConstant baseConstant;
+	
+	@Autowired
+	private TransactionMobileMapper transactionMobileMapper;
+	
+	/**
+	 * 发布交易帖
+	 * @description 
+	 * @method  publishGoods
+	 * @param @param vo
+	 * @return void
+	 * @date: 2018年4月2日 上午9:58:18
+	 * @author:chenchen
+	 */
+	public ResponseParamVo publishGoods(RequestParamVo vo){
+		try{
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();                        
+            transactionMobileMapper.publishGoods(bodyMap);         
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"发布交易帖成功","","","");               
+        }catch (Exception e)
+        {
+            log.error("发布交易帖异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"发布交易帖异常","","","");
+        }
+	}
+	
+	/**
+	 * 查询交易帖数据
+	 * @description 
+	 * @method  getGoodsRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月3日 上午11:07:57
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getGoodsRecords(RequestParamVo vo){
+		try{
+			String imageIds = "";
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();                        
+            List<Map<String, Object>> goodsList = transactionMobileMapper.getGoodsRecords(bodyMap);
+            if(goodsList != null && goodsList.size() > 0){
+            	for (int i = 0; i < goodsList.size(); i++) {
+            		//获取图片id
+            		imageIds = goodsList.get(i).get("image_ids").toString();
+            		//转换图片id格式
+            		imageIds = this.getImageIds(imageIds);
+            		paramsMap.put("imageIds", imageIds);
+            		//根据图片id获取图片url
+            		Map<String, Object> imageMap = transactionMobileMapper.getImageUrlsByIds(paramsMap);
+            		if(imageMap != null && imageMap.size() > 0){
+            			goodsList.get(i).put("small_image_urls", imageMap.get("small_image_urls"));
+            			goodsList.get(i).put("big_image_urls", imageMap.get("big_image_urls"));
+            		}else{
+            			goodsList.get(i).put("small_image_urls", "");
+            			goodsList.get(i).put("big_image_urls", "");
+            		}
+				}
+            }
+            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(goodsList);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询交易帖成功","","",pageInfo);               
+        }catch (Exception e)
+        {
+            log.error("查询交易帖异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询交易帖异常","","","");
+        }
+	}
+	
+	/**
+	 * 转换图片id格式
+	 * @description 
+	 * @method  getImageIds
+	 * @param @param imageIds
+	 * @param @return
+	 * @return String
+	 * @date: 2018年4月3日 下午2:22:22
+	 * @author:chenchen
+	 */
+	public static String getImageIds (String imageIds){
+		String result = "";
+		String[] imageIdArr = imageIds.split(",");
+		if(imageIdArr != null && imageIdArr.length > 0){
+			for (int i = 0; i < imageIdArr.length; i++) {
+				if(i == 0){
+					result += "'" + imageIdArr[i] + "'";	
+				}else{
+					result += ",'" + imageIdArr[i] + "'";
+				}				
+			}
+		}
+		return result;
+	}	
+	
+	/**
+	 * 查询交易帖详情
+	 * @description 
+	 * @method  getGoodsInfoById
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月4日 下午3:19:16
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getGoodsInfoById(RequestParamVo vo){
+		String imageIds = "";
+		JSONObject jsonObj = new JSONObject();		
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		try{			
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();                        
+            Map<String, Object> goodsMap = transactionMobileMapper.getGoodsInfoById(bodyMap);
+            if(goodsMap != null && goodsMap.size() > 0){
+            	paramsMap.put("userId", goodsMap.get("user_id"));
+                //获取图片id
+        		imageIds = goodsMap.get("image_ids").toString();
+        		//转换图片id格式
+        		imageIds = this.getImageIds(imageIds);
+        		paramsMap.put("imageIds", imageIds);
+        		//根据图片id获取图片url
+        		Map<String, Object> imageMap = transactionMobileMapper.getImageUrlsByIds(paramsMap);
+        		if(imageMap != null && imageMap.size() > 0){
+        			goodsMap.put("big_image_urls", imageMap.get("big_image_urls"));
+        		}else{
+        			goodsMap.put("big_image_urls", "");
+        		}
+            }
+            //用户信息
+            Map<String, Object> userMap = transactionMobileMapper.getUserInfoByUserId(paramsMap);
+            if(userMap != null && userMap.size() > 0){            	
+                //获取图片id
+        		imageIds = goodsMap.get("image_ids").toString();
+        		//转换图片id格式
+        		imageIds = this.getImageIds(imageIds);
+        		userMap.put("imageIds", imageIds);
+        		//根据图片id获取图片url
+        		Map<String, Object> imageMap = transactionMobileMapper.getImageUrlsByIds(paramsMap);
+        		if(imageMap != null && imageMap.size() > 0){
+        			userMap.put("small_image_urls", imageMap.get("small_image_urls"));
+        		}else{
+        			userMap.put("small_image_urls", "");
+        		}
+            }
+            
+            //我的在售宝贝（交易帖）
+            int inSaleNum = transactionMobileMapper.getInSaleOfMyGoods(paramsMap);
+            //我的已售宝贝（交易帖）
+            int outSaleNum = transactionMobileMapper.getOutSaleOfMyGoods(paramsMap);
+            //卖家店铺评论总分
+            int totalScore = transactionMobileMapper.getTotalScoreOfMyShop(paramsMap);
+            //卖家店铺总评论数
+            int totalOrder = transactionMobileMapper.getTotalOrderOfMyShop(paramsMap);
+            //交易帖详情
+            jsonObj.put("goods_info", JSONObject.fromObject(goodsMap));
+            //用户信息
+            JSONObject userObj = new JSONObject();
+            userObj.put("head_image_url", userMap.get("small_image_urls"));
+            userObj.put("nick_name", userMap.get("nick_name"));
+            userObj.put("in_sale_num", inSaleNum);      
+            userObj.put("out_sale_num", outSaleNum);      
+            userObj.put("praise_rate", NumberUtil.divide(totalScore, totalOrder));                       
+            jsonObj.put("user_info", userObj);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"获取交易帖详情成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("获取交易帖详情异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"获取交易帖详情异常","","","");
+        }
+	}
+}

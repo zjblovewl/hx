@@ -1,0 +1,5 @@
+
+isquid:S11923"MDefine a constant instead of duplicating this literal "requestJson" 11 times.(Â¥“Øûÿÿÿÿ
+Psquid:UselessImportCheck"-Remove this unused import 'org.slf4j.Logger'.(íØ®6
+Xsquid:UselessImportCheck"4Remove this unused import 'org.slf4j.LoggerFactory'.(–ÿÚÞ
+lsquid:UselessImportCheck"HRemove this unused import 'com.fasterxml.jackson.databind.ObjectMapper'.(´‘¨™

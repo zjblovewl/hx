@@ -1,0 +1,106 @@
+/**     
+ * @文件名称: StudentServiceImpl.java  
+ * @类路径: 	cn.com.service.impl  
+ * @描述: 	TODO  
+ * @作者：	user 
+ * @时间：	2018年1月2日 下午4:00:12  
+ * @版本：V1.0     
+ */
+package cn.com.mobile.user.service.impl;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.Des3;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.mobile.user.dao.UserDao;
+import cn.com.mobile.user.service.UserService;
+import cn.com.model.user.User;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.concurrent.TimeUnit;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2018年1月2日 下午4:00:12  
+ * @版本：V1.0  
+ */
+@Service
+public class UserServiceImpl implements UserService {
+
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+	@Autowired
+	private RedisTemplate redisTemplate;
+
+	@Override
+	public ResponseParamVo login(RequestParamVo vo) {
+		//1、存储登录日志
+
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		User user = userDao.login(bodyMap.get("phone").toString(),bodyMap.get("passWord").toString());
+		String Token = "";
+		if(user != null)
+		{
+			try {
+				//1、根据其来源，存储相对应的Token
+				String isSource = vo.getHeader().getIsSource();
+				if(isSource.equals("1"))
+				{
+					Token = String.valueOf(user.getId()) + "MOBILE" + String.valueOf(System.currentTimeMillis());
+					Token = Des3.encode(Token,baseConstant.getSecretKey());
+					redisTemplate.opsForValue().set(user.getId() + "MobileToken",Token,baseConstant.getExpireTime(), TimeUnit.MINUTES);
+				}
+
+				if(isSource.equals("2"))//PC端
+				{
+					Token  = String.valueOf(user.getId()) + "PC" + String.valueOf(System.currentTimeMillis());
+					Token = Des3.encode(Token,baseConstant.getSecretKey());
+					redisTemplate.opsForValue().set(user.getId() + "PcToken",Token,baseConstant.getExpireTime(), TimeUnit.MINUTES);
+				}
+			} catch (Exception e) {
+				log.info("用户登录异常",e.getMessage());
+				return StringUtil.returnResponseVo(-1,"失败","","","");
+			}
+			return StringUtil.returnResponseVo(0,"登录成功",Token,String.valueOf(user.getId()),"");
+		}
+		else
+		{
+			return StringUtil.returnResponseVo(-1,"登录失败","","","");
+		}
+	}
+
+	@Override
+	public ResponseParamVo getUserList(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		try {
+			Integer pageNumber = (Integer) bodyMap.get("pageNum");
+			Integer pageSize = (Integer) bodyMap.get("pageSize");
+			PageHelper.startPage(pageNumber,pageSize);
+			List<User> userList = userDao.getUserList();
+			PageInfo<User> pageInfo = new PageInfo<>(userList);
+			return StringUtil.returnResponseVo(0,"获取用户列表成功","","",pageInfo);
+		} catch (Exception e) {
+			log.info("获取用户列表异常",e.getMessage());
+			return StringUtil.returnResponseVo(-1,"获取用户列表异常","","","");
+		}
+	}
+
+}

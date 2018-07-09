@@ -1,0 +1,25 @@
+
+@squid:S1148™"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ
+osquid:S00117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤ò»™úÿÿÿÿ
+Vsquid:S1155ò">Use isEmpty() to check whether the collection is empty or not.(ğí»ï
+dsquid:S1858¬"L"writeValueAsString" returns a string, there's no need to call "toString()".( Ö®Î
+csquid:CommentedOutCodeLineÉ"<This block of commented-out lines of code should be removed.(Î×âÂ
+jsquid:S3776£"RRefactor this method to reduce its Cognitive Complexity from 17 to the 15 allowed.(Ûğı¼
+[squid:S1155Œ">Use isEmpty() to check whether the collection is empty or not.(­ÌŸÌùÿÿÿÿ
+lsquid:UselessImportCheck"HRemove this unused import 'com.fasterxml.jackson.databind.ObjectMapper'.(´‘¨™
+dsquid:S1858ó"L"writeValueAsString" returns a string, there's no need to call "toString()".( Ö®Î
+csquid:CommentedOutCodeLineı"<This block of commented-out lines of code should be removed.(¶ùÓ™
+[squid:S1155©">Use isEmpty() to check whether the collection is empty or not.(ÑàÃØşÿÿÿÿ
+dsquid:S1858—"L"writeValueAsString" returns a string, there's no need to call "toString()".( Ö®Î
+Psquid:UselessImportCheck"-Remove this unused import 'org.slf4j.Logger'.(íØ®6
+csquid:CommentedOutCodeLine"<This block of commented-out lines of code should be removed.(à¡“ë
+hsquid:CommentedOutCodeLine²"<This block of commented-out lines of code should be removed.(ÆÃ€Ïùÿÿÿÿ
+osquid:S00117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤ò»™úÿÿÿÿ
+osquid:S00117„"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(€Êúÿÿÿÿ
+osquid:S3776¦"RRefactor this method to reduce its Cognitive Complexity from 16 to the 15 allowed.(ÅËãÓøÿÿÿÿ
+Zsquid:S1155\">Use isEmpty() to check whether the collection is empty or not.(»Ó±«ıÿÿÿÿ
+Usquid:S1155v">Use isEmpty() to check whether the collection is empty or not.(Ø«·Å
+Xsquid:UselessImportCheck"4Remove this unused import 'org.slf4j.LoggerFactory'.(–ÿÚŞ
+<squid:S3457n"%String contains no format specifiers.(ÎóŠœ
+fsquid:S1192¬"IDefine a constant instead of duplicating this literal "goods_id" 7 times.(×Øªàüÿÿÿÿ
+osquid:S00117í"QRename this local variable to match the regular expression '^[a-z][a-zA-Z0-9]*$'.(¤ò»™úÿÿÿÿ

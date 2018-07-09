@@ -1,0 +1,2 @@
+bussinessConstant : #业务常量
+  urls: login*getuserinfo*getSizeOfClass

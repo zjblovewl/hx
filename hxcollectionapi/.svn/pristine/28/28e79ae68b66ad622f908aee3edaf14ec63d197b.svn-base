@@ -1,0 +1,94 @@
+/**     
+ * @文件名称: StudentServiceImpl.java  
+ * @类路径: 	cn.com.service.impl  
+ * @描述: 	TODO  
+ * @作者：	user 
+ * @时间：	2018年1月2日 下午4:00:12  
+ * @版本：V1.0     
+ */
+package cn.com.mobile.user.service.impl;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.util.Des3;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.mobile.user.dao.UserDao;
+import cn.com.mobile.user.service.UserService;
+import cn.com.model.user.User;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.stereotype.Service;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+/**  
+ * @类功能说明：  
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：user  
+ * @创建时间：2018年1月2日 下午4:00:12  
+ * @版本：V1.0  
+ */
+@Service
+public class UserServiceImpl implements UserService {
+
+	private static final Logger log = LoggerFactory.getLogger(UserServiceImpl.class);
+
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+	@Autowired
+	private RedisTemplate redisTemplate;
+
+	@Override
+	public ResponseParamVo login(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		User user = userDao.login(bodyMap.get("userName").toString(),bodyMap.get("passWord").toString());
+		if(user != null)
+		{
+			Map<String,Object> resultBodyMap = null;
+			try {
+				String Token  = String.valueOf(user.getId()) + String.valueOf(System.currentTimeMillis());
+				resultBodyMap = new HashMap<String, Object>();
+				Token = Des3.encode(Token,baseConstant.getSecretKey());
+				redisTemplate.opsForValue().set(user.getId() + "Token",Token);
+				resultBodyMap.put("Token", Token);
+				resultBodyMap.put("userId", user.getId());
+			} catch (Exception e) {
+				log.info("用户登录异常",e.getMessage());
+				return StringUtil.returnResponseVo(-1,"失败",resultBodyMap);
+			}
+			return StringUtil.returnResponseVo(0,"登录成功",resultBodyMap);
+		}
+		else
+		{
+			return StringUtil.returnResponseVo(-1,"登录失败","");
+		}
+	}
+
+	@Override
+	public ResponseParamVo getUserList(RequestParamVo vo) {
+		Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+		try {
+			Integer pageNumber = (Integer) bodyMap.get("pageNum");
+			Integer pageSize = (Integer) bodyMap.get("pageSize");
+			PageHelper.startPage(pageNumber,pageSize);
+			List<User> userList = userDao.getUserList();
+			PageInfo<User> pageInfo = new PageInfo<>(userList);
+			return StringUtil.returnResponseVo(0,"获取用户列表成功",pageInfo);
+		} catch (Exception e) {
+			log.info("获取用户列表异常",e.getMessage());
+			return StringUtil.returnResponseVo(-1,"获取用户列表异常","");
+		}
+	}
+
+}

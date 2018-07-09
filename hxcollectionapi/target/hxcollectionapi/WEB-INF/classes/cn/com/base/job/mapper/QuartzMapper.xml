@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.base.job.dao.QuartzMapper" >
+  <resultMap id="BaseResultMap" type="cn.com.model.job.JobAndTrigger" >
+    <id column="job_name" property="jobName" jdbcType="VARCHAR" />
+    <id column="job_group" property="jobGroup" jdbcType="VARCHAR" />
+    <id column="job_class_name" property="jobClassName" jdbcType="VARCHAR" />
+    <id column="trigger_name" property="triggerName" jdbcType="VARCHAR" />
+    <id column="trigger_group" property="triggerGroup" jdbcType="VARCHAR" />
+    <result column="repeat_interval" property="repeatInterval" jdbcType="NUMERIC" />
+    <result column="times_triggered" property="timesTriggered" jdbcType="NUMERIC" />
+  </resultMap>
+
+  <!--分页查询所有 -->
+  <select id="getJobList" resultMap="BaseResultMap">
+    SELECT
+        qrtz_job_details.JOB_NAME,
+        qrtz_job_details.JOB_GROUP,
+        qrtz_job_details.JOB_CLASS_NAME,
+        qrtz_triggers.TRIGGER_NAME,
+        qrtz_triggers.TRIGGER_GROUP,
+        qrtz_simple_triggers.REPEAT_INTERVAL,
+        qrtz_simple_triggers.TIMES_TRIGGERED
+    FROM
+        hxdb.qrtz_job_details qrtz_job_details
+    left JOIN hxdb.qrtz_triggers qrtz_triggers ON qrtz_job_details.JOB_NAME = qrtz_triggers.JOB_NAME
+    left JOIN hxdb.qrtz_simple_triggers on qrtz_triggers.TRIGGER_NAME = qrtz_simple_triggers.TRIGGER_NAME
+    AND qrtz_triggers.TRIGGER_GROUP = qrtz_simple_triggers.TRIGGER_GROUP
+  </select>
+</mapper>

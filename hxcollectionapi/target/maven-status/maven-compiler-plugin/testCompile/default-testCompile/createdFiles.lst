@@ -1,0 +1,16 @@
+base\job\JobControllerTest.class
+mobile\transaction\controller\TransactionMobileControllerTest.class
+mobile\user\controller\UserMobileControllerTest.class
+third\jpush\JpushUtilsTest.class
+pc\auction\controller\AuctionPcControllerTest.class
+mobile\wallet\controller\WalletMobileControllerTest.class
+pc\transaction\controller\TransactionPcControllerTest.class
+mobile\auction\controller\AuctionMobileControllerTest.class
+mobile\order\controller\OrderMobileControllerTest.class
+pc\order\controller\OrderPcControllerTest.class
+mobile\file\FileControllerTest.class
+third\express\ExpressControllerTest.class
+mobile\user\service\UserServiceImplTest.class
+pc\wallet\controller\WalletPcControllerTest.class
+mobile\BaseControllerTest.class
+mobile\message\controller\MessageMobileControllerTest.class

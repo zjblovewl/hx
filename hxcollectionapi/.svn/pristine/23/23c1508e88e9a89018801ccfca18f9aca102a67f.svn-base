@@ -1,0 +1,87 @@
+package cn.com.mobile.auction.controller;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamHeader;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.mobile.auction.service.AuctionMobileService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.RestController;
+
+import javax.servlet.http.HttpServletRequest;
+
+/**
+ * @类功能说明：拍卖Controller
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：2018/3/28 上午15:39
+ * @版本：V1.0
+ */
+@RestController
+@RequestMapping("/api/auctionmobile")
+public class AuctionMobileController {
+
+    private static final Logger log = LoggerFactory.getLogger(AuctionMobileController.class);
+
+    private ObjectMapper objectMapper = new ObjectMapper();
+
+    @Autowired
+    private BaseConstant baseConstant;
+
+    @Autowired
+    private AuctionMobileService auctionMobileService;
+
+    /**
+     * @description 根据类型获取大小类
+     * @method  getSizeOfClass
+     * @param  * @param request
+     * @return cn.com.base.vo.ResponseParamVo
+     * @date: 2018/3/30 14:37:15
+     * @author:zhoujinbing
+     */
+    @RequestMapping(value = "/getSizeOfClass",method = RequestMethod.POST)
+    public @ResponseBody ResponseParamVo getSizeOfClass(HttpServletRequest request)
+    {
+        ResponseParamVo result = null;
+        String requestJson = (String) request.getAttribute("requestJson");
+        log.info("请求参数 ： " + requestJson);
+
+        RequestParamVo vo = null;
+        try {
+            vo = objectMapper.readValue(requestJson, RequestParamVo.class);
+            result = auctionMobileService.getSizeOfClass(vo);
+        } catch (Exception e) {
+            return getResponseParamVo(e);
+        }
+        return result;
+    }
+
+    /**
+     * @description 返回错误结果封装方法
+     * @method  getResponseParamVo
+     * @param  * @param e
+     * @return cn.com.base.vo.ResponseParamVo
+     * @date: 2018/3/30 09:25:01
+     * @author:zhoujinbing
+     */
+    private ResponseParamVo getResponseParamVo(Exception e) {
+        ResponseParamVo result;
+        result = new ResponseParamVo();
+        ResponseParamHeader header = new ResponseParamHeader();
+        header.setRespCode(baseConstant.getErrorCode());
+        header.setRespMsg("解密后的请求参数解析成对象出错。");
+        result.setHeader(header);
+        log.error((String) header.getRespMsg(), e);
+        return result;
+    }
+
+
+
+
+}

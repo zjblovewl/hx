@@ -1,0 +1,468 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.mobile.user.dao.UserDao">
+	<sql id="Base_Column_List">
+		id, nick_name,
+		phone,password,wallet_balance,wallet_pwd,city_code,register_time,login_time,login_num,is_authentication,
+		sex,autograph,credit,create_time,update_time,is_lock,lock_time,lock_days,image_ids,del_flag,is_flag_nick_name
+	</sql>
+	<!-- 查询所有用户 -->
+	<select id="getUserList" resultType="java.util.Map"
+		parameterType="map">
+      select COALESCE(a.city,'') as city,t.id, t.nick_name,
+	  t.phone,t.password,COALESCE(t.wallet_balance,0) as wallet_balance,
+      COALESCE(t.wallet_pwd,'') as wallet_pwd,COALESCE(t.city_code,'') as city_code,
+     hxdb.datestr_to_timestamp(to_char(t.register_time,'YYYY-MM-DD HH24:MI:SS')) as register_time,
+      hxdb.datestr_to_timestamp(to_char(t.login_time,'YYYY-MM-DD HH24:MI:SS')) as login_time,
+      t.login_num,t.is_authentication,
+	  t.sex,COALESCE(t.autograph,'') as autograph,t.credit,
+       hxdb.datestr_to_timestamp(to_char(t.create_time,'YYYY-MM-DD HH24:MI:SS')) as create_time,
+	   hxdb.datestr_to_timestamp(to_char(t.update_time,'YYYY-MM-DD HH24:MI:SS')) as update_time,
+	   hxdb.datestr_to_timestamp(to_char(t.lock_time,'YYYY-MM-DD HH24:MI:SS')) as lock_time,
+      t.lock_days,m.image1_url as head_image_urls,t.del_flag,
+	  t.is_flag_nick_name,t.lock_reason,t.is_recommend,t.sort,
+	  CASE WHEN lock_date> NOW() THEN '0'
+	  ELSE '1'
+	  END as is_lock
+			 from 
+		(
+		SELECT u.*,n.lock_date from hxdb.hx_user u 
+		inner JOIN 
+		(SELECT id,lock_time + (lock_days || ' D')::interval as lock_date FROM hxdb.hx_user
+		) n on n.id=u.id) t 
+		LEFT JOIN hxdb.sys_area a on a.code=T.city_code
+        left join hxdb.hx_images_user_rel y on y.service_id=t.id 
+	    left join hxdb.sys_images m on y.image_id=m.id
+		where 1=1
+
+		<if test="userId!='' and userId!=null">
+			and t.id = #{userId}
+		</if>
+
+		<if test="phone!='' and phone!=null">
+			and t.phone = #{phone}
+		</if>
+		<if test="password!='' and password!=null">
+			and t.password = #{password}
+		</if>
+		and t.del_flag='0'
+	</select>
+	<!-- 用户登录 -->
+	<select id="login" resultType="java.util.Map" parameterType="map">
+      select COALESCE(a.city,'') as city,t.id, t.nick_name,
+	  t.phone,t.password,COALESCE(t.wallet_balance,0) as wallet_balance,
+      COALESCE(t.wallet_pwd,'') as wallet_pwd,COALESCE(t.city_code,'') as city_code,
+     hxdb.datestr_to_timestamp(to_char(t.register_time,'YYYY-MM-DD HH24:MI:SS')) as register_time,
+      hxdb.datestr_to_timestamp(to_char(t.login_time,'YYYY-MM-DD HH24:MI:SS')) as login_time,
+      t.login_num,t.is_authentication,
+	  t.sex,COALESCE(t.autograph,'') as autograph,t.credit,
+       hxdb.datestr_to_timestamp(to_char(t.create_time,'YYYY-MM-DD HH24:MI:SS')) as create_time,
+	   hxdb.datestr_to_timestamp(to_char(t.update_time,'YYYY-MM-DD HH24:MI:SS')) as update_time,
+	   hxdb.datestr_to_timestamp(to_char(t.lock_time,'YYYY-MM-DD HH24:MI:SS')) as lock_time,
+      t.lock_days,m.image1_url as head_image_urls,t.del_flag,
+	  t.is_flag_nick_name,t.lock_reason,t.is_recommend,t.sort,
+	  CASE WHEN lock_date> NOW() THEN '0'
+	  ELSE '1'
+	  END as is_lock
+			 from 
+		(
+		SELECT u.*,n.lock_date from hxdb.hx_user u 
+		inner JOIN 
+		(SELECT id,lock_time + (lock_days || ' D')::interval as lock_date FROM hxdb.hx_user 
+		) n on n.id=u.id) t 
+		LEFT JOIN hxdb.sys_area a on a.code=T.city_code
+        left join hxdb.hx_images_user_rel y on y.service_id=t.id 
+	    left join hxdb.sys_images m on y.image_id=m.id
+		where 1=1
+		<if test="phone!='' and phone!=null">
+			and t.phone = #{phone}
+		</if>
+		<if test="password!='' and password!=null">
+			and t.password = #{password}
+		</if>
+         and t.del_flag='0'
+
+</select>
+
+	<!-- 新增短信数据 -->
+	<insert id="insertMessageRecord" parameterType="map">
+		insert into hxdb.hx_short_message_record
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="phone != '' and phone!=null">
+				phone,
+			</if>
+			<if test="messageType != '' and messageType!=null">
+				message_type,
+			</if>
+			<if test="messageCode != '' and messageCode!=null">
+				message_code,
+			</if>
+			<if test="messageContent != '' and messageContent!=null">
+				message_content,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != '' and phone!=null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="messageType != '' and messageType!=null">
+				#{messageType,jdbcType=VARCHAR},
+			</if>
+			<if test="messageCode != '' and messageCode!=null">
+				#{messageCode,jdbcType=VARCHAR},
+			</if>
+			<if test="messageContent != '' and messageContent!=null">
+				#{messageContent,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 新增用户数据 -->
+	<insert id="insertRegisterUser" parameterType="map">
+		insert into hxdb.hx_user
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="phone != '' and phone!=null">
+				nick_name,
+			</if>
+			<if test="phone != '' and phone!=null">
+				phone,
+			</if>
+			<if test="password != '' and password!=null">
+				password,
+			</if>
+			login_num,
+			is_authentication
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != '' and phone!=null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != '' and phone!=null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			<if test="password != '' and password!=null">
+				#{password,jdbcType=VARCHAR},
+			</if>
+			  0,
+			  0
+		</trim>
+	</insert>
+
+	<!-- 查询号码是否已经注册 -->
+	<select id="selectCountByPhone" resultType="java.lang.Integer" parameterType="map">
+		SELECT count(1)
+		FROM
+		hxdb.hx_user
+		WHERE phone=#{phone}
+	</select>  
+
+	<!-- 查询省市信息 -->
+	<select id="queryAreaInfo" resultType="map">
+		with RECURSIVE cte as
+		(
+		select id,code,province,city,parent from hxdb.sys_area a where
+		parent='1'
+		union all
+		select k.id,k.code,k.province,k.city,k.parent from
+		hxdb.sys_area k inner join
+		cte c on c.parent = k.id
+		)select
+		id,code,province,city,parent from hxdb.sys_area cte where province !=''
+		or city !=''
+	</select>
+
+	<!-- 修改用户数据 -->
+	<update id="updateUserInfo" parameterType="map">
+		update hxdb.hx_user
+		<set>
+			<if test="nickName != null and nickName != ''">
+				nick_name = #{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="sex != null and sex != ''">
+				sex = #{sex,jdbcType=VARCHAR},
+			</if>
+			<if test="isFlagNickName != null and isFlagNickName != ''">
+				is_flag_nick_name = #{isFlagNickName,jdbcType=VARCHAR},
+			</if>
+			<if test="autograph != null and autograph != ''">
+				autograph = #{autograph,jdbcType=VARCHAR},
+			</if>
+			<if test="cityCode != null and cityCode != ''">
+				city_code = #{cityCode,jdbcType=VARCHAR},
+			</if>
+			<if test="walletPwd != null and walletPwd != ''">
+				wallet_pwd = #{walletPwd,jdbcType=VARCHAR},
+			</if>
+			is_authentication=1,
+			update_time=now()
+		</set>
+		where id=#{userId}
+	</update>
+	
+	
+	<!-- 找回密码 -->
+	<update id="forgotPwd" parameterType="map">
+		update hxdb.hx_user
+		<set>
+			<if test="password != null and password != ''">
+				password = #{password,jdbcType=VARCHAR},
+			</if>
+			update_time=now()
+		</set>
+		where phone=#{phone}
+	</update>
+	
+
+	<!-- 新增地址信息 -->
+	<insert id="saveAddress">
+		insert into hxdb.hx_my_receive_address
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="userId != '' and userId!=null">
+				user_id,
+			</if>
+			<if test="receiveUser != '' and receiveUser!=null">
+				receive_user,
+			</if>
+			<if test="receiveAddress != '' and receiveAddress!=null">
+				receive_address,
+			</if>
+			<if test="contactPhone != '' and contactPhone!=null">
+				contact_phone,
+			</if>
+			<if test="isDefault != '' and isDefault!=null">
+				is_default,
+			</if>
+		</trim>
+
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != '' and userId!=null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveUser != '' and receiveUser!=null">
+				#{receiveUser,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveAddress != '' and receiveAddress!=null">
+				#{receiveAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPhone != '' and contactPhone!=null">
+				#{contactPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != '' and isDefault!=null">
+				#{isDefault,jdbcType=VARCHAR},
+			</if>
+		</trim>
+
+	</insert>
+
+
+	<!-- 修改地址信息 -->
+	<update id="updateAddress">
+		update hxdb.hx_my_receive_address
+		<set>
+			<if test="userId != null and userId != ''">
+				user_id = #{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveUser != '' and receiveUser!=null">
+				receive_user= #{receiveUser,jdbcType=VARCHAR},
+			</if>
+			<if test="receiveAddress != null and receiveAddress != ''">
+				receive_address = #{receiveAddress,jdbcType=VARCHAR},
+			</if>
+			<if test="contactPhone != null and contactPhone != ''">
+				contact_phone = #{contactPhone,jdbcType=VARCHAR},
+			</if>
+			<if test="isDefault != null and isDefault != ''">
+				is_default = #{isDefault,jdbcType=VARCHAR},
+			</if>
+			update_time=now(),
+		</set>
+        where id =#{addressId}
+	</update>
+
+	<!-- 查询地址信息 -->
+	<select id="selectAddressInfo" parameterType="map" resultType="java.util.Map">
+		select
+		id,user_id,receive_address,receive_user,contact_phone,is_default,extract(epoch from to_timestamp(to_char(create_time,'YYYY-MM-DD HH24:MI:SS'), 'YYYY-MM-DD HH24:MI:SS')) create_time
+		from hxdb.hx_my_receive_address
+		where 1=1
+		<if test="addressId!='' and addressId!=null">
+			and id=#{addressId}
+		</if>
+		<if test="userId!='' and userId!=null">
+			and user_id=#{userId}
+		</if>
+	</select>
+
+	<!-- 插入登录信息 -->
+	<insert id="insertLoginLog" parameterType="map">
+		insert into hxdb.hx_user_login_log
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId != null">
+				id,
+			</if>
+			<if test="nickName != '' and nickName != null">
+				nick_name,
+			</if>
+			<if test="phone != '' and phone != null">
+				phone,
+			</if>
+			
+				login_num,
+			
+			<if test="version != '' and version != null">
+				version,
+			</if>
+			<if test="equipmentInformation != '' and equipmentInformation != null">
+				equipment_information
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId != null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != '' and nickName != null">
+				#{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="phone != '' and phone != null">
+				#{phone,jdbcType=VARCHAR},
+			</if>
+			    0,
+			<if test="version != '' and version != null">
+				#{version,jdbcType=VARCHAR},,
+			</if>
+			<if test="equipmentInformation != '' and equipmentInformation != null">
+				#{equipmentInformation,jdbcType=VARCHAR},
+			</if>
+		</trim>
+
+	</insert>
+	
+	
+		<!-- 更新登录信息 -->
+	<update id="updateLoginLogName">
+		update hxdb.hx_user_login_log
+		<set>
+			<if test="nickName != null and nickName != ''">
+				nick_name = #{nickName,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE phone=#{phone}
+	</update>
+	
+	<!-- 更新登录信息 -->
+	<update id="updateUserLoginSum">
+		update hxdb.hx_user
+		<set>
+			login_num = login_num+1,
+			login_time=now()
+		</set>
+		WHERE phone=#{phone}
+	</update>
+	
+	  <!-- 保存操作日志 -->
+  <insert id="saveLog" parameterType="java.util.HashMap">
+  		insert into hxdb.sys_operation_log(id,user_name,ip_address,operation,error_msg,create_time)
+		values(#{id},#{userName},#{ipAddress},#{operation},#{errorMsg},now());
+  </insert>
+  
+  
+  	<!-- 新增用户反馈建议数据 -->
+	<insert id="saveOpinionFeedbac" parameterType="map">
+		insert into hxdb.hx_user_opinion_feedbac
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="nickName != '' and nickName!=null">
+				nick_name,
+			</if>
+			<if test="feedbackContent != '' and feedbackContent!=null">
+				feedback_content,
+			</if>
+			<if test="processingState != '' and processingState!=null">
+                processing_state
+             </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="nickName != '' and nickName!=null">
+				#{nickName,jdbcType=VARCHAR},
+			</if>
+			<if test="feedbackContent != '' and feedbackContent!=null">
+				#{feedbackContent,jdbcType=VARCHAR},
+			</if>
+			<if test="processingState != '' and processingState!=null">
+				#{processingState,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	
+		<!-- 更新用户反馈建议信息 -->
+	<update id="updateOpinionFeedbac">
+		update hxdb.hx_user_opinion_feedbac
+		<set>
+			<if test="processingState != null and processingState != ''">
+				processing_state = #{processingState,jdbcType=VARCHAR},
+			</if>
+			submit_time=now()
+		</set>
+		WHERE id=#{opinionFeedbacId}
+	</update>
+	
+	
+	
+	 	<!-- 新增用户实名认证数据 -->
+	<insert id="realnameAuthentication" parameterType="map">
+		insert into hxdb.hx_realname_authentication
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				id,
+			</if>
+			<if test="userId != '' and userId!=null">
+				user_id,
+			</if>
+			<if test="realName != '' and realName!=null">
+				real_name,
+			</if>
+			<if test="idNumber != '' and idNumber!=null">
+                id_number
+             </if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="uuId != '' and uuId!=null">
+				#{uuId,jdbcType=VARCHAR},
+			</if>
+			<if test="userId != '' and userId!=null">
+				#{userId,jdbcType=VARCHAR},
+			</if>
+			<if test="realName != '' and realName!=null">
+				#{realName,jdbcType=VARCHAR},
+			</if>
+			<if test="idNumber != '' and idNumber!=null">
+				#{idNumber,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+</mapper>

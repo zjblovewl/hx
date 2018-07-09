@@ -1,0 +1,3 @@
+bussinessConstant : #业务常量,在换行时使用 \
+  urls: login*getuserinfo*getSizeOfClass*addGoodsOfferRecord*getGoodsOfferRecord*getGoodsByType*getGoodsRecords\
+  *getGoodsInfoById

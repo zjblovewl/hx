@@ -1,0 +1,402 @@
+package cn.com.mobile.transaction.service.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+
+import cn.com.base.constant.BaseConstant;
+import cn.com.base.service.ImageService;
+import cn.com.base.util.StringUtil;
+import cn.com.base.vo.RequestParamVo;
+import cn.com.base.vo.ResponseParamVo;
+import cn.com.base.vo.imageenum.ImageTableName;
+import cn.com.mobile.transaction.dao.TransactionMobileMapper;
+import cn.com.mobile.transaction.service.TransactionMobileService;
+import cn.com.model.auction.SysImageService;
+import cn.com.util.CommonUtils;
+import cn.com.util.NumberUtil;
+
+/**  
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：chenchen  
+ * @创建时间：2018年4月2日 上午9:16:15 
+ * @版本：V1.0  
+ */
+@Service
+public class TransactionMobileServiceImpl implements TransactionMobileService{
+	private static final Logger log = LoggerFactory.getLogger(TransactionMobileServiceImpl.class);
+	
+	@Autowired
+    private BaseConstant baseConstant;
+	
+	@Autowired
+	private TransactionMobileMapper transactionMobileMapper;
+	
+	@Autowired
+    private ImageService imageService;
+	
+	/**
+	 * 发布收藏品
+	 * @description 
+	 * @method  publishGoods
+	 * @param @param vo
+	 * @return void
+	 * @date: 2018年4月2日 上午9:58:18
+	 * @author:chenchen
+	 */
+	public ResponseParamVo publishGoods(RequestParamVo vo){
+		try{		
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();      
+            String uuid = CommonUtils.getUUID();
+            bodyMap.put("uuid", uuid); 
+            String imageIds = bodyMap.get("image_ids").toString();                       
+            Integer sort = 0;
+            List<SysImageService> imageServiceList = new ArrayList<>();
+            SysImageService imageRel = null;
+            for(String str : imageIds.split(","))
+            {
+                sort++;
+                imageRel = new SysImageService();
+                imageRel.setId(NumberUtil.getSysJournalNo(32,false));
+                imageRel.setImageId(str);
+                imageRel.setServiceId(uuid);
+                imageRel.setSort(sort);
+                imageServiceList.add(imageRel);
+            }
+            imageService.batchSaveImageService(imageServiceList, ImageTableName.GOODS_TABLE_NAME.getTableName());
+            
+            transactionMobileMapper.publishGoods(bodyMap);         
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"发布收藏品成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("发布收藏品异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"发布收藏品异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 查询收藏品数据
+	 * @description 
+	 * @method  getGoodsRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月3日 上午11:07:57
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getGoodsRecords(RequestParamVo vo){
+		try{			
+			JSONObject jsonObj = new JSONObject();
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();            
+            PageHelper.startPage(Integer.parseInt(bodyMap.get("page_num").toString()), Integer.parseInt(bodyMap.get("page_size").toString()));
+            List<Map<String, Object>> goodsList = transactionMobileMapper.getGoodsRecords(bodyMap);                     
+            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(goodsList);
+            jsonObj.put("goods_list", pageInfo.getList());
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询收藏品成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("查询收藏品异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询收藏品异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 转换图片id格式
+	 * @description 
+	 * @method  getImageIds
+	 * @param @param imageIds
+	 * @param @return
+	 * @return String
+	 * @date: 2018年4月3日 下午2:22:22
+	 * @author:chenchen
+	 */
+	public static String getImageIds (String imageIds){
+		String result = "";
+		String[] imageIdArr = imageIds.split(",");
+		if(imageIdArr != null && imageIdArr.length > 0){
+			for (int i = 0; i < imageIdArr.length; i++) {
+				if(i == 0){
+					result += "'" + imageIdArr[i] + "'";	
+				}else{
+					result += ",'" + imageIdArr[i] + "'";
+				}				
+			}
+		}
+		return result;
+	}	
+	
+	/**
+	 * 查询收藏品详情
+	 * @description 
+	 * @method  getGoodsInfoById
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月4日 下午3:19:16
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getGoodsInfoById(RequestParamVo vo){		
+		JSONObject jsonObj = new JSONObject();		
+		Map<String, Object> paramsMap = new HashMap<String, Object>();
+		try{			
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();    
+            paramsMap.put("goods_id", bodyMap.get("goods_id"));
+            Map<String, Object> goodsMap = transactionMobileMapper.getGoodsInfoById(bodyMap);
+            if(goodsMap != null && goodsMap.size() > 0){
+            	paramsMap.put("userId", goodsMap.get("user_id"));          
+            }
+            //用户信息
+            Map<String, Object> userMap = transactionMobileMapper.getUserInfoByUserId(paramsMap);                      
+            //我的在售宝贝（收藏品）
+            int inSaleNum = transactionMobileMapper.getInSaleOfMyGoods(paramsMap);
+            //我的已售宝贝（收藏品）
+            int outSaleNum = transactionMobileMapper.getOutSaleOfMyGoods(paramsMap);
+            //卖家店铺评论总分
+            int totalScore = transactionMobileMapper.getTotalScoreOfMyShop(paramsMap);
+            //卖家店铺总评论数
+            int totalOrder = transactionMobileMapper.getTotalOrderOfMyShop(paramsMap);
+            //收藏品详情
+            jsonObj.put("goods_info", JSONObject.fromObject(goodsMap));
+            //用户信息
+            JSONObject userObj = new JSONObject();
+            userObj.put("user_id", userMap.get("user_id"));            
+            userObj.put("head_image_url", userMap.get("small_image_urls"));
+            userObj.put("nick_name", userMap.get("nick_name"));
+            userObj.put("in_sale_num", inSaleNum);      
+            userObj.put("out_sale_num", outSaleNum);      
+            if(totalOrder > 0){
+            	userObj.put("praise_rate", NumberUtil.divide(totalScore, totalOrder));
+            }else{
+            	userObj.put("praise_rate", 100);
+            }
+            jsonObj.put("user_info", userObj);
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"获取收藏品详情成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("获取收藏品详情异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"获取收藏品详情异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 保存商品评论和回复(公用)
+	 * @description 
+	 * @method  saveGoodsComment
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月8日 下午2:49:32
+	 * @author:chenchen
+	 */
+	public ResponseParamVo saveGoodsComment(RequestParamVo vo){
+		try{		
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();      
+            bodyMap.put("uuid", CommonUtils.getUUID());
+            transactionMobileMapper.saveGoodsComment(bodyMap);         
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"保存收藏品评论成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("保存收藏品评论异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"保存收藏品评论异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 收藏收藏品
+	 * @description 
+	 * @method  saveGoodsCollection
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月9日 上午9:35:00
+	 * @author:chenchen
+	 */
+	public ResponseParamVo saveGoodsCollection(RequestParamVo vo){
+		try{		
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();      
+            bodyMap.put("uuid", CommonUtils.getUUID());
+            transactionMobileMapper.saveGoodsCollection(bodyMap);         
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"收藏收藏品成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("收藏收藏品异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"收藏收藏品异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 获取首页数据（收藏品）
+	 * @description 
+	 * @method  getHomePageRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月9日 下午2:48:18
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getHomePageRecords(RequestParamVo vo){
+		try{		
+			JSONObject jsonObj = new JSONObject();
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+            PageHelper.startPage(Integer.parseInt(bodyMap.get("page_num").toString()), Integer.parseInt(bodyMap.get("page_size").toString()));
+            //首页广告
+            List<Map<String, Object>> homePageAdvertisementList = transactionMobileMapper.getHomePageAdvertisement();
+            //首页商品大类分类
+            List<Map<String, Object>> goodsBigClassList = transactionMobileMapper.getGoodsBigClassification();
+            //获取首页收藏品记录
+            List<Map<String, Object>> homePageGoodsRecords = transactionMobileMapper.getHomePageGoodsRecords();
+                        
+            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(homePageGoodsRecords);
+            
+            jsonObj.put("advertisement", JSONArray.fromObject(homePageAdvertisementList));
+            jsonObj.put("big_class_list", JSONArray.fromObject(goodsBigClassList));
+            jsonObj.put("goods_list", pageInfo.getList());
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询首页数据成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("查询首页数据异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询首页数据异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 获取我的收藏品
+	 * @description 
+	 * @method  getMyGoodsRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月12日 下午2:34:37
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getMyGoodsRecords(RequestParamVo vo){
+		try{			
+			JSONObject jsonObj = new JSONObject();
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();
+            PageHelper.startPage(Integer.parseInt(bodyMap.get("page_num").toString()), Integer.parseInt(bodyMap.get("page_size").toString()));
+            List<Map<String, Object>> goodsList = null;
+            //1：在售 2：已下架 3：已售出
+            if("1".equals(bodyMap.get("service_type"))){
+            	goodsList = transactionMobileMapper.getMyInSaleGoodsRecords(bodyMap);	
+            }else if("2".equals(bodyMap.get("service_type"))){
+            	goodsList = transactionMobileMapper.getMyOffShelfGoodsRecords(bodyMap);
+            }else{
+            	goodsList = transactionMobileMapper.getMyOutSaleGoodsRecords(bodyMap);
+            }                                   
+            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(goodsList);
+            jsonObj.put("goods_list", pageInfo.getList());
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询我的收藏品成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("查询我的收藏品异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询我的收藏品异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 删除收藏品或拍卖
+	 * @description 
+	 * @method  deleteGoodsById
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月12日 下午3:26:30
+	 * @author:chenchen
+	 */
+	public ResponseParamVo deleteGoodsById(RequestParamVo vo){
+		try{		
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();      
+            bodyMap.put("uuid", CommonUtils.getUUID());
+            transactionMobileMapper.deleteGoodsById(bodyMap);         
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"删除收藏品成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("删除收藏品异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"删除收藏品异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 更新收藏品和拍卖上架下架状态
+	 * @description 
+	 * @method  updateGoodsStatusById
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月12日 下午3:26:59
+	 * @author:chenchen
+	 */
+	public ResponseParamVo updateGoodsStatusById(RequestParamVo vo){
+		try{		
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();      
+            bodyMap.put("uuid", CommonUtils.getUUID());
+            transactionMobileMapper.deleteGoodsById(bodyMap);         
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"更新收藏品和拍卖上架下架状态成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("更新收藏品和拍卖上架下架状态异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"更新收藏品和拍卖上架下架状态异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 我的藏品-藏品
+	 * @description 
+	 * @method  getMyCollectionRecords
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月18日 上午11:17:15
+	 * @author:chenchen
+	 */
+	public ResponseParamVo getMyCollectionRecords(RequestParamVo vo){
+		try{			
+			JSONObject jsonObj = new JSONObject();
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();            
+            PageHelper.startPage(Integer.parseInt(bodyMap.get("page_num").toString()), Integer.parseInt(bodyMap.get("page_size").toString()));
+            List<Map<String, Object>> goodsList = transactionMobileMapper.getMyCollectionRecords(bodyMap);                     
+            PageInfo<Map<String, Object>> pageInfo = new PageInfo<>(goodsList);
+            jsonObj.put("goods_list", pageInfo.getList());
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"查询我的收藏-藏品成功","","",jsonObj);               
+        }catch (Exception e)
+        {
+            log.error("查询我的收藏-藏品异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"查询我的收藏-藏品异常","","",new JSONObject());
+        }
+	}
+	
+	/**
+	 * 取消收藏
+	 * @description 
+	 * @method  deleteCollectGoods
+	 * @param @param vo
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月18日 下午4:47:23
+	 * @author:chenchen
+	 */
+	public ResponseParamVo deleteCollectGoods(RequestParamVo vo){
+		try{						
+            Map<String,Object> bodyMap = (Map<String, Object>) vo.getBody();            
+            transactionMobileMapper.deleteCollectGoods(bodyMap);                                 
+            return StringUtil.returnResponseVo(baseConstant.getRightCode(),"取消收藏成功","","",new JSONObject());               
+        }catch (Exception e)
+        {
+            log.error("取消收藏异常",e.getMessage());
+            return StringUtil.returnResponseVo(baseConstant.getErrorCode(),"取消收藏异常","","",new JSONObject());
+        }
+	}
+}

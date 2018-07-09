@@ -1,0 +1,2666 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="BookmarkManager">
+    <bookmark url="file://$PROJECT_DIR$/src/main/webapp/WEB-INF/views/h5/hello.jsp" line="12" mnemonic="4" />
+    <bookmark url="file://$PROJECT_DIR$/src/main/java/cn/com/third/ping/controller/PingPlusController.java" line="23" mnemonic="2" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" readonly="true" id="d774647f-9db5-4bbc-ae0c-9cb0963ec0c3" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/cn/com/third/ping/controller/PingPlusController.java" afterPath="$PROJECT_DIR$/src/main/java/cn/com/third/ping/controller/PingPlusController.java" />
+    </list>
+    <ignored path="$PROJECT_DIR$/target/" />
+    <ignored path="hxcollectionapi.iml" />
+    <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
+    <option name="TRACKING_ENABLED" value="true" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="CompilerWorkspaceConfiguration">
+    <option name="MAKE_PROJECT_ON_SAVE" value="true" />
+  </component>
+  <component name="CoverageDataManager">
+    <SUITE FILE_PATH="coverage/hxcollectionapi$UserMobileControllerTest_loginTest.coverage" NAME="UserMobileControllerTest.loginTest Coverage Results" MODIFIED="1522030954806" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
+      <FILTER>mobile.*</FILTER>
+    </SUITE>
+    <SUITE FILE_PATH="coverage/hxcollectionapi$App.coverage" NAME="App Coverage Results" MODIFIED="1524466057192" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+  <component name="DatabaseView">
+    <option name="SHOW_INTERMEDIATE" value="true" />
+    <option name="GROUP_DATA_SOURCES" value="true" />
+    <option name="GROUP_SCHEMA" value="true" />
+    <option name="GROUP_CONTENTS" value="false" />
+    <option name="SORT_POSITIONED" value="false" />
+    <option name="SHOW_TABLE_DETAILS" value="true" />
+    <option name="SHOW_EMPTY_GROUPS" value="false" />
+    <option name="AUTO_SCROLL_FROM_SOURCE" value="false" />
+    <expand />
+    <select />
+  </component>
+  <component name="FavoritesManager">
+    <favorites_list name="hxcollectionapi" />
+  </component>
+  <component name="FileEditorManager">
+    <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
+      <file leaf-file-name="ImageServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/base/service/impl/ImageServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="700">
+              <caret line="38" column="74" lean-forward="false" selection-start-line="38" selection-start-column="74" selection-end-line="38" selection-end-column="74" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuctionMobileServiceImpl.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/service/impl/AuctionMobileServiceImpl.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="6050">
+              <caret line="265" column="89" lean-forward="false" selection-start-line="265" selection-start-column="89" selection-end-line="265" selection-end-column="89" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ImageTableName.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/base/vo/imageenum/ImageTableName.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="525">
+              <caret line="21" column="35" lean-forward="false" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuctionMobileController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/controller/AuctionMobileController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1175">
+              <caret line="62" column="22" lean-forward="true" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AuctionMobileControllerTest.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/test/java/mobile/auction/controller/AuctionMobileControllerTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="325">
+              <caret line="220" column="0" lean-forward="true" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="TransactionMobileController.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/transaction/controller/TransactionMobileController.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="275">
+              <caret line="28" column="15" lean-forward="false" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="15" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+    </leaf>
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="package-info" />
+        <option value="CSS File" />
+        <option value="Jsp File" />
+        <option value="FxmlFile" />
+        <option value="Class" />
+      </list>
+    </option>
+  </component>
+  <component name="FindInProjectRecents">
+    <findStrings>
+      <find>minIdle</find>
+      <find>INTER</find>
+      <find>commons-</find>
+      <find>commons-lan</find>
+      <find>httpcl</find>
+      <find>commons-logging</find>
+      <find>selectListByClassType</find>
+      <find>test_trade_precreate</find>
+      <find>guava</find>
+      <find>driverDelegateClass</find>
+      <find>quartzProperties</find>
+      <find>tomcat-embed-jasper</find>
+      <find>em</find>
+      <find>getOrderCode</find>
+      <find>提现</find>
+      <find>updateUserInfo</find>
+      <find>updateUserInf</find>
+      <find>is_au</find>
+      <find>jstl</find>
+      <find>deleteImageServiceRel</find>
+      <find>imageser</find>
+      <find>convertFifteenToEighteen</find>
+      <find>dictionaryService</find>
+      <find>object</find>
+      <find>objectma</find>
+      <find>ji</find>
+      <find>api.jpush.cn/v3/push</find>
+      <find>instance</find>
+      <find>inte</find>
+      <find>getValueByKey</find>
+    </findStrings>
+    <replaceStrings>
+      <replace>auctionPcService</replace>
+      <replace>commentPcMapper</replace>
+      <replace>all</replace>
+      <replace>HttpServletRequest request, HttpServletResponse response</replace>
+      <replace>paras = AESUtils.encrypt(baseConstant.getIvString(),baseConstant.getSecretKey(),paras);</replace>
+      <replace>DATE_FORMAT_STR</replace>
+    </replaceStrings>
+  </component>
+  <component name="GradleLocalSettings">
+    <option name="externalProjectsViewState">
+      <projects_view />
+    </option>
+  </component>
+  <component name="IdeDocumentHistory">
+    <option name="CHANGED_PATHS">
+      <list>
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/util/CommonUtils.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/base/util/Des3.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/user/dao/UserDao.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/user/mapper/UserMapper.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/WalletMobileService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/model/auction/SysImageService.java" />
+        <option value="$PROJECT_DIR$/src/test/java/mobile/wallet/controller/WalletMobileControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/base/util/IdNumber.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/third/express/service/ExpressService.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/third/express/controller/ExpressController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/bussinesconstant.yml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/message/service/impl/MessageMobileServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/transaction/service/impl/TransactionMobileServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/user/service/impl/UserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/transaction/service/impl/TransactionPcServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/user/service/impl/PcUserServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/base/job/controller/JobController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/logback-spring.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/kuaidi/api/KdniaoTrackQueryAPI.java" />
+        <option value="$PROJECT_DIR$/src/test/java/third/express/ExpressControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/third/express/bean/ExpressInfo.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/third/express/bean/Trace.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/third/express/service/impl/ExpressServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/base/util/BaseLogger.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/interceptor/AppInterceptor.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/controller/AuctionMobileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/message/controller/MessageMobileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/order/controller/OrderMobileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/order/service/impl/OrderMobileServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/transaction/controller/TransactionMobileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/user/controller/UserMobileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/controller/WalletMobileController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/auction/controller/AuctionPcController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/transaction/controller/TransactionPcController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/user/controller/UserPcController.java" />
+        <option value="$PROJECT_DIR$/src/main/resources/config.properties" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jpush/api/testPush.java" />
+        <option value="$PROJECT_DIR$/src/test/java/third/jpush/JpushUtilsTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/jpush/api/util/JpushUtils.java" />
+        <option value="$PROJECT_DIR$/src/test/java/pc/auction/controller/AuctionPcControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/auction/service/impl/AuctionPcServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/service/impl/AuctionMobileServiceImpl.java" />
+        <option value="$PROJECT_DIR$/src/test/java/mobile/auction/controller/AuctionMobileControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/pc/wallet/controller/WalletPcController.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/controller/OrderMobileController.java" />
+        <option value="$PROJECT_DIR$/src/test/java/pc/wallet/controller/WalletMobileControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/test/java/pc/wallet/controller/WalletPcControllerTest.java" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/controller/ComplaintsMobileController.java" />
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/src/main/java/cn/com/third/ping/controller/PingPlusController.java" />
+      </list>
+    </option>
+  </component>
+  <component name="JsBuildToolGruntFileManager" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsBuildToolPackageJson" detection-done="true" sorting="DEFINITION_ORDER" />
+  <component name="JsGulpfileManager">
+    <detection-done>true</detection-done>
+    <sorting>DEFINITION_ORDER</sorting>
+  </component>
+  <component name="MavenImportPreferences">
+    <option name="generalSettings">
+      <MavenGeneralSettings>
+        <option name="localRepository" value="D:\maven\repository" />
+        <option name="mavenHome" value="D:/tools/apache-maven-3.5.2" />
+        <option name="userSettingsFile" value="D:\tools\apache-maven-3.5.2\conf\settings.xml" />
+      </MavenGeneralSettings>
+    </option>
+    <option name="importingSettings">
+      <MavenImportingSettings>
+        <option name="importAutomatically" value="true" />
+      </MavenImportingSettings>
+    </option>
+  </component>
+  <component name="MavenProjectNavigator">
+    <treeState>
+      <expand>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="hxcollectionapi" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="hxcollectionapi" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Lifecycle" type="58874e2:MavenProjectsStructure$LifecycleNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="hxcollectionapi" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+        </path>
+        <path>
+          <item name="" type="16c1761:MavenProjectsStructure$RootNode" />
+          <item name="hxcollectionapi" type="9519ce18:MavenProjectsStructure$ProjectNode" />
+          <item name="Plugins" type="7aea1407:MavenProjectsStructure$PluginsNode" />
+          <item name="spring-boot" type="36feed69:MavenProjectsStructure$PluginNode" />
+        </path>
+      </expand>
+      <select />
+    </treeState>
+  </component>
+  <component name="ProjectFrameBounds">
+    <option name="width" value="1440" />
+    <option name="height" value="860" />
+  </component>
+  <component name="ProjectInspectionProfilesVisibleTreeState">
+    <entry key="Project Default">
+      <profile-state>
+        <expanded-state>
+          <State>
+            <id />
+          </State>
+          <State>
+            <id>AOP</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Correctness</id>
+          </State>
+          <State>
+            <id>Android &gt; Lint &gt; Lint</id>
+          </State>
+          <State>
+            <id>Android Lint for Kotlin</id>
+          </State>
+          <State>
+            <id>Code maturity issuesJava</id>
+          </State>
+          <State>
+            <id>Code style issuesJava</id>
+          </State>
+          <State>
+            <id>Code style issuesJavaScript</id>
+          </State>
+          <State>
+            <id>CodeSpring CoreSpring</id>
+          </State>
+          <State>
+            <id>Declaration redundancyJava</id>
+          </State>
+          <State>
+            <id>Flow type checkerJavaScript</id>
+          </State>
+          <State>
+            <id>General</id>
+          </State>
+          <State>
+            <id>GeneralJavaScript</id>
+          </State>
+          <State>
+            <id>Groovy</id>
+          </State>
+          <State>
+            <id>J2ME issuesJava</id>
+          </State>
+          <State>
+            <id>JBoss Seam issues</id>
+          </State>
+          <State>
+            <id>Java</id>
+          </State>
+          <State>
+            <id>JavaScript</id>
+          </State>
+          <State>
+            <id>Method metricsJava</id>
+          </State>
+          <State>
+            <id>Performance issuesJava</id>
+          </State>
+          <State>
+            <id>Plugin DevKit</id>
+          </State>
+          <State>
+            <id>Potentially confusing code constructsGroovy</id>
+          </State>
+          <State>
+            <id>Probable bugsJava</id>
+          </State>
+          <State>
+            <id>Probable bugsJavaScript</id>
+          </State>
+          <State>
+            <id>RegExp</id>
+          </State>
+          <State>
+            <id>Spring</id>
+          </State>
+          <State>
+            <id>Spring CoreSpring</id>
+          </State>
+          <State>
+            <id>TypeScript</id>
+          </State>
+          <State>
+            <id>Verbose or redundant code constructsJava</id>
+          </State>
+        </expanded-state>
+        <selected-state>
+          <State>
+            <id>Duplicates</id>
+          </State>
+        </selected-state>
+      </profile-state>
+    </entry>
+  </component>
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+    <ConfirmationsSetting value="2" id="Remove" />
+  </component>
+  <component name="ProjectView">
+    <navigator currentView="ProjectPane" proportions="" version="1">
+      <flattenPackages ProjectPane="false" />
+      <showMembers />
+      <showModules />
+      <showLibraryContents />
+      <hideEmptyPackages />
+      <abbreviatePackageNames />
+      <autoscrollToSource />
+      <autoscrollFromSource />
+      <sortByType />
+      <manualOrder />
+      <foldersAlwaysOnTop value="true" />
+    </navigator>
+    <panes>
+      <pane id="ProjectPane">
+        <subPane>
+          <expand>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+              <item name="job" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="base" type="462c0819:PsiDirectoryNode" />
+              <item name="job" type="462c0819:PsiDirectoryNode" />
+              <item name="mapper" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="auction" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="auction" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="complaints" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="transaction" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="transaction" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="cn" type="462c0819:PsiDirectoryNode" />
+              <item name="com" type="462c0819:PsiDirectoryNode" />
+              <item name="third" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="auction" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="hxcollectionapi" type="b2602c69:ProjectViewProjectNode" />
+              <item name="hxcollectionapi" type="462c0819:PsiDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="test" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="mobile" type="462c0819:PsiDirectoryNode" />
+              <item name="auction" type="462c0819:PsiDirectoryNode" />
+              <item name="controller" type="462c0819:PsiDirectoryNode" />
+            </path>
+          </expand>
+          <select />
+        </subPane>
+      </pane>
+      <pane id="AndroidView" />
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane" />
+    </panes>
+  </component>
+  <component name="PropertiesComponent">
+    <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
+    <property name="settings.editor.selected.configurable" value="reference.settingsdialog.IDE.editor.colors.Color Scheme Font" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/hxcollectionapi.iml" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
+    <property name="project.structure.side.proportion" value="0.17107438" />
+    <property name="SearchEverywhereHistoryKey" value="pom.xml&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/pom.xml&#10;bankMapper&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/wallet/mapper/MyBankMapper.xml&#10;goodsmap&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/mapper/GoodsMapper.xml&#10;tra&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/transaction/mapper/TransactionMobileMapper.xml&#10;GoodsQueryParams&#9;PSI&#9;JAVA://cn.com.base.vo.auction.GoodsQueryParams&#10;walletpc&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/pc/wallet/controller/WalletPcController.java&#10;walletmobilecon&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/wallet/controller/WalletMobileController.java&#10;applica&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/resources/application.properties&#10;auctionmob&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/test/java/mobile/auction/controller/AuctionMobileControllerTest.java&#10;auctionpc&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/pc/auction/service/impl/AuctionPcServiceImpl.java&#10;auctionpcser&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/pc/auction/service/impl/AuctionPcServiceImpl.java&#10;auctionmobilecon&#9;PSI&#9;JAVA://mobile.auction.controller.AuctionMobileControllerTest&#10;auctionmobileser&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/service/impl/AuctionMobileServiceImpl.java&#10;jpu&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/test/java/third/jpush/JpushUtilsTest.java&#10;ex&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/third/express/controller/ExpressController.java&#10;expresscon&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/third/express/controller/ExpressController.java&#10;expre&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/test/java/third/express/ExpressControllerTest.java&#10;auctionmo&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/service/impl/AuctionMobileServiceImpl.java&#10;k&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/kuaidi/api/KdniaoTrackQueryAPI.java&#10;bank&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/wallet/mapper/MyBankMapper.xml&#10;express&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/test/java/third/express/ExpressControllerTest.java&#10;DirectJDKLog&#9;FILE&#9;jar://D:/maven/repository/org/apache/tomcat/tomcat-juli/8.5.4/tomcat-juli-8.5.4.jar!/org/apache/juli/logging/DirectJDKLog.class&#10;excu&#9;PSI&#9;JAVA://cn.com.interceptor.ExcuteTimeInterceptor&#10;hellojo&#9;PSI&#9;JAVA://cn.com.base.job.job.HelloJob&#10;auct&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/controller/AuctionMobileController.java&#10;buss&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/resources/bussinesconstant.yml&#10;auction&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/controller/AuctionMobileController.java&#10;idnu&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/base/util/IdNumber.java&#10;walle&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/wallet/service/WalletMobileService.java&#10;walletm&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/test/java/mobile/wallet/controller/WalletMobileControllerTest.java&#10;auctionser&#9;PSI&#9;JAVA://cn.com.mobile.auction.service.impl.AuctionMobileServiceImpl&#10;imageser&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/mapper/SysImageServiceMapper.xml&#10;userdao&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/user/dao/UserDao.java&#10;usermap&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/user/mapper/UserMapper.xml&#10;confi&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/resources/config.properties&#10;comm&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/util/CommonUtils.java&#10;appinte&#9;PSI&#9;JAVA://cn.com.interceptor.AppInterceptor&#10;userser&#9;PSI&#9;JAVA://cn.com.mobile.user.service.impl.UserServiceImpl&#10;usercon&#9;PSI&#9;JAVA://mobile.user.controller.UserMobileControllerTest&#10;pom&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/pom.xml&#10;wall&#9;PSI&#9;JAVA://mobile.wallet.controller.WalletMobileControllerTest&#10;inou&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/wallet/mapper/IncomeOutRecordMapper.xml&#10;goods&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/mobile/auction/mapper/GoodsMapper.xml&#10;inco&#9;PSI&#9;JAVA://cn.com.mobile.wallet.dao.IncomeOutRecordMapper&#10;con&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/base/h5/controller/ComplaintsController.java&#10;CommonUtils&#9;PSI&#9;JAVA://cn.com.util.CommonUtils&#10;comp&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/java/cn/com/base/h5/controller/ComplaintsController.java&#10;hxco&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/pom.xml&#10;auctionmobilecontro&#9;PSI&#9;JAVA://cn.com.mobile.auction.controller.AuctionMobileController&#10;hello.jsp&#9;FILE&#9;file://D:/idea_workspace/hxcollectionapi/src/main/webapp/WEB-INF/views/h5/hello.jsp" />
+    <property name="RequestMappingsPanelWidth0" value="75" />
+    <property name="RequestMappingsPanelOrder0" value="0" />
+    <property name="RequestMappingsPanelWidth1" value="75" />
+    <property name="RequestMappingsPanelOrder1" value="1" />
+    <property name="RequestMappingsPanelWidth2" value="75" />
+    <property name="RequestMappingsPanelOrder2" value="2" />
+    <property name="restartRequiresConfirmation" value="false" />
+    <property name="extract.method.default.visibility" value="private" />
+    <property name="list.type.of.created.stylesheet" value="CSS" />
+    <property name="eu.ydp.idea.ts.spec.generator.settings.spec.template" value="import {$ClassName$} from '$TestsRelativePath$../src/$classRelativePath$/$ClassName$';&#10;&#10;describe('$ClassName$', () =&gt; {&#10;  let $ObjName$:$ClassName$;&#10;&#10;  beforeEach(() =&gt; {&#10;    $ObjName$ = new $ClassName$();&#10;  });&#10;&#10;  describe('', () =&gt; {&#10;    it('', () =&gt; {&#10;      // given&#10;&#10;      // when&#10;&#10;      // then&#10;    });&#10;  });&#10;});&#10;" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com\mobile\wallet\dao" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\java\main" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\java" />
+    </key>
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com\mobile\complaints\mapper" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com\mobile\complaints\dao" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com\model\complaints" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com\model\wallet" />
+      <recent name="D:\idea_workspace\hxcollectionapi\src\main\java\cn\com\mobile\wallet\mapper" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="pc.wallet.controller" />
+      <recent name="cn.com.mobile.complaints.controller" />
+      <recent name="base.job" />
+      <recent name="cn.com.base.job.job" />
+      <recent name="cn.com.base.job.config" />
+    </key>
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="cn.com.base.job.job" />
+    </key>
+  </component>
+  <component name="RunDashboard">
+    <option name="ruleStates">
+      <list>
+        <RuleState>
+          <option name="name" value="ConfigurationTypeDashboardGroupingRule" />
+        </RuleState>
+        <RuleState>
+          <option name="name" value="StatusDashboardGroupingRule" />
+        </RuleState>
+      </list>
+    </option>
+  </component>
+  <component name="RunManager" selected="Maven.hxcollectionapi [spring-boot:run]">
+    <configuration default="true" type="Applet" factoryName="Applet">
+      <option name="HTML_USED" value="false" />
+      <option name="WIDTH" value="400" />
+      <option name="HEIGHT" value="300" />
+      <option name="POLICY_FILE" value="$APPLICATION_HOME_DIR$/bin/appletviewer.policy" />
+      <module />
+    </configuration>
+    <configuration default="true" type="Application" factoryName="Application">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="" />
+      <envs />
+    </configuration>
+    <configuration name="testPush" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="cn.jpush.api.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <option name="MAIN_CLASS_NAME" value="cn.jpush.api.testPush" />
+      <option name="VM_PARAMETERS" />
+      <option name="PROGRAM_PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="ENABLE_SWING_INSPECTOR" value="false" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <module name="hxcollectionapi" />
+      <envs />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.addGoodsOfferRecordTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="addGoodsOfferRecordTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.getAcutionCommentListTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="getAcutionCommentListTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.getGoodsByTypeTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="getGoodsByTypeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.getGoodsDetailByIdTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="getGoodsDetailByIdTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.getGoodsOfferRecordTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="getGoodsOfferRecordTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.getSessionTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="getSessionTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.getSizeOfClassTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="getSizeOfClassTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionMobileControllerTest.publishAcutionTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.auction.controller.AuctionMobileControllerTest" />
+      <option name="METHOD_NAME" value="publishAcutionTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionPcControllerTest.getOtherAuctionsByUserIdTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="pc.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="pc.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="pc.auction.controller.AuctionPcControllerTest" />
+      <option name="METHOD_NAME" value="getOtherAuctionsByUserIdTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="AuctionPcControllerTest.publishAcutionTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="pc.auction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="pc.auction.controller" />
+      <option name="MAIN_CLASS_NAME" value="pc.auction.controller.AuctionPcControllerTest" />
+      <option name="METHOD_NAME" value="publishAcutionTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="FileControllerTest.updateFileTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.file.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.file" />
+      <option name="MAIN_CLASS_NAME" value="mobile.file.FileControllerTest" />
+      <option name="METHOD_NAME" value="updateFileTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="TransactionMobileControllerTest.saveGoodsCollectionTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.transaction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.transaction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.transaction.controller.TransactionMobileControllerTest" />
+      <option name="METHOD_NAME" value="saveGoodsCollectionTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="TransactionMobileControllerTest.saveGoodsCommentTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.transaction.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.transaction.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.transaction.controller.TransactionMobileControllerTest" />
+      <option name="METHOD_NAME" value="saveGoodsCommentTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="UserMobileControllerTest.loginTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.user.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.user.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.user.controller.UserMobileControllerTest" />
+      <option name="METHOD_NAME" value="loginTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.bindBankCardTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="bindBankCardTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.getBalanceTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="getBalanceTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.getBankCardTypeTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="getBankCardTypeTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.getMyBankInfoTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="getMyBankInfoTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.getWalletDetailRecordsTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="getWalletDetailRecordsTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.getWithdrawalsRecordsTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="getWithdrawalsRecordsTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="WalletMobileControllerTest.settingPayPasswordTest" type="JUnit" factoryName="JUnit" nameIsGenerated="true">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea">
+        <pattern>
+          <option name="PATTERN" value="mobile.wallet.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <module name="hxcollectionapi" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="mobile.wallet.controller" />
+      <option name="MAIN_CLASS_NAME" value="mobile.wallet.controller.WalletMobileControllerTest" />
+      <option name="METHOD_NAME" value="settingPayPasswordTest" />
+      <option name="TEST_OBJECT" value="method" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration default="true" type="JUnit" factoryName="JUnit">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="class" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <envs />
+      <patterns />
+    </configuration>
+    <configuration name="hxcollectionapi [spring-boot:run]" type="MavenRunConfiguration" factoryName="Maven">
+      <MavenSettings>
+        <option name="myGeneralSettings" />
+        <option name="myRunnerSettings" />
+        <option name="myRunnerParameters">
+          <MavenRunnerParameters>
+            <option name="profiles">
+              <set />
+            </option>
+            <option name="goals">
+              <list>
+                <option value="spring-boot:run" />
+              </list>
+            </option>
+            <option name="profilesMap">
+              <map />
+            </option>
+            <option name="resolveToWorkspace" value="false" />
+            <option name="workingDirPath" value="$PROJECT_DIR$" />
+          </MavenRunnerParameters>
+        </option>
+      </MavenSettings>
+    </configuration>
+    <configuration default="true" type="Remote" factoryName="Remote">
+      <option name="USE_SOCKET_TRANSPORT" value="true" />
+      <option name="SERVER_MODE" value="false" />
+      <option name="SHMEM_ADDRESS" value="javadebug" />
+      <option name="HOST" value="localhost" />
+      <option name="PORT" value="5005" />
+    </configuration>
+    <configuration name="App" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="cn.com.App" />
+      <module name="hxcollectionapi" />
+      <envs />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG">
+      <extension name="coverage" enabled="false" merge="false" sample_coverage="true" runner="idea" />
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" value="-ea" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="%MODULE_WORKING_DIR%" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="singleModule" />
+      </option>
+      <option name="USE_DEFAULT_REPORTERS" value="false" />
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
+    </configuration>
+    <configuration default="true" type="#org.jetbrains.idea.devkit.run.PluginConfigurationType" factoryName="Plugin">
+      <module name="" />
+      <option name="VM_PARAMETERS" value="-Xmx512m -Xms256m -XX:MaxPermSize=250m -ea" />
+      <option name="PROGRAM_PARAMETERS" />
+      <predefined_log_file id="idea.log" enabled="true" />
+    </configuration>
+    <list size="24">
+      <item index="0" class="java.lang.String" itemvalue="Maven.hxcollectionapi [spring-boot:run]" />
+      <item index="1" class="java.lang.String" itemvalue="JUnit.UserMobileControllerTest.loginTest" />
+      <item index="2" class="java.lang.String" itemvalue="JUnit.AuctionPcControllerTest.getOtherAuctionsByUserIdTest" />
+      <item index="3" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.getMyBankInfoTest" />
+      <item index="4" class="java.lang.String" itemvalue="JUnit.TransactionMobileControllerTest.saveGoodsCollectionTest" />
+      <item index="5" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.getWithdrawalsRecordsTest" />
+      <item index="6" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.bindBankCardTest" />
+      <item index="7" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.getBankCardTypeTest" />
+      <item index="8" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.getWalletDetailRecordsTest" />
+      <item index="9" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.settingPayPasswordTest" />
+      <item index="10" class="java.lang.String" itemvalue="JUnit.FileControllerTest.updateFileTest" />
+      <item index="11" class="java.lang.String" itemvalue="JUnit.WalletMobileControllerTest.getBalanceTest" />
+      <item index="12" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.getAcutionCommentListTest" />
+      <item index="13" class="java.lang.String" itemvalue="JUnit.TransactionMobileControllerTest.saveGoodsCommentTest" />
+      <item index="14" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.getGoodsOfferRecordTest" />
+      <item index="15" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.addGoodsOfferRecordTest" />
+      <item index="16" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.getGoodsDetailByIdTest" />
+      <item index="17" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.getGoodsByTypeTest" />
+      <item index="18" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.publishAcutionTest" />
+      <item index="19" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.getSessionTest" />
+      <item index="20" class="java.lang.String" itemvalue="JUnit.AuctionMobileControllerTest.getSizeOfClassTest" />
+      <item index="21" class="java.lang.String" itemvalue="JUnit.AuctionPcControllerTest.publishAcutionTest" />
+      <item index="22" class="java.lang.String" itemvalue="Spring Boot.App" />
+      <item index="23" class="java.lang.String" itemvalue="Application.testPush" />
+    </list>
+    <recent_temporary>
+      <list size="1">
+        <item index="0" class="java.lang.String" itemvalue="Application.testPush" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="ShelveChangesManager" show_recycled="false">
+    <option name="remove_strategy" value="false" />
+  </component>
+  <component name="SvnConfiguration" cleanupOnStartRun="true">
+    <configuration>C:\Users\Administrator\AppData\Roaming\Subversion</configuration>
+    <supportedVersion>125</supportedVersion>
+  </component>
+  <component name="SvnFileUrlMappingImpl">
+    <option name="myMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\idea_workspace\hxcollectionapi" />
+          <option name="myCopyRoot" value="D:\idea_workspace\hxcollectionapi" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+    <option name="myMoreRealMappingRoots">
+      <list>
+        <SvnCopyRootSimple>
+          <option name="myVcsRoot" value="D:\idea_workspace\hxcollectionapi" />
+          <option name="myCopyRoot" value="D:\idea_workspace\hxcollectionapi" />
+        </SvnCopyRootSimple>
+      </list>
+    </option>
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="d774647f-9db5-4bbc-ae0c-9cb0963ec0c3" name="Default" comment="" />
+      <created>1520587216291</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1520587216291</updated>
+      <workItem from="1520587220124" duration="542000" />
+      <workItem from="1520820527589" duration="12365000" />
+      <workItem from="1520835632969" duration="3000" />
+      <workItem from="1520835700800" duration="373000" />
+      <workItem from="1520836077451" duration="4000" />
+      <workItem from="1520836106551" duration="10223000" />
+      <workItem from="1520903945088" duration="19641000" />
+      <workItem from="1520989400181" duration="5326000" />
+      <workItem from="1520996585509" duration="1260000" />
+      <workItem from="1520997869431" duration="6000" />
+      <workItem from="1520997898641" duration="92000" />
+      <workItem from="1520998034881" duration="81000" />
+      <workItem from="1520998166598" duration="3091000" />
+      <workItem from="1521001667877" duration="8152000" />
+      <workItem from="1521075281101" duration="7339000" />
+      <workItem from="1521095163998" duration="66000" />
+      <workItem from="1521101160829" duration="277000" />
+      <workItem from="1521101887766" duration="123000" />
+      <workItem from="1521103581001" duration="201000" />
+      <workItem from="1521105471891" duration="44000" />
+      <workItem from="1521165686949" duration="11849000" />
+      <workItem from="1521188297420" duration="2166000" />
+      <workItem from="1521421698190" duration="33000" />
+      <workItem from="1521422089722" duration="15000" />
+      <workItem from="1521422130219" duration="242000" />
+      <workItem from="1521426002679" duration="210000" />
+      <workItem from="1521448097012" duration="4000" />
+      <workItem from="1521507603153" duration="2482000" />
+      <workItem from="1521512278748" duration="628000" />
+      <workItem from="1521525462988" duration="2112000" />
+      <workItem from="1521534124612" duration="43000" />
+      <workItem from="1521534172087" duration="3000" />
+      <workItem from="1521536485279" duration="923000" />
+      <workItem from="1521537447803" duration="356000" />
+      <workItem from="1521537832729" duration="899000" />
+      <workItem from="1521538770199" duration="50000" />
+      <workItem from="1521538846089" duration="587000" />
+      <workItem from="1521594226653" duration="56000" />
+      <workItem from="1521596465364" duration="34000" />
+      <workItem from="1521596544406" duration="5836000" />
+      <workItem from="1521602464803" duration="190000" />
+      <workItem from="1521602843043" duration="6940000" />
+      <workItem from="1521623343926" duration="368000" />
+      <workItem from="1521623732051" duration="55000" />
+      <workItem from="1521623789993" duration="62000" />
+      <workItem from="1521623869315" duration="700000" />
+      <workItem from="1521680508778" duration="208000" />
+      <workItem from="1521681691020" duration="3500000" />
+      <workItem from="1521696042754" duration="13801000" />
+      <workItem from="1521710226586" duration="28000" />
+      <workItem from="1521710558071" duration="1735000" />
+      <workItem from="1521766106029" duration="3973000" />
+      <workItem from="1521770513261" duration="10196000" />
+      <workItem from="1521790548524" duration="6832000" />
+      <workItem from="1522028266399" duration="8893000" />
+      <workItem from="1522113010097" duration="8000" />
+      <workItem from="1522113220290" duration="1338000" />
+      <workItem from="1522128783445" duration="4465000" />
+      <workItem from="1522198756753" duration="6399000" />
+      <workItem from="1522227186467" duration="2122000" />
+      <workItem from="1522285089541" duration="10967000" />
+      <workItem from="1522303853698" duration="658000" />
+      <workItem from="1522372308206" duration="683000" />
+      <workItem from="1522372900400" duration="820000" />
+      <workItem from="1522373729015" duration="83000" />
+      <workItem from="1522375082158" duration="8000" />
+      <workItem from="1522391804454" duration="629000" />
+      <workItem from="1522393883751" duration="8304000" />
+      <workItem from="1522631513577" duration="10121000" />
+      <workItem from="1522718836965" duration="18996000" />
+      <workItem from="1522804731172" duration="13655000" />
+      <workItem from="1522827073451" duration="7463000" />
+      <workItem from="1522837135855" duration="2479000" />
+      <workItem from="1523149437602" duration="21183000" />
+      <workItem from="1523235859290" duration="360000" />
+      <workItem from="1523236554075" duration="1378000" />
+      <workItem from="1523241204035" duration="130000" />
+      <workItem from="1523245553521" duration="479000" />
+      <workItem from="1523246343118" duration="7000" />
+      <workItem from="1523246381925" duration="5301000" />
+      <workItem from="1523322222060" duration="9950000" />
+      <workItem from="1523341853221" duration="255000" />
+      <workItem from="1523343601888" duration="17361000" />
+      <workItem from="1523408717400" duration="9577000" />
+      <workItem from="1523426847416" duration="926000" />
+      <workItem from="1523432088418" duration="75000" />
+      <workItem from="1523435612177" duration="763000" />
+      <workItem from="1523437762906" duration="701000" />
+      <workItem from="1523496000875" duration="2260000" />
+      <workItem from="1523498209132" duration="2000" />
+      <workItem from="1523500829084" duration="5210000" />
+      <workItem from="1523528932091" duration="527000" />
+      <workItem from="1523535107287" duration="1973000" />
+      <workItem from="1523581685125" duration="12672000" />
+      <workItem from="1523840720958" duration="6245000" />
+      <workItem from="1523860953666" duration="9260000" />
+      <workItem from="1523944136156" duration="2680000" />
+      <workItem from="1523946903531" duration="13350000" />
+      <workItem from="1523965757117" duration="4160000" />
+      <workItem from="1524017993361" duration="2200000" />
+      <workItem from="1524021618296" duration="7742000" />
+      <workItem from="1524099906269" duration="10780000" />
+      <workItem from="1524120862053" duration="2041000" />
+      <workItem from="1524124512617" duration="286000" />
+      <workItem from="1524125015230" duration="1438000" />
+      <workItem from="1524128017095" duration="1615000" />
+      <workItem from="1524130143153" duration="629000" />
+      <workItem from="1524134907676" duration="2437000" />
+      <workItem from="1524187760000" duration="3959000" />
+      <workItem from="1524206051181" duration="4476000" />
+      <workItem from="1524447138198" duration="5383000" />
+      <workItem from="1524462025286" duration="202000" />
+      <workItem from="1524462341052" duration="127000" />
+      <workItem from="1524464571806" duration="4594000" />
+      <workItem from="1524471095940" duration="80000" />
+      <workItem from="1524471376015" duration="392000" />
+      <workItem from="1524473540369" duration="469000" />
+      <workItem from="1524474023656" duration="1762000" />
+      <workItem from="1524475821822" duration="35000" />
+      <workItem from="1524548419586" duration="8716000" />
+      <workItem from="1524559306457" duration="83000" />
+      <workItem from="1524568980006" duration="120000" />
+      <workItem from="1524573926213" duration="125000" />
+      <workItem from="1524574431316" duration="648000" />
+      <workItem from="1524618542940" duration="9145000" />
+      <workItem from="1524628050271" duration="1264000" />
+      <workItem from="1524705044647" duration="2437000" />
+      <workItem from="1524731508590" duration="8220000" />
+      <workItem from="1524742075647" duration="4130000" />
+      <workItem from="1524791011347" duration="3848000" />
+      <workItem from="1524799070982" duration="6694000" />
+      <workItem from="1524877903745" duration="2691000" />
+      <workItem from="1525222890291" duration="4516000" />
+      <workItem from="1525310545999" duration="3954000" />
+      <workItem from="1525314837999" duration="5000" />
+      <workItem from="1525314914095" duration="15376000" />
+      <workItem from="1525341333216" duration="740000" />
+      <workItem from="1525395849143" duration="43000" />
+      <workItem from="1525398051593" duration="599000" />
+      <workItem from="1525656450824" duration="1818000" />
+      <workItem from="1525673014758" duration="890000" />
+      <workItem from="1525673927579" duration="12000" />
+      <workItem from="1525673965292" duration="103000" />
+      <workItem from="1525674142138" duration="137000" />
+      <workItem from="1525674306353" duration="258000" />
+      <workItem from="1525678792073" duration="1933000" />
+      <workItem from="1525680792520" duration="1831000" />
+      <workItem from="1525682776503" duration="40000" />
+      <workItem from="1525685139172" duration="187000" />
+      <workItem from="1525686882129" duration="243000" />
+      <workItem from="1525741907137" duration="2763000" />
+      <workItem from="1525744643707" duration="565000" />
+      <workItem from="1525745243401" duration="3402000" />
+      <workItem from="1525748715542" duration="18060000" />
+      <workItem from="1525783662957" duration="431000" />
+      <workItem from="1525831101207" duration="20014000" />
+      <workItem from="1525914315865" duration="6635000" />
+      <workItem from="1526000194083" duration="7021000" />
+      <workItem from="1526260707371" duration="274000" />
+      <workItem from="1526282234090" duration="1261000" />
+      <workItem from="1526291752952" duration="7000" />
+      <workItem from="1526353154239" duration="594000" />
+      <workItem from="1526353756436" duration="10000" />
+      <workItem from="1526353944087" duration="18000" />
+      <workItem from="1526366640459" duration="132000" />
+      <workItem from="1526370647148" duration="62000" />
+      <workItem from="1526538851788" duration="23000" />
+      <workItem from="1526547263120" duration="101000" />
+      <workItem from="1526981458749" duration="357000" />
+      <workItem from="1526982033660" duration="128000" />
+      <workItem from="1526982991833" duration="109000" />
+      <workItem from="1527758862373" duration="142000" />
+      <workItem from="1528679792852" duration="818000" />
+      <workItem from="1530604652639" duration="17000" />
+    </task>
+    <task id="LOCAL-00076">
+      <created>1524210452629</created>
+      <option name="number" value="00076" />
+      <option name="presentableId" value="LOCAL-00076" />
+      <option name="project" value="LOCAL" />
+      <updated>1524210452629</updated>
+    </task>
+    <task id="LOCAL-00077">
+      <created>1524213517979</created>
+      <option name="number" value="00077" />
+      <option name="presentableId" value="LOCAL-00077" />
+      <option name="project" value="LOCAL" />
+      <updated>1524213517979</updated>
+    </task>
+    <task id="LOCAL-00078">
+      <created>1524448675285</created>
+      <option name="number" value="00078" />
+      <option name="presentableId" value="LOCAL-00078" />
+      <option name="project" value="LOCAL" />
+      <updated>1524448675286</updated>
+    </task>
+    <task id="LOCAL-00079">
+      <created>1524448763239</created>
+      <option name="number" value="00079" />
+      <option name="presentableId" value="LOCAL-00079" />
+      <option name="project" value="LOCAL" />
+      <updated>1524448763239</updated>
+    </task>
+    <task id="LOCAL-00080">
+      <created>1524450068849</created>
+      <option name="number" value="00080" />
+      <option name="presentableId" value="LOCAL-00080" />
+      <option name="project" value="LOCAL" />
+      <updated>1524450068849</updated>
+    </task>
+    <task id="LOCAL-00081">
+      <created>1524467193161</created>
+      <option name="number" value="00081" />
+      <option name="presentableId" value="LOCAL-00081" />
+      <option name="project" value="LOCAL" />
+      <updated>1524467193161</updated>
+    </task>
+    <task id="LOCAL-00082">
+      <created>1524467765139</created>
+      <option name="number" value="00082" />
+      <option name="presentableId" value="LOCAL-00082" />
+      <option name="project" value="LOCAL" />
+      <updated>1524467765139</updated>
+    </task>
+    <task id="LOCAL-00083">
+      <created>1524474085335</created>
+      <option name="number" value="00083" />
+      <option name="presentableId" value="LOCAL-00083" />
+      <option name="project" value="LOCAL" />
+      <updated>1524474085336</updated>
+    </task>
+    <task id="LOCAL-00084">
+      <created>1524556685285</created>
+      <option name="number" value="00084" />
+      <option name="presentableId" value="LOCAL-00084" />
+      <option name="project" value="LOCAL" />
+      <updated>1524556685287</updated>
+    </task>
+    <task id="LOCAL-00085">
+      <created>1524559388682</created>
+      <option name="number" value="00085" />
+      <option name="presentableId" value="LOCAL-00085" />
+      <option name="project" value="LOCAL" />
+      <updated>1524559388682</updated>
+    </task>
+    <task id="LOCAL-00086">
+      <created>1524622647347</created>
+      <option name="number" value="00086" />
+      <option name="presentableId" value="LOCAL-00086" />
+      <option name="project" value="LOCAL" />
+      <updated>1524622647348</updated>
+    </task>
+    <task id="LOCAL-00087">
+      <created>1524626846629</created>
+      <option name="number" value="00087" />
+      <option name="presentableId" value="LOCAL-00087" />
+      <option name="project" value="LOCAL" />
+      <updated>1524626846630</updated>
+    </task>
+    <task id="LOCAL-00088">
+      <created>1524627055822</created>
+      <option name="number" value="00088" />
+      <option name="presentableId" value="LOCAL-00088" />
+      <option name="project" value="LOCAL" />
+      <updated>1524627055822</updated>
+    </task>
+    <task id="LOCAL-00089">
+      <created>1524739325416</created>
+      <option name="number" value="00089" />
+      <option name="presentableId" value="LOCAL-00089" />
+      <option name="project" value="LOCAL" />
+      <updated>1524739325416</updated>
+    </task>
+    <task id="LOCAL-00090">
+      <created>1524742280190</created>
+      <option name="number" value="00090" />
+      <option name="presentableId" value="LOCAL-00090" />
+      <option name="project" value="LOCAL" />
+      <updated>1524742280191</updated>
+    </task>
+    <task id="LOCAL-00091">
+      <created>1524742776721</created>
+      <option name="number" value="00091" />
+      <option name="presentableId" value="LOCAL-00091" />
+      <option name="project" value="LOCAL" />
+      <updated>1524742776722</updated>
+    </task>
+    <task id="LOCAL-00092">
+      <created>1525224406525</created>
+      <option name="number" value="00092" />
+      <option name="presentableId" value="LOCAL-00092" />
+      <option name="project" value="LOCAL" />
+      <updated>1525224406525</updated>
+    </task>
+    <task id="LOCAL-00093">
+      <created>1525332745216</created>
+      <option name="number" value="00093" />
+      <option name="presentableId" value="LOCAL-00093" />
+      <option name="project" value="LOCAL" />
+      <updated>1525332745217</updated>
+    </task>
+    <task id="LOCAL-00094">
+      <created>1525332761723</created>
+      <option name="number" value="00094" />
+      <option name="presentableId" value="LOCAL-00094" />
+      <option name="project" value="LOCAL" />
+      <updated>1525332761723</updated>
+    </task>
+    <task id="LOCAL-00095">
+      <created>1525336594167</created>
+      <option name="number" value="00095" />
+      <option name="presentableId" value="LOCAL-00095" />
+      <option name="project" value="LOCAL" />
+      <updated>1525336594167</updated>
+    </task>
+    <task id="LOCAL-00096">
+      <created>1525338039318</created>
+      <option name="number" value="00096" />
+      <option name="presentableId" value="LOCAL-00096" />
+      <option name="project" value="LOCAL" />
+      <updated>1525338039318</updated>
+    </task>
+    <task id="LOCAL-00097">
+      <created>1525341820510</created>
+      <option name="number" value="00097" />
+      <option name="presentableId" value="LOCAL-00097" />
+      <option name="project" value="LOCAL" />
+      <updated>1525341820510</updated>
+    </task>
+    <task id="LOCAL-00098">
+      <created>1525341841945</created>
+      <option name="number" value="00098" />
+      <option name="presentableId" value="LOCAL-00098" />
+      <option name="project" value="LOCAL" />
+      <updated>1525341841945</updated>
+    </task>
+    <task id="LOCAL-00099">
+      <created>1525341960014</created>
+      <option name="number" value="00099" />
+      <option name="presentableId" value="LOCAL-00099" />
+      <option name="project" value="LOCAL" />
+      <updated>1525341960014</updated>
+    </task>
+    <task id="LOCAL-00100">
+      <created>1525682186125</created>
+      <option name="number" value="00100" />
+      <option name="presentableId" value="LOCAL-00100" />
+      <option name="project" value="LOCAL" />
+      <updated>1525682186127</updated>
+    </task>
+    <task id="LOCAL-00101">
+      <created>1525682618853</created>
+      <option name="number" value="00101" />
+      <option name="presentableId" value="LOCAL-00101" />
+      <option name="project" value="LOCAL" />
+      <updated>1525682618853</updated>
+    </task>
+    <task id="LOCAL-00102">
+      <created>1525687123882</created>
+      <option name="number" value="00102" />
+      <option name="presentableId" value="LOCAL-00102" />
+      <option name="project" value="LOCAL" />
+      <updated>1525687123882</updated>
+    </task>
+    <task id="LOCAL-00103">
+      <created>1525741965807</created>
+      <option name="number" value="00103" />
+      <option name="presentableId" value="LOCAL-00103" />
+      <option name="project" value="LOCAL" />
+      <updated>1525741965808</updated>
+    </task>
+    <task id="LOCAL-00104">
+      <created>1525743878342</created>
+      <option name="number" value="00104" />
+      <option name="presentableId" value="LOCAL-00104" />
+      <option name="project" value="LOCAL" />
+      <updated>1525743878343</updated>
+    </task>
+    <task id="LOCAL-00105">
+      <created>1525743914335</created>
+      <option name="number" value="00105" />
+      <option name="presentableId" value="LOCAL-00105" />
+      <option name="project" value="LOCAL" />
+      <updated>1525743914335</updated>
+    </task>
+    <task id="LOCAL-00106">
+      <created>1525748816878</created>
+      <option name="number" value="00106" />
+      <option name="presentableId" value="LOCAL-00106" />
+      <option name="project" value="LOCAL" />
+      <updated>1525748816878</updated>
+    </task>
+    <task id="LOCAL-00107">
+      <created>1525757521303</created>
+      <option name="number" value="00107" />
+      <option name="presentableId" value="LOCAL-00107" />
+      <option name="project" value="LOCAL" />
+      <updated>1525757521303</updated>
+    </task>
+    <task id="LOCAL-00108">
+      <created>1525768053661</created>
+      <option name="number" value="00108" />
+      <option name="presentableId" value="LOCAL-00108" />
+      <option name="project" value="LOCAL" />
+      <updated>1525768053661</updated>
+    </task>
+    <task id="LOCAL-00109">
+      <created>1525768089503</created>
+      <option name="number" value="00109" />
+      <option name="presentableId" value="LOCAL-00109" />
+      <option name="project" value="LOCAL" />
+      <updated>1525768089503</updated>
+    </task>
+    <task id="LOCAL-00110">
+      <created>1525772863066</created>
+      <option name="number" value="00110" />
+      <option name="presentableId" value="LOCAL-00110" />
+      <option name="project" value="LOCAL" />
+      <updated>1525772863066</updated>
+    </task>
+    <task id="LOCAL-00111">
+      <created>1525783526592</created>
+      <option name="number" value="00111" />
+      <option name="presentableId" value="LOCAL-00111" />
+      <option name="project" value="LOCAL" />
+      <updated>1525783526592</updated>
+    </task>
+    <task id="LOCAL-00112">
+      <created>1525831461979</created>
+      <option name="number" value="00112" />
+      <option name="presentableId" value="LOCAL-00112" />
+      <option name="project" value="LOCAL" />
+      <updated>1525831461980</updated>
+    </task>
+    <task id="LOCAL-00113">
+      <created>1525831508951</created>
+      <option name="number" value="00113" />
+      <option name="presentableId" value="LOCAL-00113" />
+      <option name="project" value="LOCAL" />
+      <updated>1525831508951</updated>
+    </task>
+    <task id="LOCAL-00114">
+      <created>1525833064554</created>
+      <option name="number" value="00114" />
+      <option name="presentableId" value="LOCAL-00114" />
+      <option name="project" value="LOCAL" />
+      <updated>1525833064554</updated>
+    </task>
+    <task id="LOCAL-00115">
+      <created>1525833294988</created>
+      <option name="number" value="00115" />
+      <option name="presentableId" value="LOCAL-00115" />
+      <option name="project" value="LOCAL" />
+      <updated>1525833294988</updated>
+    </task>
+    <task id="LOCAL-00116">
+      <created>1525833353633</created>
+      <option name="number" value="00116" />
+      <option name="presentableId" value="LOCAL-00116" />
+      <option name="project" value="LOCAL" />
+      <updated>1525833353633</updated>
+    </task>
+    <task id="LOCAL-00117">
+      <created>1525833981750</created>
+      <option name="number" value="00117" />
+      <option name="presentableId" value="LOCAL-00117" />
+      <option name="project" value="LOCAL" />
+      <updated>1525833981750</updated>
+    </task>
+    <task id="LOCAL-00118">
+      <created>1525834037125</created>
+      <option name="number" value="00118" />
+      <option name="presentableId" value="LOCAL-00118" />
+      <option name="project" value="LOCAL" />
+      <updated>1525834037125</updated>
+    </task>
+    <task id="LOCAL-00119">
+      <created>1525834997953</created>
+      <option name="number" value="00119" />
+      <option name="presentableId" value="LOCAL-00119" />
+      <option name="project" value="LOCAL" />
+      <updated>1525834997953</updated>
+    </task>
+    <task id="LOCAL-00120">
+      <created>1525846608699</created>
+      <option name="number" value="00120" />
+      <option name="presentableId" value="LOCAL-00120" />
+      <option name="project" value="LOCAL" />
+      <updated>1525846608700</updated>
+    </task>
+    <task id="LOCAL-00121">
+      <created>1525923509992</created>
+      <option name="number" value="00121" />
+      <option name="presentableId" value="LOCAL-00121" />
+      <option name="project" value="LOCAL" />
+      <updated>1525923509993</updated>
+    </task>
+    <task id="LOCAL-00122">
+      <created>1525933742685</created>
+      <option name="number" value="00122" />
+      <option name="presentableId" value="LOCAL-00122" />
+      <option name="project" value="LOCAL" />
+      <updated>1525933742685</updated>
+    </task>
+    <task id="LOCAL-00123">
+      <created>1526003834642</created>
+      <option name="number" value="00123" />
+      <option name="presentableId" value="LOCAL-00123" />
+      <option name="project" value="LOCAL" />
+      <updated>1526003834643</updated>
+    </task>
+    <task id="LOCAL-00124">
+      <created>1526023158625</created>
+      <option name="number" value="00124" />
+      <option name="presentableId" value="LOCAL-00124" />
+      <option name="project" value="LOCAL" />
+      <updated>1526023158625</updated>
+    </task>
+    <option name="localTasksCounter" value="125" />
+    <servers />
+  </component>
+  <component name="TestHistory">
+    <history-entry file="AuctionMobileControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 28m 13s.xml">
+      <configuration name="AuctionMobileControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionMobileControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 32m 45s.xml">
+      <configuration name="AuctionMobileControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 11h 34m 05s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 11h 42m 57s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 09m 27s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 12m 36s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 17m 15s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 18m 35s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 26m 48s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+    <history-entry file="AuctionPcControllerTest_getSizeOfClassTest - 2018.05.10 at 14h 27m 28s.xml">
+      <configuration name="AuctionPcControllerTest.getSizeOfClassTest" configurationId="JUnit" />
+    </history-entry>
+  </component>
+  <component name="TimeTrackingManager">
+    <option name="totallyTimeSpent" value="565598000" />
+  </component>
+  <component name="TodoView">
+    <todo-panel id="selected-file">
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+    <todo-panel id="all">
+      <are-packages-shown value="true" />
+      <is-autoscroll-to-source value="true" />
+    </todo-panel>
+  </component>
+  <component name="ToolWindowManager">
+    <frame x="0" y="0" width="1440" height="860" extended-state="0" />
+    <layout>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="FindBugs-IDEA" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7027778" sideWeight="0.51445085" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.19078948" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="JRebel Executor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4190341" sideWeight="0.48554912" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.61647725" sideWeight="0.49710983" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6349432" sideWeight="0.49421966" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32916668" sideWeight="0.49710983" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.34210527" sideWeight="0.48333332" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.34537572" sideWeight="0.51666665" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="JRebel" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
+      <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.26083815" sideWeight="0.5114286" order="6" side_tool="true" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32916668" sideWeight="0.49710983" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" x="92" y="92" width="1256" height="676" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36805555" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.7027778" sideWeight="0.51445085" order="9" side_tool="true" content_ui="tabs" />
+      <window_info id="Maven Projects" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.19078948" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
+      <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
+      <window_info id="UI Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4190341" sideWeight="0.48554912" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328125" sideWeight="0.5" order="13" side_tool="false" content_ui="tabs" />
+      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
+      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Java Enterprise" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32916668" sideWeight="0.49710983" order="12" side_tool="false" content_ui="tabs" />
+      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Documentation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="FLOATING" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" x="92" y="92" width="1256" height="676" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
+      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.6349432" sideWeight="0.49421966" order="4" side_tool="false" content_ui="tabs" />
+      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.61647725" sideWeight="0.49710983" order="14" side_tool="false" content_ui="tabs" />
+      <window_info id="Coverage" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32947975" sideWeight="0.5" order="0" side_tool="true" content_ui="tabs" />
+      <window_info id="Spring" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32916668" sideWeight="0.49710983" order="11" side_tool="false" content_ui="tabs" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32894737" sideWeight="0.48333332" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Problems" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32916668" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
+      <window_info id="Bean Validation" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
+      <window_info id="Web" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.34537572" sideWeight="0.51666665" order="5" side_tool="true" content_ui="tabs" />
+      <window_info id="SonarLint" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
+      <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36805555" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.26083815" sideWeight="0.5114286" order="6" side_tool="true" content_ui="tabs" />
+    </layout-to-restore>
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="1" />
+  </component>
+  <component name="VcsContentAnnotationSettings">
+    <option name="myLimit" value="2678400000" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <option name="LAST_COMMIT_MESSAGE" value="" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/service/UserServiceImplTest.java</url>
+          <line>33</line>
+          <properties />
+          <option name="timeStamp" value="118" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/interceptor/AppInterceptor.java</url>
+          <line>226</line>
+          <properties />
+          <option name="timeStamp" value="138" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/interceptor/AppInterceptor.java</url>
+          <line>212</line>
+          <properties />
+          <option name="timeStamp" value="149" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/com/github/pagehelper/pagehelper/5.0.1/pagehelper-5.0.1.jar!/com/github/pagehelper/page/PageMethod.class</url>
+          <line>40</line>
+          <properties />
+          <option name="timeStamp" value="157" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/com/github/pagehelper/pagehelper/5.0.1/pagehelper-5.0.1.jar!/com/github/pagehelper/page/PageMethod.class</url>
+          <line>56</line>
+          <properties />
+          <option name="timeStamp" value="159" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/com/github/pagehelper/pagehelper/5.0.1/pagehelper-5.0.1.jar!/com/github/pagehelper/page/PageMethod.class</url>
+          <line>30</line>
+          <properties />
+          <option name="timeStamp" value="166" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>78</line>
+          <properties />
+          <option name="timeStamp" value="176" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>245</line>
+          <properties />
+          <option name="timeStamp" value="187" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/base/util/AESUtils.java</url>
+          <line>40</line>
+          <properties />
+          <option name="timeStamp" value="196" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/service/impl/AuctionMobileServiceImpl.java</url>
+          <line>298</line>
+          <properties />
+          <option name="timeStamp" value="209" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>294</line>
+          <properties />
+          <option name="timeStamp" value="213" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>122</line>
+          <properties />
+          <option name="timeStamp" value="217" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/base/job/controller/JobController.java</url>
+          <line>59</line>
+          <properties />
+          <option name="timeStamp" value="230" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/base/job/service/impl/QuartzServiceImpl.java</url>
+          <line>77</line>
+          <properties />
+          <option name="timeStamp" value="231" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/base/exception/GlobalDefaultExceptionHandler.java</url>
+          <line>20</line>
+          <properties />
+          <option name="timeStamp" value="243" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>381</line>
+          <properties />
+          <option name="timeStamp" value="244" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/user/service/impl/UserServiceImpl.java</url>
+          <line>91</line>
+          <properties />
+          <option name="timeStamp" value="252" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>452</line>
+          <properties />
+          <option name="timeStamp" value="254" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/service/impl/WalletMobileServiceImpl.java</url>
+          <line>485</line>
+          <properties />
+          <option name="timeStamp" value="256" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/base/util/IdNumber.java</url>
+          <line>55</line>
+          <properties />
+          <option name="timeStamp" value="257" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/third/express/service/impl/ExpressServiceImpl.java</url>
+          <line>41</line>
+          <properties />
+          <option name="timeStamp" value="260" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/third/express/service/impl/ExpressServiceImpl.java</url>
+          <line>79</line>
+          <properties />
+          <option name="timeStamp" value="261" />
+        </line-breakpoint>
+        <line-breakpoint type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/third/express/service/impl/ExpressServiceImpl.java</url>
+          <line>98</line>
+          <properties />
+          <option name="timeStamp" value="262" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/third/express/service/impl/ExpressServiceImpl.java</url>
+          <line>68</line>
+          <properties />
+          <option name="timeStamp" value="263" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/test/java/third/jpush/JpushUtilsTest.java</url>
+          <line>38</line>
+          <properties />
+          <option name="timeStamp" value="265" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>jar://$MAVEN_REPOSITORY$/cn/jpush/api/jiguang-common/1.1.1/jiguang-common-1.1.1.jar!/cn/jiguang/common/connection/NativeHttpClient.class</url>
+          <line>92</line>
+          <properties />
+          <option name="timeStamp" value="268" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/src/main/java/cn/com/pc/auction/service/impl/AuctionPcServiceImpl.java</url>
+          <line>88</line>
+          <properties />
+          <option name="timeStamp" value="271" />
+        </line-breakpoint>
+        <line-breakpoint type="java-field">
+          <url>jar://$MAVEN_REPOSITORY$/com/github/pagehelper/pagehelper/5.0.1/pagehelper-5.0.1.jar!/com/github/pagehelper/page/PageMethod.class</url>
+          <line>12</line>
+          <properties field="LOCAL_PAGE" class="com.github.pagehelper.page.PageMethod" />
+          <option name="timeStamp" value="158" />
+        </line-breakpoint>
+      </breakpoints>
+      <breakpoints-dialog>
+        <breakpoints-dialog />
+      </breakpoints-dialog>
+      <option name="time" value="273" />
+    </breakpoint-manager>
+    <watches-manager>
+      <configuration name="JUnit">
+        <watch expression="log" language="JAVA" />
+      </configuration>
+    </watches-manager>
+  </component>
+  <component name="antWorkspaceConfiguration">
+    <option name="IS_AUTOSCROLL_TO_SOURCE" value="false" />
+    <option name="FILTER_TARGETS" value="false" />
+  </component>
+  <component name="editorHistoryManager">
+    <entry file="jar://D:/tools/Java/jdk1.7.0_80/jre/lib/deploy.jar!/com/sun/deploy/config/ClientConfig.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2650">
+          <caret line="34" column="36" lean-forward="false" selection-start-line="34" selection-start-column="36" selection-end-line="34" selection-end-column="36" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jiguang-common/1.1.1/jiguang-common-1.1.1.jar!/cn/jiguang/common/ClientConfig.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="704">
+          <caret line="93" column="42" lean-forward="false" selection-start-line="93" selection-start-column="34" selection-end-line="93" selection-end-column="42" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jiguang-common/1.1.1/jiguang-common-1.1.1.jar!/cn/jiguang/common/connection/IHttpClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="38" column="20" lean-forward="false" selection-start-line="38" selection-start-column="20" selection-end-line="38" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jpush-client/3.3.4/jpush-client-3.3.4.jar!/cn/jpush/api/push/PushClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="75">
+          <caret line="111" column="57" lean-forward="false" selection-start-line="111" selection-start-column="57" selection-end-line="111" selection-end-column="57" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jiguang-common/1.1.1/jiguang-common-1.1.1.jar!/cn/jiguang/common/connection/ApacheHttpClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="74">
+          <caret line="258" column="27" lean-forward="false" selection-start-line="258" selection-start-column="27" selection-end-line="258" selection-end-column="27" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jiguang-common/1.1.1/jiguang-common-1.1.1.jar!/cn/jiguang/common/connection/NativeHttpClient.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="305">
+          <caret line="93" column="32" lean-forward="true" selection-start-line="93" selection-start-column="32" selection-end-line="93" selection-end-column="32" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jpush/api/conifig.java" />
+    <entry file="file://$PROJECT_DIR$/src/test/java/third/jpush/JpushUtilsTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="650">
+          <caret line="26" column="8" lean-forward="false" selection-start-line="26" selection-start-column="8" selection-end-line="26" selection-end-column="86" />
+          <folding>
+            <element signature="imports" expanded="false" />
+            <element signature="e#2379#2380#0" expanded="false" />
+            <element signature="e#2430#2431#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jpush-client/3.3.4/jpush-client-3.3.4.jar!/cn/jpush/api/push/model/audience/Audience.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="224">
+          <caret line="65" column="48" lean-forward="true" selection-start-line="65" selection-start-column="33" selection-end-line="65" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jpush-client/3.3.4/jpush-client-3.3.4.jar!/cn/jpush/api/push/model/Message.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="744">
+          <caret line="176" column="32" lean-forward="true" selection-start-line="176" selection-start-column="32" selection-end-line="176" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jpush-client/3.3.4/jpush-client-3.3.4.jar!/cn/jpush/api/push/model/PushPayload.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="182" column="55" lean-forward="false" selection-start-line="182" selection-start-column="47" selection-end-line="182" selection-end-column="55" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$MAVEN_REPOSITORY$/cn/jpush/api/jpush-client/3.3.4/jpush-client-3.3.4.jar!/cn/jpush/api/push/model/Platform.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1575">
+          <caret line="85" column="53" lean-forward="false" selection-start-line="85" selection-start-column="53" selection-end-line="85" selection-end-column="53" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/jpush/api/util/JpushUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="550">
+          <caret line="29" column="0" lean-forward="false" selection-start-line="29" selection-start-column="0" selection-end-line="29" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/model/auction/GoodsClassIfication.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="16" column="28" lean-forward="false" selection-start-line="16" selection-start-column="19" selection-end-line="16" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/pc/auction/controller/AuctionPcControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="51" column="28" lean-forward="false" selection-start-line="51" selection-start-column="28" selection-end-line="51" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/pc/auction/service/impl/AuctionPcServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="13425">
+          <caret line="560" column="0" lean-forward="false" selection-start-line="560" selection-start-column="0" selection-end-line="560" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/aliyun/api/SendSmsApi.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="17" column="0" lean-forward="true" selection-start-line="17" selection-start-column="0" selection-end-line="17" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/controller/WalletMobileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="269" column="39" lean-forward="false" selection-start-line="269" selection-start-column="39" selection-end-line="269" selection-end-column="39" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/mapper/GoodsComplaintsMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/controller/OrderMobileController.java" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/dao/GoodsComplaintsMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="400">
+          <caret line="16" column="1" lean-forward="true" selection-start-line="16" selection-start-column="1" selection-end-line="16" selection-end-column="1" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/dao/SellerComplaintsMapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/mapper/SellerComplaintsMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="200">
+          <caret line="17" column="8" lean-forward="true" selection-start-line="17" selection-start-column="8" selection-end-line="17" selection-end-column="8" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/order/controller/OrderMobileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="500">
+          <caret line="35" column="14" lean-forward="false" selection-start-line="35" selection-start-column="14" selection-end-line="35" selection-end-column="14" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/model/complaints/GoodsComplaints.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="100">
+          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/pc/wallet/controller/WalletPcControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="32" column="28" lean-forward="true" selection-start-line="32" selection-start-column="28" selection-end-line="32" selection-end-column="28" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/pc/wallet/controller/WalletPcController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="28" column="30" lean-forward="false" selection-start-line="28" selection-start-column="22" selection-end-line="28" selection-end-column="30" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/model/complaints/SellerComplaints.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="125">
+          <caret line="5" column="22" lean-forward="true" selection-start-line="5" selection-start-column="22" selection-end-line="5" selection-end-column="22" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/complaints/controller/ComplaintsMobileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="11" column="54" lean-forward="true" selection-start-line="11" selection-start-column="54" selection-end-line="11" selection-end-column="54" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/base/vo/auction/GoodsQueryParams.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="575">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/transaction/mapper/TransactionMobileMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1025">
+          <caret line="41" column="92" lean-forward="false" selection-start-line="41" selection-start-column="82" selection-end-line="41" selection-end-column="92" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/mapper/GoodsMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="4800">
+          <caret line="192" column="19" lean-forward="false" selection-start-line="192" selection-start-column="19" selection-end-line="192" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/constant.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/bussinesconstant.yml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/application.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1175">
+          <caret line="47" column="25" lean-forward="false" selection-start-line="47" selection-start-column="25" selection-end-line="47" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/resources/config.properties">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="50">
+          <caret line="2" column="43" lean-forward="false" selection-start-line="2" selection-start-column="43" selection-end-line="2" selection-end-column="43" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/mobile/user/service/UserServiceImplTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="24" column="20" lean-forward="false" selection-start-line="24" selection-start-column="20" selection-end-line="24" selection-end-column="20" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/util/ApplicationContextHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="175">
+          <caret line="9" column="13" lean-forward="false" selection-start-line="9" selection-start-column="13" selection-end-line="9" selection-end-column="13" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/wallet/mapper/MyBankMapper.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="215">
+          <caret line="33" column="0" lean-forward="false" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/base/service/impl/DictionaryServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="450">
+          <caret line="25" column="25" lean-forward="false" selection-start-line="25" selection-start-column="15" selection-end-line="25" selection-end-column="25" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/pom.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1400">
+          <caret line="56" column="25" lean-forward="false" selection-start-line="56" selection-start-column="25" selection-end-line="56" selection-end-column="25" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/interceptor/AppInterceptor.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="2950">
+          <caret line="152" column="54" lean-forward="false" selection-start-line="152" selection-start-column="54" selection-end-line="152" selection-end-column="54" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/third/express/controller/ExpressController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="300">
+          <caret line="25" column="29" lean-forward="false" selection-start-line="25" selection-start-column="22" selection-end-line="25" selection-end-column="29" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$USER_HOME$/Desktop/PingPlusController.class" />
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/third/ping/controller/PingPlusController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="250">
+          <caret line="32" column="9" lean-forward="true" selection-start-line="32" selection-start-column="9" selection-end-line="32" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/base/service/impl/ImageServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="700">
+          <caret line="38" column="74" lean-forward="false" selection-start-line="38" selection-start-column="74" selection-end-line="38" selection-end-column="74" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/service/impl/AuctionMobileServiceImpl.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="6050">
+          <caret line="265" column="89" lean-forward="false" selection-start-line="265" selection-start-column="89" selection-end-line="265" selection-end-column="89" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/base/vo/imageenum/ImageTableName.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="525">
+          <caret line="21" column="35" lean-forward="false" selection-start-line="21" selection-start-column="35" selection-end-line="21" selection-end-column="35" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/transaction/controller/TransactionMobileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="28" column="15" lean-forward="false" selection-start-line="28" selection-start-column="1" selection-end-line="28" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/main/java/cn/com/mobile/auction/controller/AuctionMobileController.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1175">
+          <caret line="62" column="22" lean-forward="true" selection-start-line="62" selection-start-column="22" selection-end-line="62" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/test/java/mobile/auction/controller/AuctionMobileControllerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="325">
+          <caret line="220" column="0" lean-forward="true" selection-start-line="220" selection-start-column="0" selection-end-line="220" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+  </component>
+  <component name="masterDetails">
+    <states>
+      <state key="ArtifactsStructureConfigurable.UI">
+        <settings>
+          <artifact-editor />
+          <last-edited>hxcollectionapi:war</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17107438" />
+                <option value="0.5" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="FacetStructureConfigurable.UI">
+        <settings>
+          <last-edited>Spring</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17107438" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="GlobalLibrariesConfigurable.UI">
+        <settings>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17107438" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="JdkListConfigurable.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17107438" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ModuleStructureConfigurable.UI">
+        <settings>
+          <last-edited>hxcollectionapi</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17107438" />
+                <option value="0.6" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectJDKs.UI">
+        <settings>
+          <last-edited>1.7</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.2" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+      <state key="ProjectLibrariesConfigurable.UI">
+        <settings>
+          <last-edited>Maven: org.springframework.boot:spring-boot-test-autoconfigure:1.4.0.BUILD-SNAPSHOT</last-edited>
+          <splitter-proportions>
+            <option name="proportions">
+              <list>
+                <option value="0.17107438" />
+              </list>
+            </option>
+          </splitter-proportions>
+        </settings>
+      </state>
+    </states>
+  </component>
+  <component name="mavenExecuteGoalHistory">
+    <option value="" />
+  </component>
+</project>

@@ -1,0 +1,32 @@
+package cn.com.mobile.auction.dao;
+
+import cn.com.base.vo.auction.AuctionGoods;
+import cn.com.base.vo.auction.GoodsQueryParams;
+import cn.com.model.auction.Goods;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
+
+public interface GoodsMapper {
+    int deleteByPrimaryKey(String id);
+
+    int insert(Goods record);
+
+    int insertSelective(Goods record);
+
+    Goods selectByPrimaryKey(String id);
+
+    int updateByPrimaryKeySelective(Goods record);
+
+    int updateByPrimaryKey(Goods record);
+
+    /**
+     * @description 查询拍卖列表
+     * @method  
+     * @param  * @param null
+     * @return 
+     * @date: 2018/4/2 13:36:02
+     * @author:zhoujinbing
+     */
+    List<AuctionGoods> getGoodsByType(GoodsQueryParams params);
+}

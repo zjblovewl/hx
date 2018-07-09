@@ -1,0 +1,777 @@
+package cn.com.base.util;
+import java.security.MessageDigest;
+import java.security.SecureRandom;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Random;
+import java.util.StringTokenizer;
+import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.jdbc.core.namedparam.BeanPropertySqlParameterSource;
+
+
+/**
+ * @类功能说明：字符串操作工具类
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：zhoujinbing
+ * @创建时间：${DATE} 上午${TIME}
+ * @版本：V1.0
+ */
+public class StringUtil {
+    
+    public static String getOperatorStrByType(Integer type)
+    {
+        switch ( type )
+        {
+            case 1:
+                return "新增";
+            case 2:
+                return "删除";
+            case 3:
+                return "修改";
+            default:
+                return "修改";
+        }
+    }
+    
+    /**
+     * <一句话功能简述>校验通讯录姓名
+     * <功能详细描述>
+     * @param name
+     * @return [参数说明] true 则不允许添加
+     * 
+     * @see [类、类#方法、类#成员]
+     */
+    public static boolean validationContactsName(String name)
+    {
+        String regEx = "[`~!@#$%^&*':;',//[//].<>/?~@#%……&*]";
+        Pattern pattern = Pattern.compile( regEx );
+        Matcher matcher = pattern.matcher( name );
+        return matcher.find();
+    }
+    
+    public static boolean isNumeric(String str){ 
+        Pattern pattern = Pattern.compile("[0-9]*"); 
+        Matcher isNum = pattern.matcher(str);
+        if( !isNum.matches() ){
+            return false; 
+        } 
+        return true; 
+     }
+    
+    public static boolean isChinaPhoneLegal(String str){  
+        String regExp = "^((13[0-9])|(15[^4])|(18[0,1,2,3,5-9])|(17[0-8])|(147))\\d{8}$";    
+        Pattern p = Pattern.compile(regExp);  
+        Matcher m = p.matcher(str);  
+        return m.matches();  
+    }
+
+    // 获得当前日期与本周一相差的天数
+    public static int getMondayPlus() {
+        Calendar cd = Calendar.getInstance();
+        // 获得今天是一周的第几天，星期日是第一天，星期一是第二天......
+        // 如果是星期日 返回1 如果是星期1 返回 2，按照中国人的习惯要减1 cd.get(Calendar.DAY_OF_WEEK)
+        int dayOfWeek = cd.get(Calendar.DAY_OF_WEEK) - 1; // 因为按中国礼拜一作为第一天所以这里减1
+        if (dayOfWeek == 0) {
+            return -6;
+        } else {
+            return 1 - dayOfWeek;
+        }
+    }
+
+    // 获得本周星期一的日期
+    public static String getCurrMonday() {
+        int mondayPlus = getMondayPlus();
+
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.add(GregorianCalendar.DATE, mondayPlus);
+        Date monday = currentDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currMonday = sdf.format(monday);
+        return currMonday;
+    }
+
+    // 获得本周星期日的日期
+    public static String getCurrSunday() {
+        int mondayPlus = getMondayPlus();
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.add(GregorianCalendar.DATE, mondayPlus + 6);
+        Date sunday = currentDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currSunday = sdf.format(sunday);
+        return currSunday;
+    }
+
+    // 获得当天的日期
+    public static String getCurrDate() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currDate = sdf.format(date);
+        return currDate;
+    }
+    
+    /**
+     * [简要描述]:获得当天的日期,格式yyyyMMdd<br/>
+     * [详细描述]:<br/>
+     * 
+     * @return
+     * @exception 
+     */
+    public static String getCurrDateStr() {
+        Date date = new Date();
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
+        String currDate = sdf.format(date);
+        return currDate;
+    }
+
+    // 获得上周星期一的日期
+    public static String getPrevMonday() {
+        int mondayPlus = getMondayPlus();
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.add(GregorianCalendar.DATE, mondayPlus - 7);
+        Date monday = currentDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String prevMonday = sdf.format(monday);
+        return prevMonday;
+    }
+
+    // 获得上周星期日的日期
+    public static String getPrevSunday() {
+        int mondayPlus = getMondayPlus();
+        GregorianCalendar currentDate = new GregorianCalendar();
+        currentDate.add(GregorianCalendar.DATE, mondayPlus - 1);
+        Date sunday = currentDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String prevSunday = sdf.format(sunday);
+        return prevSunday;
+    }
+
+    // 获取当月第一天
+    public static String getCurrMonthFirstDay() {
+
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.set(Calendar.DATE, 1);// 设为当前月的1号
+        Date first = firstDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currMonthFirstDay = sdf.format(first);
+        return currMonthFirstDay;
+    }
+
+    // 获取当月最后一天
+    public static String getCurrMonthLastDay() {
+
+        Calendar lastDate = Calendar.getInstance();
+        lastDate.set(Calendar.DATE, 1);// 设为当前月的1号
+        lastDate.add(Calendar.MONTH, 1);// 加一个月，变为下月的1号
+        lastDate.add(Calendar.DATE, -1);// 减去一天，变为当月最后一天
+        Date last = lastDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String currMonthLastDay = sdf.format(last);
+        return currMonthLastDay;
+    }
+
+    // 获取上月第一天
+    public static String getPrevMonthFirstDay() {
+
+        Calendar firstDate = Calendar.getInstance();
+        firstDate.set(Calendar.DATE, 1);// 设为当前月的1号
+        firstDate.add(Calendar.MONTH, -1);// 减一个月，变为上月的1号
+        Date first = firstDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String prevMonthFirstDay = sdf.format(first);
+        return prevMonthFirstDay;
+    }
+
+    // 获得上月最后一天
+    public static String getPrevMonthLastDay() {
+        Calendar lastDate = Calendar.getInstance();
+        lastDate.set(Calendar.DATE, 1);// 把日期设置为当月第一天
+        lastDate.add(Calendar.DATE, -1);// 减去一天，变为上月最后一天
+        Date last = lastDate.getTime();
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        String prevMonthLastDay = sdf.format(last);
+        return prevMonthLastDay;
+    }
+    
+    // 获得当前日期是星期几
+    public static String getWeek() {
+    	
+    	String week = "";
+    	 
+    	Calendar cd = Calendar.getInstance();
+        int dayOfWeek = cd.get(Calendar.DAY_OF_WEEK);
+        
+        if(dayOfWeek == Calendar.SUNDAY) {
+        	week = "周日";
+        } else if(dayOfWeek == Calendar.MONDAY) {
+        	week = "周一";
+        } else if(dayOfWeek == Calendar.TUESDAY) {
+        	week = "周二";
+        } else if(dayOfWeek == Calendar.WEDNESDAY) {
+        	week = "周三";
+        } else if(dayOfWeek == Calendar.THURSDAY) {
+        	week = "周四";
+        } else if(dayOfWeek == Calendar.FRIDAY) {
+        	week = "周五";
+        } else if(dayOfWeek == Calendar.SATURDAY) {
+        	week = "周六";
+        }
+        return week;
+    }
+    
+    /**
+     * 空字符处理
+     * 
+     * @param value
+     * @return
+     */
+	public static String null2Blank(String value) {
+	    return value == null ? "" : value;
+	}
+	
+    /**
+     * 空字符判断
+     * 
+     * @param value
+     * @return
+     */
+	public static boolean isNullOrBlank(String value) {
+	    return (value == null || "".equals(value)) || value.equals( "null" ) ? true : false;
+	}
+	
+	/**
+	 * 产生验证码
+	 * 
+	 * @param length
+	 * @return
+	 */
+	public static String retrieveRandomNumber(int length) {
+
+		String result = "";
+		try {
+			SecureRandom r = SecureRandom.getInstance("SHA1PRNG");
+			byte[] seed = r.generateSeed(20);
+			r.setSeed(seed);
+			byte[] bytes = new byte[length];
+			r.nextBytes(bytes);
+			for (int i = 0; i < bytes.length; i++) {
+				byte value = bytes[i];
+				result += String.valueOf(Math.abs(value) % 10);
+			}
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+
+		return result;
+	}
+	
+    /**
+	 * 获取一个六位随机数
+	 * 
+	 * @param length
+	 * @return
+	 */
+	public static String getCharAndNumr(int length) {
+		String val = "";
+		Random random = new Random();
+		for (int i = 0; i < length; i++) {
+			String charOrNum = random.nextInt(2) % 2 != 0 ? "num" : "char";
+			if ("char".equalsIgnoreCase(charOrNum)) {
+				int choice = random.nextInt(2) % 2 != 0 ? 97 : 65;
+				val = (new StringBuilder(String.valueOf(val))).append(
+						(char) (choice + random.nextInt(26))).toString();
+			} else if ("num".equalsIgnoreCase(charOrNum))
+				val = (new StringBuilder(String.valueOf(val))).append(
+						String.valueOf(random.nextInt(10))).toString();
+		}
+		return val.toLowerCase();
+	}
+    /**
+     * 获取时间戳
+     * Jul 6, 2011
+     * @return
+     * 
+     * String
+     */
+    public static String getTimeStamp(String format){
+        SimpleDateFormat dateFm = new SimpleDateFormat(format); //格式化当前系统日期
+        return dateFm.format(new Date());
+    }
+	/**
+     * 获取32位的字符类型的随机值
+     * @return 32位的字符
+     * Author : 邹建松
+	 * Date   : 2013-12-26
+     */
+	public static String getRandomStrId() {
+		UUID uuid = UUID.randomUUID();
+		String tempId = uuid.toString().replace("-", "");
+		return tempId;
+	}
+	/**
+	 * 判断字符串是否为空
+	 * 
+	 * @param string 设置字符串
+	 * @return boolean 返回是否为空
+	 */
+	public static boolean isEmpty(String string) {
+		return string == null || string.length() == 0;
+	}
+	
+	public static boolean isNotEmpty(String string) {
+		return string != null && string.length() != 0;
+	}
+	
+	public static boolean isEmptyOrNull(String string) {
+		if (isEmpty(string)){
+			return true;
+		}else if (isEmpty(string.trim())){
+			return true;
+		}else if (string.trim().equalsIgnoreCase("null")){
+			return true;
+		}
+		return false;
+	}
+	
+	//按字节大小截取字符串
+	public static String subStr(String str,int len) {
+		if(str!=null && str.getBytes().length>len){
+			byte[] newValArr = new byte[len];
+			System.arraycopy(str.getBytes(), 0, newValArr, 0, newValArr.length);
+			str = new String(newValArr);
+		}
+		return str;
+	}
+	
+	/**
+	 * 根据对象数组拼接对象数组字符串
+	 * @param  objArr         对象数组
+	 * @param  splitAfterStr  前拼接字符
+	 * @param  splitLastStr   后拼接字符
+	 * @return reStr          返回对象
+	 * @author 邹建松 2014-07-14
+	 */
+	public static String concatObjArr(Object[] objArr,String splitAfterStr,String splitLastStr){
+		String reStr = "";
+		if (splitAfterStr==null){
+			splitAfterStr = " ";
+		}
+		if (splitLastStr==null){
+			splitLastStr = " ";
+		}
+		if(objArr!=null && objArr.length>0){
+			for(int i=0;i<objArr.length;i++){
+				reStr += splitAfterStr+objArr[i]+splitLastStr;
+			}
+		}
+		return reStr;
+	}
+	
+	/**
+	 * 根据对象列表拼接对象数组字符串
+	 * @param  li          对象列表
+	 * @param  replaceStr  替换字符
+	 * @param  splitStr    分割字符
+	 * @return reStr       返回对象
+	 * @author 邹建松 2014-10-14
+	 */
+	public static String replaceObjArrToStr(List<Object> li,String replaceStr,String splitStr){
+		String reStr = "";
+		for(int i=0;i<li.size();i++){
+			reStr+=(replaceStr+splitStr);
+		}
+		if(StringUtil.isNotEmpty(reStr)){
+			reStr = reStr.substring(0,reStr.length()-splitStr.length());
+		}
+		return reStr;
+	}
+	
+	/**
+	 * 根据对象拼接对象数组字符串
+	 * @param  obj            对象
+	 * @param  splitAfterStr  前拼接字符
+	 * @param  splitLastStr   后拼接字符
+	 * @return reStr          返回对象
+	 * @author 邹建松 2014-07-14
+	 */
+	public static String beanToObjArrStr(BeanPropertySqlParameterSource beanObj,String splitAfterStr,String splitLastStr){
+		String reStr = "";
+		if (splitAfterStr==null){
+			splitAfterStr = ":";
+		}
+		if (splitLastStr==null){
+			splitLastStr = ";";
+		}
+		if(beanObj!=null){
+			String[] strArr = beanObj.getReadablePropertyNames();
+			for(int i=0;i<strArr.length;i++){
+				reStr += strArr[i]+splitAfterStr+beanObj.getValue(strArr[i])+splitLastStr;
+			}
+		}
+		return reStr;
+	}
+	
+	/**
+	 * 通用方法-解决字符串回车换行问题
+	 * @param  str    处理的字符串对象
+	 * @return String 返回对象
+	 * @author 邹建松 2014-07-14
+	 */	
+	public static String jointString(String str) {
+		StringBuffer buf = new StringBuffer();
+		for (StringTokenizer st = new StringTokenizer(str != null ? str : "","\n", false); st.hasMoreTokens(); buf.append(st.nextToken().trim()));
+		return buf.toString();
+	}
+	
+	/**
+	 * 递归将列表生成树节点对象
+	 * @param  tempList    	节点列表
+	 * @param  topObj      	根节点对象
+	 * @param  idName      	id对象名称
+	 * @param  parentIdName parentId对象名称
+	 * @param  childrenName children对象名称
+	 * @return Map<String,Object>   返回对象
+	 * @author 邹建松 2014-08-09
+	 */
+	@SuppressWarnings("unchecked")
+	private static Map<String,Object> treeWork(List<Map<String,Object>> tempList,Map<String,Object> topObj,String idName,String parentIdName,String childrenName){
+		Map<String,Object> mapObj = null;
+		List<Map<String,Object>> objList = null;
+		String parentId = topObj.get(idName).toString();
+		List<Map<String,Object>> temp2List = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> temp3List = new ArrayList<Map<String,Object>>();
+		for (int i = 0; i < tempList.size(); i++) {
+			mapObj = tempList.get(i);
+			if (mapObj.get(parentIdName).equals(parentId)) {
+				if (topObj.containsKey(childrenName)) {
+					((List<Map<String,Object>>)topObj.get(childrenName)).add(mapObj);
+				} else {
+					objList = new ArrayList<Map<String,Object>>();
+					objList.add(mapObj);
+					topObj.put(childrenName, objList);
+				}
+				temp2List.add(mapObj);
+				topObj.put("leaf", false);
+			} else {
+				temp3List.add(mapObj);
+			}
+		}
+
+		for (int i = 0; i < temp2List.size(); i++) {
+			mapObj = temp2List.get(i);
+			treeWork(temp3List, mapObj, idName, parentIdName, childrenName);
+		}
+		return topObj;
+	}
+	
+	/**
+	 * 递归将列表生成树节点对象
+	 * @param  tempList    	节点列表
+	 * @param  topObj      	根节点对象
+	 * @param  idName      	id对象名称
+	 * @param  parentIdName parentId对象名称
+	 * @param  childrenName children对象名称
+	 * @return List<Map<String,Object>>    返回对象
+	 * @author 邹建松 2014-08-09
+	 */
+	public static List<Map<String,Object>> getJsonArrForList(List<Map<String,Object>> objList,String idName,String parentIdName,String childrenName){
+		Map<String,Object> obj = new HashMap<String,Object>();
+		List<Map<String,Object>> topList = new ArrayList<Map<String,Object>>();
+		List<Map<String,Object>> tempList = new ArrayList<Map<String,Object>>();
+		Map<String,Object> mapObj = null;
+		List<Map<String,Object>> reObjList = new ArrayList<Map<String,Object>>();
+		for (int i = 0; i < objList.size(); i++) {
+			obj = objList.get(i);
+			obj.put("leaf", true);
+			if (obj.get(parentIdName)==null||obj.get(parentIdName).equals("null")||obj.get(parentIdName).equals("")) {
+				topList.add(obj);
+			} else {
+				tempList.add(obj);
+			}
+		}
+
+		for (int i = 0; i < topList.size(); i++) {
+			mapObj = topList.get(i);
+			treeWork(tempList, mapObj, idName, parentIdName, childrenName);
+			reObjList.add(mapObj);
+		}
+		return reObjList;
+	}
+	
+	/**
+	 * MD5的32位加密
+	 * @param  inStr     对象
+	 * @return String  	  返回对象
+	 * @author 邹建松 2014-08-09
+	 */
+	public static String md5(String inStr) {
+		MessageDigest md5 = null;
+		try {
+			md5 = MessageDigest.getInstance("MD5");
+		} catch (Exception e) {
+			e.printStackTrace();
+			return "";
+		}
+		char[] charArray = inStr.toCharArray();
+		byte[] byteArray = new byte[charArray.length];
+		for (int i = 0; i < charArray.length; i++){
+			byteArray[i] = (byte) charArray[i];
+		}
+		byte[] md5Bytes = md5.digest(byteArray);
+		StringBuffer hexValue = new StringBuffer();
+		for (int i = 0; i < md5Bytes.length; i++) {
+			int val = ((int) md5Bytes[i]) & 0xff;
+			if (val < 16){
+				hexValue.append("0");
+			}
+			hexValue.append(Integer.toHexString(val));
+		}
+		return hexValue.toString();
+	}
+
+	/**
+	 * [简要描述]:处理时间字符串<br/>
+	 * [详细描述]:<br/>
+	 * 
+	 * @param time 2014-11-14 17:04:58.0
+	 * @return 2014-11-14 17:04:58
+	 * @exception 
+	 */
+	public static String dealTimeStr(String time)
+	{
+	    // 对参数进行判断
+	    if (isEmpty(time))
+        {
+            return time;
+        }
+	    else
+	    {
+            return time.substring(0, time.length() - 2);
+        }
+	}
+	/**
+	 * [简要描述]:通过","隔开的字符串获取正则表达式对象<br/>
+	 * [详细描述]:<br/>
+	 * 
+	 * @param extStr ","隔开的字符串
+	 * @param caseInsensitive 是否忽略大小写
+	 * @return
+	 * @exception 
+	 */
+	public static String getReg(String extStr,boolean caseInsensitive){
+	    String[] arr = extStr.split(",");
+	    String reStr = "";
+	    for(int i=0;i<arr.length;i++){
+	        if(i==arr.length-1){
+	            reStr += "(.*\\"+arr[i]+")";
+	        }else{
+	            reStr += "(.*\\"+arr[i]+")|";
+	        }
+	    }
+	    if(caseInsensitive){
+	        return "^(?i)"+reStr+"$";
+	    }
+	    return "^"+reStr+"$";
+	}
+	
+	/**  
+     * 手机号验证是否合法
+     * @param  str  
+     * @return 验证通过返回true  
+     */  
+    public static boolean isMobile(String str) {    
+        Pattern p = null;   
+        Matcher m = null;   
+        boolean b = false;    
+        p = Pattern.compile("^[1][3,4,5,6,7,8,9][0-9]{9}$"); // 验证手机号   
+        m = p.matcher(str);   
+        b = m.matches();    
+        return b;   
+    }   
+    
+	/**
+	 * 检测邮箱地址是否合法
+	 * 
+	 * @param email
+	 * @return true合法 false不合法
+	 */
+	public static boolean isEmail(String email) {
+		if (null == email || "".equals(email))
+			return false;
+		Pattern p = Pattern.compile("\\w+([-+.]\\w+)*@\\w+([-.]\\w+)*\\.\\w+([-.]\\w+)*");// 复杂匹配
+		Matcher m = p.matcher(email);
+		return m.matches();
+	}  
+    
+	/**
+	 * 检测日期串是否合法
+	 * 
+	 * @param dateStr
+	 * @return true合法 false不合法
+	 */
+	public static boolean isDateValid(String dateStr) {
+		String eL= "^((\\d{2}(([02468][048])|([13579][26]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])))))|(\\d{2}(([02468][1235679])|([13579][01345789]))[\\-\\/\\s]?((((0?[13578])|(1[02]))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(3[01])))|(((0?[469])|(11))[\\-\\/\\s]?((0?[1-9])|([1-2][0-9])|(30)))|(0?2[\\-\\/\\s]?((0?[1-9])|(1[0-9])|(2[0-8]))))))";        
+        Pattern p = Pattern.compile(eL);         
+        Matcher m = p.matcher(dateStr);         
+        boolean b = m.matches();        
+        if(b) {        
+            return true;        
+        }        
+        else {        
+        	return false;       
+        }     
+	}
+	
+	/**
+	 * 检测日期串是否合法
+	 * 
+	 * @param dateStr
+	 */
+	public static Date parseDate(String dateStr, String formatStr) {
+		SimpleDateFormat formatter = new SimpleDateFormat(formatStr);
+		Date date = null;
+		try {
+			date = formatter.parse(dateStr);
+		} catch (ParseException e) {
+		}
+		return date;
+	}
+	
+	/* 
+	 * 毫秒转化时分秒毫秒 
+	 */  
+	public static String formatLongToTime(Long ms) {  
+	    Integer ss = 1000;  
+	    Integer mi = ss * 60;  
+	    Integer hh = mi * 60;  
+	    Integer dd = hh * 24;  
+	  
+	    Long day = ms / dd;  
+	    Long hour = (ms - day * dd) / hh;  
+	    Long minute = (ms - day * dd - hour * hh) / mi;  
+	    Long second = (ms - day * dd - hour * hh - minute * mi) / ss;  
+	    Long milliSecond = ms - day * dd - hour * hh - minute * mi - second * ss;  
+	      
+	    StringBuffer sb = new StringBuffer();  
+	    if(day > 0) {  
+	        sb.append(day+"天");  
+	    }  
+	    if(hour > 0) {  
+	        sb.append(hour+"小时");  
+	    }  
+	    if(minute > 0) {  
+	        sb.append(minute+"分");  
+	    }  
+	    if(second > 0) {  
+	        sb.append(second+"秒");  
+	    }  
+	    //if(milliSecond > 0) {  
+	    //   sb.append(milliSecond+"毫秒");  
+	    //}  
+	    return sb.toString();  
+	}
+	
+	/*  
+	  * 判断是否为浮点数，包括double和float  
+	  * @param str 传入的字符串  
+	  * @return 是浮点数返回true,否则返回false  
+	*/    
+	public static boolean isDouble(String str) {    
+	    Pattern pattern = Pattern.compile("^[-\\+]?[.\\d]*$");    
+	    return pattern.matcher(str).matches();    
+	} 
+	
+	/**
+	 * 获得客户端真实IP地址
+	 * @param  request     请求对象
+	 * @return ip          返回对象
+	 * @author 邹建松 2014-07-14
+	 */
+	public static String getIpAddr(HttpServletRequest request) {  
+		String ip = request.getHeader("x-forwarded-for");  
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+			ip = request.getHeader("Proxy-Client-IP");  
+		}  
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+			ip = request.getHeader("WL-Proxy-Client-IP");  
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+			ip = request.getHeader("X-Real-IP");
+		}
+		if(ip == null || ip.length() == 0 || "unknown".equalsIgnoreCase(ip)) {  
+			ip = request.getRemoteAddr();  
+		}
+		return ip;
+	}
+	
+
+	public static String generatorStrByLength(String str,int length)
+	{
+        
+        String[] strArray = str.split( "," );
+        String resultStr = "";
+        for ( int i = 0; i < length; i++ )
+        {
+            resultStr += strArray[i] + ",";
+        }
+        return resultStr;
+	}
+	
+	public static int daysBetween(String smdate,String bdate) throws ParseException{  
+        SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");  
+        Calendar cal = Calendar.getInstance();    
+        cal.setTime(sdf.parse(smdate));    
+        long time1 = cal.getTimeInMillis();                 
+        cal.setTime(sdf.parse(bdate));    
+        long time2 = cal.getTimeInMillis();         
+        long between_days=(time2-time1)/(1000*3600*24);  
+            
+       return Integer.parseInt(String.valueOf(between_days));     
+    }  
+	
+	public static String getYesterDayStr()
+	{
+	    Calendar calendar = Calendar.getInstance();
+	    calendar.add( Calendar.DATE, -1 );
+	    return new SimpleDateFormat( "yyyy-MM-dd").format(calendar.getTime());
+	}
+	
+//	public static void main( String[] args )
+//    {
+//        System.out.println(getYesterDayStr());
+//    }
+////	public static void main(String[] args) throws ParseException{
+////	    String phone = "11551042247,132";
+////	    System.out.println(phone.split( "," )[0]);
+////	    System.out.println(isChinaPhoneLegal( "11551042247" ));
+////
+//////	    System.out.println(daysBetween("2017-08-24","2017-08-30"));
+//////		System.out.println(isDateValid("2012-1-11"));
+//////		System.out.println(isDateValid("20-01-11"));
+//////		System.out.println(isDateValid("2012-02-31"));
+//////		System.out.println(isDateValid("2012-01-99"));
+//////		System.out.println(isDateValid("2-01-11"));
+//////		System.out.println(isDouble("2我3"));
+////	}
+
+}

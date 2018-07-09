@@ -1,0 +1,3 @@
+bussinessConstant : #业务常量
+  prefix : /hxcollectionapi/api
+  urls: /usermobile/login*/usermobile/getuserinfo
