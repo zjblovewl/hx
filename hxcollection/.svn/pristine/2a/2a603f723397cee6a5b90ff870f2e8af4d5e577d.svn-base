@@ -1,0 +1,139 @@
+package cn.com.hxfz.service;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.com.hxfz.model.Goods;
+
+/**
+ * 
+ * @类功能说明：交易帖(商品) 业务接口
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：liugui  
+ * @创建时间：2018年4月12日 下午8:31:36 
+ * @版本：V1.0
+ */
+public interface GoodsService {
+	/**
+	 * @description  获取交易帖商品列表
+	 * @method  getGoodsRecords
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Goods>
+	 * @date: 2018年4月13日 下午2:06:11
+	 * @author:liugui
+	 */
+	public List<Goods> getGoodsRecords(Map<String, Object> paramsMap);
+	/**
+	 * 方法功能说明：查询角色数量
+	 * 创建：2018年04月01日 by liugui
+	 * @return
+	 */
+	public int getGoodsCount(Map<String, Object> paramsMap);
+	/**
+	 * @description 查看商品详细信息
+	 * @method  getGoodsDetail
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return Goods
+	 * @date: 2018年4月13日 下午2:06:49
+	 * @author:liugui
+	 */
+	public Goods getGoodsDetail(Map<String, Object> paramsMap);
+	/**
+	 * @description 删除商品
+	 * @method  deletGoodsByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月13日 下午2:07:14
+	 * @author:liugui
+	 */
+	public void deleteGoodsByIds(Map<String, Object> paramsMap);
+	/**
+	 * @description 保存商品信息
+	 * @method  saveOrUpdateGoods
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月13日 下午2:08:33
+	 * @author:liugui
+	 */
+	public void saveOrUpdateGoods(Goods goods);
+	/**
+	 * @description 获取评论列表
+	 * @method  getGoodsComment
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月16日 下午1:46:57
+	 * @author:liugui
+	 */
+	public List<Map<String,Object>> getGoodsComment(Map<String, Object> paramsMap);
+	
+	/**
+	 * @description 更新商品状态
+	 * @method  updateGoodsStatusByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月16日 下午1:57:37
+	 * @author:liugui
+	 */
+	public void updateGoodsStatusByIds(Map<String, Object> paramsMap);
+	/**
+	 * @description 删除商品评论
+	 * @method  deleteGoodsCommentByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月16日 下午4:57:32
+	 * @author:liugui
+	 */
+	public void deleteGoodsCommentByIds(Map<String, Object> paramsMap);
+	
+	/**
+	 * @description 获取拍卖结拍时间 
+	 * @method  getAuctionSession
+	 * @param @param paramsMap
+	 * @param @return
+	 * @date: 2018年4月19日 上午10:29:08
+	 * @author:liugui
+	 */
+	public Map<String,Object> getAuctionSession();
+	/**
+	 * @description  保存拍卖结拍时间
+	 * @method  saveAuctionSession
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月19日 上午10:29:11
+	 * @author:liugui
+	 */
+	public void saveAuctionSession(Map<String, Object> paramsMap);
+	
+	/**
+	 * @description 获取拍卖商品出价记录
+	 * @method  getGoodsOfferRecord
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月20日 下午4:02:07
+	 * @author:liugui
+	 */
+	public List<Map<String,Object>> getGoodsOfferRecord(Map<String, Object> paramsMap);
+	/**
+	 * @description 删除出价记录
+	 * @method  deleteGoodsOfferRecordByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月20日 下午4:07:36
+	 * @author:liugui
+	 */
+	public void deleteGoodsOfferRecordByIds(Map<String, Object> paramsMap);
+	
+	/**
+	 * @description 查询省市信息
+	 * @method  queryAreaInfo
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年5月3日 下午2:10:03
+	 * @author:liugui
+	 */
+	public List <Map<String, Object>> queryAreaInfo();
+}

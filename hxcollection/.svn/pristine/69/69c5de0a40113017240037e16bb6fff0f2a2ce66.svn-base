@@ -1,0 +1,124 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+            <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>数据字典编辑</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../H-ui.admin/H-ui.min.css" />
+<link rel="stylesheet" href="../../css/jspEditcommon.css" />
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/timeUtils.js"></script>
+<script src="../../js/commonCheckUtils.js"></script>
+
+<style>
+.controls input{	
+    width: 70%;
+}
+.controls .control-label{
+    width: 65px !important;
+}
+.modal-container{
+	padding-top: 2px !important;
+	height: 73% !important;
+}
+</style>
+</head>
+<body>
+	<!-- 修改/新增 -->
+	<p id="modal-title" class="modal-title">新增数据字典</p>	
+	<div class="modal-container">
+		<div class="form-div-edit">
+			<div class="control-group">
+				<div class="controls">
+					<span class="control-label">字典值</span>
+					 <input id="dic_value" type="text" placeholder="输入字典值" class="input-text">
+					 <span class="lable-symbol">*</span>
+				</div>
+			</div>	
+			<div class="area-text-parent">
+						<span class="control-label">描述</span>
+					 <textarea id="dic_name" rows="3" cols="20"  class="area-text"></textarea>
+					 <span class="lable-symbol">*</span>			
+			</div>
+			<div class="control-group button-group">			
+				<button id="submit_modal" class="btn btn-success marginRight10">保存提交</button>
+				<button id="close_modal" class="btn btn-danger">关闭</button>
+			</div>
+		</div>
+
+	</div>
+	<script>
+		$(function() {
+			 var saveOrUpdateUrl = '<%=basePath%>dictionary/saveOrUpdateDictionary.do?rnd=' + Math.random();
+			var parentOBJ = window.parent;
+			//获取url
+			var src_data = parentOBJ.document.getElementById("modal-iframe")
+					.getAttribute("src-data");
+			var json_data = JSON.parse(src_data);
+			console.log(json_data);
+			var dic_name,dic_value,describe,pid,sort;
+			if (json_data.dic_name) {
+				if(json_data.edit == 1){
+					$("#modal-title").text("查看数据字典");
+					$("#submit_modal").hide();
+					$('input').each(function(){
+						$(this).attr("readonly","readonly");
+						$(this).css({							
+							background:'#fff'
+						});
+						$(this).next().addClass("lable-symbol-white");
+						$(this).next().removeClass("lable-symbol");
+					});
+				}else{
+					$("#modal-title").text("编辑数据字典");
+				}
+				$("#modal-title").val("编辑数据字典");
+				$("#dic_name").val(json_data.dic_name);
+				$("#dic_value").val(json_data.dic_value);					
+			}
+			//关闭
+			$("#close_modal").click(function() {
+				parentOBJ.modalIn();
+			});
+			//保存提交
+			$("#submit_modal").click(function() {
+				var dic_name = $("#dic_name").val();
+				var dic_value = $("#dic_value").val();	
+				
+				if(dic_name == "" || dic_value=="" || describe == ""||pid==""||sort==""){
+					alert("*为必填内容");
+					return;
+				}
+				
+				$.ajax({
+					url : saveOrUpdateUrl,
+					type : "post",
+					data : {
+						dic_name : dic_name,
+						dic_value : dic_value,
+						 dicId : json_data.id == undefined?"":json_data.id,
+						pId: "0"		 
+					},
+					success : function(data) {
+
+					},
+					error : function() {
+						console.error("error");
+					}
+				});
+				
+				parentOBJ.modalIn();//关闭
+				parentOBJ.resfreshTable();
+				
+			});
+			
+		});
+	</script>
+</body>
+</html>

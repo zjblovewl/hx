@@ -1,0 +1,49 @@
+//校验邮箱格式
+function checkEmail(email){
+	 var myreg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+   if(!myreg.test(email)){       
+        return false;
+   }else{
+ 	  return true;
+   }
+}
+//校验手机号
+function checkMobile(str) {
+	var re = /^1\d{10}$/
+	 if (re.test(str)) {
+	   return true;
+	 } else {
+	   return false;
+	 }
+}
+$.fn.extend({
+	checkPhone:function(){
+		$(this).val($(this).val().replace(/[^\d]/g,''));
+	},
+	checkTextArea:function(parentPicOBJ){
+		var RegAutograph = /^(?![\\p{P}\\p{S}])[\u4e00-\u9fa5]+$/;
+		var autograph = $(this).val();
+		var falg = autograph.search(RegAutograph);
+		if (falg == -1) {
+			parentPicOBJ.$.showSuccessTimeout("签名含有特殊字符，请重新输入！");
+			this.focus();
+		}
+	},
+	checkPwd:function(parentPicOBJ){
+		var RegPwd = /^[A-Za-z0-9]{6,18}$/;
+		var password1 = $(this).val();
+		var falg = password1.search(RegPwd);
+		if (falg == -1) {
+			parentPicOBJ.$.showSuccessTimeout("密码为字母、数字组合且长度在6-18之间，请重新输入!");
+			this.focus();
+		}
+	},
+	checkEmail:function(email){
+		 var myreg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+		   if(!myreg.test(email)){       
+		        return false;
+		   }else{
+		 	  return true;
+		   }
+	}
+});

@@ -1,0 +1,31 @@
+package cn.com.hxfz.dao;
+
+import java.util.List;
+import java.util.Map;
+
+
+
+/**
+ * @公司名称: 南京华讯方舟通讯设备有限公司
+ * @项目名称: hxcollection
+ * @类路径: cn.com.hxfz.dao
+ * @作者: qiangxuan
+ * @时间: 2018/3/16 15:28
+ * @版本: V1.0
+ */
+public interface TimeTaskDao {
+
+    List<Map<String,Object>> getTimeTaskList();
+    
+    List<Map<String,Object>> getTimeTask(Map<String, Object> param);
+    
+    void saveTimeTask(Map<String, Object> paramsMap);
+
+    void updateTimeTaskById(Map<String, Object> paramsMap);
+
+    void deleteTimeTaskById(Map<String, Object> paramsMap);
+
+	int getTimeTaskCount(Map<String, Object> param);
+
+	void delMoreTimeTask(Map<String, Object> paramsMap);
+}

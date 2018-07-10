@@ -1,0 +1,273 @@
+package cn.com.hxfz.controller;
+
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.hxfz.model.Role;
+import cn.com.hxfz.service.SysRoleService;
+import cn.com.hxfz.util.CommUtils;
+import cn.com.hxfz.util.LogUtil;
+import cn.com.hxfz.util.ServletHelp;
+import cn.com.hxfz.util.StringUtils;
+
+@Controller
+@RequestMapping("/role")
+public class SysRoleController {
+	private SysRoleService roleService;
+
+	public SysRoleService getRoleService() {
+		return roleService;
+	}
+	@Autowired
+	public void setRoleService(SysRoleService roleService) {
+		this.roleService = roleService;
+	}
+	
+	/**
+	 * 方法功能说明：查询角色信息
+	 * 创建：2018年03月21日 by liugui
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/getRoleDetail.do")
+	public void getRoleDetail(HttpServletRequest request,HttpServletResponse response,String roleId){
+		try {					
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("roleId", roleId);			
+			Role role = roleService.findRoleByRoleId(paramsMap);			
+			Map<String, Object> map = new HashMap<String, Object>();			
+			map.put("role", role);
+			JSONObject jsonObj = JSONObject.fromObject(map);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 方法功能说明：角色查询
+	 * 创建：2018年03月29日 by liugui
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/getRoleRecords.do")
+	public void getRoleRecords(HttpServletRequest request,HttpServletResponse response,
+			Integer pageSize, Integer pageIndex, String roleName){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {		
+			operation = "查看【角色管理】";
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("offset", pageIndex);
+			paramsMap.put("limit", pageSize);
+			paramsMap.put("roleName", roleName);
+			Map<String, Object> params = CommUtils.convertDecode(paramsMap);
+			List<Map<String, Object>> resultList = roleService.getRoleRecords(params);
+			int totalCount = roleService.getRoleCount(params);
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("rows", resultList);
+			map.put("total", totalCount);
+			JSONObject jsonObj = JSONObject.fromObject(map);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}
+	/**
+	 * 
+	 * @description 查询角色列表
+	 * @method  getRoleList
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @date: 2018年4月4日 上午9:34:14
+	 * @author:liugui
+	 */
+	@RequestMapping(value="/getRoleList.do")
+	public void getRoleList(HttpServletRequest request,HttpServletResponse response){
+		try {		
+			List<Map<String, Object>> resultList = roleService.getRoleList();
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("resultList", resultList);
+			JSONObject jsonObj = JSONObject.fromObject(map);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 方法功能说明：校验角色是否已存在
+	 * 创建：2018年03月29日 by liugui
+	 * @param request
+	 * @param response
+	 */	
+	@RequestMapping(value="/checkSameName.do")
+	@ResponseBody
+	public Boolean checkSameName(HttpServletRequest request,HttpServletResponse response,String roleId,String roleName){
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		try {		
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("roleId", roleId);
+			paramsMap.put("roleName",URLDecoder.decode(roleName, "utf-8"));
+			result = roleService.checkSameName(paramsMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+	
+	/**
+	 * 方法功能说明：保存角色信息
+	 * 创建：2018年03月29日 by liugui
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/saveOrUpdateRole.do")
+	public void saveOrUpdateRole(HttpServletRequest request,HttpServletResponse response,String roleId,String role_name,String role_desc){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {
+			if(StringUtils.isNotEmpty(roleId)){
+				operation = "编辑【角色管理】："+role_name;	
+			}else{
+				operation = "新增【角色管理】："+role_name;	
+			}
+            				
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("roleId", roleId);
+			paramsMap.put("roleName", role_name);
+			paramsMap.put("roleDesc", role_desc);
+			roleService.saveOrUpdateRole(paramsMap);			
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "保存成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}
+	
+	/**
+	 * 方法功能说明：删除角色信息
+	 * 创建：2018年03月29日 by liugui
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/deleteRoleByIds.do")
+	public void deleteRoleById(HttpServletRequest request,HttpServletResponse response,String roleId){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {
+			operation = "删除【角色管理】";
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("roleId", roleId);		
+			roleService.deleteRoleById(paramsMap);			
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "删除成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}	
+	
+	/**
+	 * 方法功能说明：获取角色权限
+	 * 创建：2018年03月29日 by liugui
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/getRolePermission.do")
+	public void getRolePermission(HttpServletRequest request,HttpServletResponse response,String roleId){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {		
+			operation = "查看【角色管理】";
+			Map<String, Object> paramsMap = new HashMap<String, Object>();		
+			paramsMap.put("roleId", roleId);
+			List<Map<String, Object>> resultList = roleService.getRolePermission(paramsMap);		
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("result", resultList);		
+			JSONObject jsonObj = JSONObject.fromObject(map);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}
+	
+	/**
+	 * 方法功能说明：获取权限菜单数据
+	 * 创建：2018年03月29日 by liugui
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/getMenuTreeRecords.do")
+	public void getMenuTreeRecords(HttpServletRequest request,HttpServletResponse response){
+		try {										
+			JSONArray jsonArr = roleService.getMenuTreeRecords();		
+			ServletHelp.outRequestForJson(request, response, jsonArr.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 方法功能说明：保存角色权限
+	 * 创建：2018年03月29日 by liugui  
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/saveRolePermission.do")
+	public void saveRolePermission(HttpServletRequest request,HttpServletResponse response,String roleIdWillSet,String checkedList){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {
+			operation = "权限配置【角色管理】";            				
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("roleId", roleIdWillSet);
+			paramsMap.put("checkedList", checkedList);		
+			roleService.saveRolePermission(paramsMap);			
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "删除成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}	
+}

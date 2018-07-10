@@ -1,0 +1,338 @@
+package cn.com.hxfz.service.impl;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+import net.sf.json.JSONArray;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.hxfz.dao.MenuDao;
+import cn.com.hxfz.dao.RoleDao;
+import cn.com.hxfz.dao.UserDao;
+import cn.com.hxfz.model.Menu;
+import cn.com.hxfz.service.SysMenuService;
+import cn.com.hxfz.util.CommUtils;
+import cn.com.hxfz.util.StringUtil;
+@Service("sysMenuService")
+public class SysMenuServiceImpl implements SysMenuService{
+	private UserDao userDao;
+	private RoleDao roleDao;
+	private MenuDao menuDao;
+	
+	public UserDao getUserDao() {
+		return userDao;
+	}
+	@Autowired
+	public void setUserDao(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	public RoleDao getRoleDao() {
+		return roleDao;
+	}
+	@Autowired
+	public void setRoleDao(RoleDao roleDao) {
+		this.roleDao = roleDao;
+	}
+	public MenuDao getMenuDao() {
+		return menuDao;
+	}
+	@Autowired
+	public void setMenuDao(MenuDao menuDao) {
+		this.menuDao = menuDao;
+	}
+	
+	/**
+	 * 方法功能说明：获取当前登录人的菜单权限
+	 * 创建：2018年03月24日 by liugui  
+	 * @return
+	 */
+	public JSONArray getCurrUserPermission(Map<String, Object> paramsMap){
+		// 最后的结果
+		List<Menu> list = new ArrayList<Menu>();  
+		// 原始的数据
+		List<Menu> menuList = getMenuList(paramsMap); 
+		// 先找到所有的一级菜单
+	    for (int i = 0; i < menuList.size(); i++) {
+	        // 一级菜单parentId=0
+	        if ("0".equals(menuList.get(i).getParentId())) {
+	        	list.add(menuList.get(i));
+	        }
+	    }
+	    // 为一级菜单设置子菜单，getChild是递归调用的
+	    for (Menu menu : list) {
+	    	menu.setChildMenus(getChild(menu.getMenuId(), menuList));
+	    }
+	    JSONArray jsonArr = JSONArray.fromObject(list);
+	    return jsonArr;
+	}
+	/**
+	 * 方法功能说明：递归查找子菜单
+	 * 创建：2018年03月26日 by liugui 
+	 * @param id  当前菜单id
+	 * @param rootMenu 要查找的列表
+	 * @return
+	 */
+	private List<Menu> getChild(String id, List<Menu> rootMenu) {
+	    // 子菜单
+	    List<Menu> childList = new ArrayList<>();
+	    for (Menu menu : rootMenu) {	
+	        // 遍历所有节点，将父菜单id与传过来的id比较
+	        if (StringUtil.isNotBlank(menu.getParentId())) {
+	            if (menu.getParentId().equals(id)) {
+	                childList.add(menu);
+	            }
+	        }
+	    }
+	    // 把子菜单的子菜单再循环一遍
+	    for (Menu menu : childList) {// 没有url子菜单还有子菜单
+	        if (StringUtil.isBlank(menu.getUrl())) {
+	            // 递归
+	            menu.setChildMenus(getChild(menu.getMenuId(), rootMenu));
+	        }
+	    } // 递归退出条件
+	    if (childList.size() == 0) {
+	        return null;
+	    }
+	    return childList;
+	}
+	/**
+	 * @description 递归查找子菜单
+	 * @method  getChild
+	 * @param @param id
+	 * @param @param rootMenu
+	 * @param @param menuList
+	 * @param @return
+	 * @return List<Menu>
+	 * @date: 2018年4月4日 下午3:54:35
+	 * @author:liugui
+	 */
+	private void getChild(String id, List<Menu> rootMenu,List<Menu> menuList) {
+	    for (Menu menu : rootMenu) {	
+	        // 遍历所有节点，将父菜单id与传过来的id比较
+	        if (StringUtil.isNotBlank(menu.getParentId())) {
+	            if (menu.getParentId().equals(id)) {
+	            	menuList.add(menu);
+	            	 if (StringUtil.isBlank(menu.getUrl())) {
+	     	            // 递归
+	     	            getChild(menu.getMenuId(), rootMenu, menuList);
+	     	        }
+	            }
+	        }
+	    }
+	}
+	/**
+	 * 方法功能说明：获取当前登录人的权限
+	 * 创建：2018年03月26日 by liugui 
+	 * @return
+	 */
+	private List<Menu> getMenuList(Map<String, Object> paramsMap){
+		List<Menu> list = new ArrayList<Menu>();  
+    	// 通过用户查询角色
+        List<Map<String, Object>> userRoles = userDao.getRoleListByUserId(paramsMap);  
+        // 通过角色查询菜单  
+        List<Map<String, Object>> roleMenus = new ArrayList<Map<String, Object>>();  
+        if(userRoles != null && userRoles.size() > 0){
+        	for(Map<String, Object> userRole : userRoles){
+        		paramsMap = new HashMap<String, Object>(); 
+        		if (userRole != null) {
+        			if(userRole.get("role_id").equals(paramsMap.get("roleId"))){
+        				break;
+        			}
+        			paramsMap.put("roleId", userRole.get("role_id").toString());
+        			List<Map<String, Object>> rms = roleDao.getMenuListByRoleId(paramsMap);  
+        			for(Map<String, Object> roleMenu : rms){
+        				roleMenus.add(roleMenu);
+        			}
+        		}
+        	}
+        }
+        // 查询菜单信息  
+        for (Map<String, Object> roleMenu : roleMenus) {  
+            if (roleMenu != null) {  
+            	Map<String,Object> paramsMenuMap = new HashMap<String,Object>();
+            	paramsMenuMap.put("menuId", roleMenu.get("menu_id"));
+            	Menu menu = menuDao.getMenuById(paramsMenuMap);  
+                if (menu != null) {  
+                	list.add(menu);  
+                }  
+            }  
+        }  
+        list = removeDuplicate(list);  
+		return list;
+	}
+	
+	/**
+	 * 方法功能说明：去除菜单中重复项
+	 * 创建：2018年03月26日 by liugui
+	 * @param list 要去重的列表 
+	 * @return
+	 */
+	private List<Menu> removeDuplicate(List<Menu> list){
+		List<Menu> result = new ArrayList<Menu>();  
+        Set<String> menuIds = new HashSet<String>();  
+        for (int i = 0; i < list.size(); i++) {  
+        	Menu m = list.get(i);  
+            if (m != null && menuIds.add(m.getMenuId())) {  
+                result.add(m);  
+            }  
+        }  
+        return result;  
+	}
+	/**
+	 * 方法功能说明：查询菜单
+	 * 创建：2018年03月27日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public List<Map<String, Object>> getMenuRecords(Map<String, Object> paramsMap){
+		return menuDao.getMenuList(paramsMap);
+	}
+	
+	/**
+	 * 方法功能说明：查询菜单数量
+	 * 创建：2018年03月27日 by liugui
+	 * @return
+	 */
+	public int getMenuCount(){
+		return menuDao.getMenuCount();
+	}
+
+	/**
+	 * 方法功能说明：获取所有菜单数据
+	 * 创建：2018年03月27日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public List<Menu> getAllMenuRecords(Map<String, Object> paramsMap){
+		// 最后的结果
+		List<Menu> list = new ArrayList<Menu>();  
+		// 原始的数据
+		List<Menu> menuList = menuDao.getAllMenuRecords(paramsMap); 
+		// 先找到所有的一级菜单
+	    for (int i = 0; i < menuList.size(); i++) {
+	        // 一级菜单parentId=0
+	        if ("0".equals(menuList.get(i).getParentId())) {
+	        	list.add(menuList.get(i));
+	        	getChild(menuList.get(i).getMenuId(), menuList,list);
+	        }
+	    }
+	    return list;
+	}
+	
+	/**
+	 * 方法功能说明：获取菜单详细信息
+	 * 创建：2018年03月27日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public Map<String, Object> getMenuDetail(Map<String, Object> paramsMap){
+		return menuDao.getMenuDetail(paramsMap);
+	}
+	
+	/**
+	 * 方法功能说明：校验菜单是否已存在 同一级别下的资源名称不能相同
+	 * 创建：2018年03月27日 by liugui
+	 * @return
+	 */
+	public Boolean checkSameMenuName(Map<String, Object> paramsMap){
+		int count = 0;
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//userId不为空,则为编辑
+		if(paramsMap.get("menuId")!=null && paramsMap.get("menuId") != ""){
+			count = menuDao.checkEditMenu(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}			
+		}else{
+			count = menuDao.checkAddMenu(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}	
+		}
+		return result;
+	}
+	
+	/**
+	 * 方法功能说明：保存菜单
+	 * 创建：2018年03月27日 by liugui
+	 * @return
+	 */
+	public void saveOrUpdateMenu(Map<String, Object> paramsMap){
+		//处理 菜单层级
+		if(paramsMap.get("parentId") !=null && paramsMap.get("parentId") != ""){
+			String pId = paramsMap.get("parentId").toString();
+			String level= "";
+			if("0".equals(pId)){
+				level = "1";
+			}else{
+				Map<String, Object> params = new HashMap<String, Object>();	
+				params.put("menuId", pId);
+				Map<String, Object> map = menuDao.getMenuDetail(params);
+				int lev = Integer.parseInt((String) map.get("level"))+1;
+				level = String.valueOf(lev);
+			}
+			paramsMap.put("level", level);
+		}
+		//menuId不为空,编辑
+		if(paramsMap.get("menuId") !=null && paramsMap.get("menuId") != ""){
+			menuDao.updateMenuById(paramsMap);
+		}else{
+			String menuId = CommUtils.getUUID();
+			paramsMap.put("menuId", menuId);
+			menuDao.saveMenu(paramsMap);
+		}
+	}
+	
+	/**
+	 * 方法功能说明：删除菜单并递归子菜单一并删除
+	 * 创建：2018年03月27日 by liugui
+	 * @return
+	 */
+	public void deleteMenuById(Map<String, Object> paramsMap){
+		List<Object> menuIdList = new ArrayList<Object>();
+		if(paramsMap.get("menuId") !=null && paramsMap.get("menuId") != ""){
+			menuIdList.add(paramsMap.get("menuId").toString());
+			findChildMenuIds(menuIdList,paramsMap.get("menuId").toString());
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("menuIdList", menuIdList);
+			menuDao.deleteMenuById(paramsMap);
+			menuDao.deleteRoleAndMenuByMenuId(paramsMap);
+		}
+		
+		
+	}
+	/**
+	 * 
+	 * @description 递归查询子菜单id
+	 * @method  findChildMenuIds
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return String
+	 * @date: 2018年4月11日 上午9:21:19
+	 * @author:liugui
+	 */
+	private void findChildMenuIds(List<Object> menuIdList,String parentId){
+		Map<String, Object> params = new HashMap<String, Object>();
+		params.put("menuId", parentId);
+		List<Map<String, Object>> childMenuList = roleDao.getChildMenusByParentId(params);
+		if(childMenuList != null && childMenuList.size() > 0){
+			for (int j = 0; j < childMenuList.size(); j++) {
+				menuIdList.add(childMenuList.get(j).get("id"));
+				findChildMenuIds(menuIdList,childMenuList.get(j).get("id").toString());
+			}
+		}
+	}
+
+	
+}

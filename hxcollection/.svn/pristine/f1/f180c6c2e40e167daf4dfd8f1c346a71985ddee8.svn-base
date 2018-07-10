@@ -1,0 +1,127 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.ChartDao" >
+	<!-- 查询交易订单总数 -->
+	<select id="queryOrderSumList" parameterType="java.util.Map" resultType="java.util.Map">
+      	select to_char(daytime::date, 'yyyy-mm-dd') as daytime,coalesce(t.transactionsum,0) as transactioncount ,
+		coalesce(u.salecount,0) as salecount from generate_series(
+          (select  #{startTime}::date),
+		   		(select #{endTime}::date),
+ 			'1 day'
+		) s(daytime)
+		left join 
+		(
+			select count(*) transactionsum, to_date(to_char(order_generation_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') ordertime
+				from hxdb.hx_order  
+				where order_type = '1' 
+				group by to_char(order_generation_time, 'yyyy-mm-dd') 
+				order by to_char(order_generation_time, 'yyyy-mm-dd') 
+		) t
+		on daytime=t.ordertime
+		left join 
+		(
+			select count(*) salecount, to_date(to_char(order_generation_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') ordertime2
+				from hxdb.hx_order  
+				where order_type = '2' 
+				group by to_char(order_generation_time, 'yyyy-mm-dd') 
+				order by to_char(order_generation_time, 'yyyy-mm-dd') 
+		) u
+		on daytime=u.ordertime2
+		
+    </select>
+    
+	<!-- 查询帖子增长总数  -->
+	<select id="queryCardAddList" parameterType="java.util.Map" resultType="java.util.Map">
+		select to_char(daytime::date, 'yyyy-mm-dd') as daytime,coalesce(t.transactionsum,0) as transactioncount ,
+		coalesce(u.salecount,0) as salecount,coalesce(z.postcount,0) as postcount from generate_series(
+          (select  #{startTime}::date),
+		   		(select #{endTime}::date),
+ 			'1 day'
+		) s(daytime)
+		left join 
+		(
+			select count(*) transactionsum, to_date(to_char(create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') ordertime
+				from hxdb.hx_goods  
+				where goods_type = '1' 
+				group by to_char(create_time, 'yyyy-mm-dd') 
+				order by to_char(create_time, 'yyyy-mm-dd') 
+		) t
+		on daytime=t.ordertime
+		left join 
+		(
+			select count(*) salecount, to_date(to_char(create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') ordertime2
+				from hxdb.hx_goods 
+				where goods_type = '2' 
+				group by to_char(create_time, 'yyyy-mm-dd') 
+				order by to_char(create_time, 'yyyy-mm-dd') 
+		) u
+		on daytime=u.ordertime2
+		left join
+		(
+			select count(*) postcount, to_date(to_char(create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') ordertime3
+				from hxdb.hx_goods 
+				where 1=1 
+				group by to_char(create_time, 'yyyy-mm-dd') 
+				order by to_char(create_time, 'yyyy-mm-dd') 
+		) z
+		on daytime = z.ordertime3
+		
+    </select>
+	
+	<!-- 查询评论增长总数  -->
+	<select id="queryCommentAddList" parameterType="java.util.Map" resultType="java.util.Map">
+		select to_char(commenttime::date, 'yyyy-mm-dd') as commenttime,coalesce(t.transactioncommentcount,0) as transactioncount ,
+		coalesce(u.salecommentcount,0) as salecount,coalesce(z.commentcount,0) as commentcount from generate_series(
+           (select  #{startTime}::date),
+		   		(select #{endTime}::date),
+ 			'1 day'
+		) s(commenttime)
+		left join 
+		(
+			select count(*) transactioncommentcount, to_date(to_char(create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') transactiontime
+				from hxdb.hx_goods_comment  
+				where goods_type = '1' 
+				group by to_char(create_time, 'yyyy-mm-dd') 
+				order by to_char(create_time, 'yyyy-mm-dd') 
+		) t
+		on commenttime=t.transactiontime
+		left join 
+		(
+			select count(*) salecommentcount, to_date(to_char(create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') saletime
+				from hxdb.hx_goods_comment 
+				where goods_type = '2' 
+				group by to_char(create_time, 'yyyy-mm-dd') 
+				order by to_char(create_time, 'yyyy-mm-dd') 
+		) u
+		on commenttime=u.saletime
+		left join
+		(
+			select count(*) commentcount, to_date(to_char(create_time, 'yyyy-mm-dd'), 'yyyy-mm-dd') lastcommenttime
+				from hxdb.hx_goods_comment 
+				where 1=1 
+				group by to_char(create_time, 'yyyy-mm-dd') 
+				order by to_char(create_time, 'yyyy-mm-dd') 
+		) z
+		on commenttime = z.lastcommenttime
+	</select>
+	
+	<!-- 查询用户注册趋势折线图 -->
+  	<select id="getUserRegTrendData" parameterType="java.util.Map" resultType="java.util.Map">
+		select to_char(registertime::date, 'yyyy-mm-dd') as registertime,coalesce(t.usercount,0) as sums 
+ 		from generate_series(
+  		(select  #{startTime}::date),
+		   		(select #{endTime}::date),
+ 			'1 day'
+		) s(registertime)
+		left join 
+		(
+			select count(*) usercount, to_date(to_char(register_time, 'yyyy-mm-dd'),'yyyy-mm-dd') regtime
+			from hxdb.hx_user  where 1=1 
+			group by to_char(register_time, 'yyyy-mm-dd') 
+			order by to_char(register_time, 'yyyy-mm-dd')
+		) t
+		on registertime = t.regtime
+
+  	</select>
+  	
+</mapper>

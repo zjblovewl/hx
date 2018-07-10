@@ -1,0 +1,459 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.GoodsDao" >
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.Goods" >
+	    <id column="id" property="goodsId" jdbcType="VARCHAR" />
+	    <result column="big_class_code" property="bigClassCode" jdbcType="VARCHAR" />
+	    <result column="small_class_code" property="smallClassVode" jdbcType="VARCHAR" />
+	    <result column="user_id" property="userId" jdbcType="VARCHAR" />
+	    <result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+	    <result column="goods_type" property="goodsType" jdbcType="VARCHAR" />
+	    <result column="goods_name" property="goodsName" jdbcType="VARCHAR" />
+	    <result column="goods_description" property="goodsDescription" jdbcType="VARCHAR" />
+	    <result column="inventory" property="inventory" jdbcType="INTEGER" />
+	    <result column="price" property="price" jdbcType="DECIMAL" />
+	    <result column="postage" property="postage" jdbcType="DECIMAL" /> 
+	    <result column="status" property="status" jdbcType="VARCHAR" />
+	    <result column="first_step_time" property="firstStepTime" jdbcType="TIMESTAMP" />
+	    <result column="last_update_time" property="lastUpdateTime" jdbcType="TIMESTAMP" />
+	    <result column="browse_num" property="browseNum" jdbcType="INTEGER" />
+	    <result column="publish_customer" property="publishCustomer" jdbcType="VARCHAR" />
+	    <result column="publish_time" property="publishTime" jdbcType="TIMESTAMP" />
+	    <result column="start_price" property="startPrice" jdbcType="DECIMAL" />
+	    <result column="markup_price" property="markupPrice" jdbcType="DECIMAL" />
+	    <result column="current_price" property="currentPrice" jdbcType="DECIMAL" />
+	    <result column="end_time" property="endTime" jdbcType="TIMESTAMP" /> 
+	    <result column="city_code" property="cityCode" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	    <result column="is_recommend" property="isRecommend" jdbcType="VARCHAR" />
+	    <result column="sort" property="sort" jdbcType="INTEGER" />
+	    <result column="image_urls" property="imageUrls" jdbcType="VARCHAR" />
+	    <result column="image_ids" property="imageIds" jdbcType="VARCHAR" />
+	</resultMap>
+  	<!-- 获取商品详细信息  -->
+	<select id="getGoodsById" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+		select g.id,big_class_code,small_class_code,user_id,u.nick_name,goods_type,goods_name,goods_description,
+		inventory,price,postage,g.status,
+		to_char(first_step_time,'YYYY-MM-DD HH24:MI:SS') as first_step_time,
+		to_char(last_update_time,'YYYY-MM-DD HH24:MI:SS') as last_update_time,
+		browse_num,publish_customer,
+		to_char(publish_time,'YYYY-MM-DD HH24:MI:SS') as publish_time,
+		start_price,markup_price,current_price,
+		to_char(end_time,'YYYY-MM-DD HH24:MI:SS') as end_time,
+		g.city_code,
+		to_char(g.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,
+		g.is_recommend,g.sort,COALESCE(t.image_urls,'') as image_urls 
+		,COALESCE(t.image_ids,'') as image_ids  
+		from hxdb.hx_goods g left join hxdb.hx_user u on u.id = g.user_id
+		left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids  
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		where 1=1 and g.id = #{goodsId}
+	</select>
+	<!-- 商品列表-->
+	<select id="getGoodsRecords" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select g.id,big_class_code,small_class_code,user_id,u.nick_name,goods_type,goods_name,goods_description,
+		inventory,price,postage,g.status,
+		to_char(first_step_time,'YYYY-MM-DD HH24:MI:SS') as first_step_time,
+		to_char(last_update_time,'YYYY-MM-DD HH24:MI:SS') as last_update_time,
+		browse_num,publish_customer,
+		to_char(publish_time,'YYYY-MM-DD HH24:MI:SS') as publish_time,
+		start_price,markup_price,current_price,
+		to_char(end_time,'YYYY-MM-DD HH24:MI:SS') as end_time,
+		g.city_code,
+		<!-- to_char(g.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time, -->
+		g.is_recommend,g.sort,g.del_flag,COALESCE(t.image_urls,'') as image_urls 
+		,COALESCE(t.image_ids,'') as image_ids 
+		from hxdb.hx_goods g 
+		left join hxdb.hx_user u on u.id = g.user_id
+		left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids  
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		where g.del_flag = '0' and g.goods_type = #{goodsType}
+		<!-- 商品名称-->
+        <if test="goods_name != null and goods_name != ''">
+          and g.goods_name like '%'||#{goods_name}||'%'
+        </if>
+        <!-- 用户昵称-->
+        <if test="nick_name != null and nick_name != ''">
+          and u.nick_name like '%'||#{nick_name}||'%'
+        </if>
+        <!-- 商品大类-->
+        <if test="big_class_code != null and big_class_code != ''">
+          and g.big_class_code = #{big_class_code}
+        </if>
+        <!-- 商品小类-->
+        <if test="smallClassVode != null and smallClassVode != ''">
+          and g.small_class_code = #{smallClassVode}
+        </if>
+        <!-- 商品状态 1：上架 2：下架-->
+        <if test="status != null and status != ''">
+          and g.status = #{status}
+        </if>
+        <!-- 商品初次上架开始时间 -->
+        <if test="first_step_start_time != null and first_step_start_time != ''">
+          <![CDATA[ and g.first_step_time >= to_char(#{first_step_start_time},'YYYY-MM-DD HH24:MI:SS')]]>
+        </if>
+        <!-- 商品初次下架结束时间 -->
+        <if test="first_step_end_time != null and first_step_end_time != ''">
+          <![CDATA[ and g.first_step_time <= to_char(#{first_step_end_time},'YYYY-MM-DD HH24:MI:SS')]]>
+        </if>
+        order by g.sort asc,g.create_time asc
+    </select>
+	  <!-- 查询商品数量 -->
+	  <select id="getGoodsCount"  parameterType="java.util.HashMap" resultType="java.lang.Integer">
+	  		select count(g.id) as totalcount from hxdb.hx_goods g 
+			left join hxdb.hx_user u on u.id = g.user_id
+			left join
+			(		        
+				select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids  
+				from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+				left join hxdb.sys_images img on img.id = re.image_id
+				group by re.service_id 	
+			)t on t.service_id = g.id
+			where g.del_flag = '0' and g.goods_type = #{goodsType}
+		  	<!-- 商品名称-->
+	        <if test="goods_name != null and goods_name != ''">
+	          and g.goods_name like '%'||#{goods_name}||'%'
+	        </if>
+	        <!-- 用户昵称-->
+	        <if test="nick_name != null and nick_name != ''">
+	          and u.nick_name like '%'||#{nick_name}||'%'
+	        </if>
+	        <!-- 商品大类-->
+	        <if test="big_class_code != null and big_class_code != ''">
+	          and g.big_class_code = #{big_class_code}
+	        </if>
+	        <!-- 商品小类-->
+	        <if test="smallClassVode != null and smallClassVode != ''">
+	          and g.small_class_code = #{smallClassVode}
+	        </if>
+	        <!-- 商品状态 1：上架 2：下架-->
+	        <if test="status != null and status != ''">
+	          and g.status = #{status}
+	        </if>
+	        <!-- 商品初次上架开始时间 -->
+	        <if test="first_step_start_time != null and first_step_start_time != ''">
+	          <![CDATA[ and g.first_step_time >= to_char(#{first_step_start_time},'YYYY-MM-DD HH24:MI:SS')]]>
+	        </if>
+	        <!-- 商品初次下架结束时间 -->
+	        <if test="first_step_end_time != null and first_step_end_time != ''">
+	          <![CDATA[ and g.first_step_time <= to_char(#{first_step_end_time},'YYYY-MM-DD HH24:MI:SS')]]>
+	        </if>
+	  </select>
+	<!-- 获取菜单详细信息 -->
+    <select id="getGoodsDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+   		select g.id,big_class_code,small_class_code,user_id,goods_type,goods_name,goods_description,
+		inventory,price,postage,status,
+		to_char(first_step_time,'YYYY-MM-DD HH24:MI:SS') as first_step_time,
+		to_char(last_update_time,'YYYY-MM-DD HH24:MI:SS') as last_update_time,
+		browse_num,publish_customer,
+		to_char(publish_time,'YYYY-MM-DD HH24:MI:SS') as publish_time,
+		start_price,markup_price,current_price,
+		to_char(end_time,'YYYY-MM-DD HH24:MI:SS') as end_time,
+		g.city_code,
+		<!-- to_char(g.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time, -->
+		g.is_recommend,g.sort,g.del_flag,COALESCE(t.image_urls,'') as image_urls 
+		,COALESCE(t.image_ids,'') as image_ids 
+		from hxdb.hx_goods g 
+		left join hxdb.hx_user u on u.id = g.user_id
+		left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids  
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = g.id
+		 where 1=1 and id = #{goodsId}
+    </select>
+    
+    <!-- 新增校验商品是否已存在 商品名称不能相同-->
+  	<select id="checkAddGoods" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id)  as totalcount from hxdb.hx_goods 
+  		and goods_name = #{goodsName}
+  		and goods_type = #{goodsType}
+  	</select>
+  	
+  	<!-- 编辑校验商品是否已存在 商品名称不能相同-->
+ 	<select id="checkEditGoods" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) as totalcount from hxdb.hx_goods 
+  		where id != #{classId} 
+  		and goods_name = #{goodsName}
+  		and goods_type = #{goodsType}
+  	</select>
+  	
+    <!-- 保存商品 -->
+  	<insert id="saveGoods" parameterType="cn.com.hxfz.model.Goods">
+	  	insert into hxdb.hx_goods
+	  	<trim prefix="(" suffix=")" suffixOverrides="," >
+		  	  <if test="goodsId != null" >
+		        id,
+		      </if>
+		      <if test="bigClassCode != null" >
+		        big_class_code,
+		      </if>
+		      <if test="smallClassVode != null" >
+		        small_class_code,
+		      </if>
+		      <if test="userId != null" >
+		        user_id,
+		      </if>
+		      <if test="goodsType != null" >
+		        goods_type,
+	     	  </if>
+	     	  <if test="goodsName != null" >
+		        goods_name,
+		      </if>
+		      <if test="goodsDescription != null" >
+		        goods_description,
+		      </if>
+		      <if test="inventory != null" >
+		        inventory,
+		      </if>
+		      <if test="price != null" >
+		        price,
+		      </if>
+		      <if test="postage != null" >
+		        postage,
+	     	  </if>
+		      status,
+		      first_step_time,
+		      <if test="browseNum != null" >
+		        browse_num,
+		      </if>
+		      <if test="publishCustomer != null" >
+		        publish_customer,
+		      </if>
+		        publish_time,
+		      <if test="startPrice != null" >
+		        start_price,
+	     	  </if>
+	     	  <if test="markupPrice != null" >
+		        markup_price,
+	     	  </if>
+	     	  <if test="currentPrice != null" >
+		        current_price,
+	     	  </if>
+	     	  <if test="endTime != null" >
+		        end_time,
+	     	  </if>
+	     	  <if test="cityCode != null" >
+		        city_code,
+	     	  </if>
+	     	 	create_time,
+	     	  <if test="isRecommend != null" >
+		        is_recommend,
+	     	  </if>
+	     	  <if test="sort != null" >
+		        sort
+	     	  </if>
+	  	</trim>
+	  	<trim prefix="values (" suffix=")" suffixOverrides="," >
+	  		  <if test="goodsId != null" >
+		        #{goodsId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="bigClassCode != null" >
+		        #{bigClassCode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="smallClassVode != null" >
+		        #{smallClassVode,jdbcType=VARCHAR},
+		      </if>
+		      <if test="userId != null" >
+		        #{userId,jdbcType=VARCHAR},
+		      </if>
+		      <if test="goodsType != null" >
+		        #{goodsType,jdbcType=VARCHAR},
+		      </if>
+		      <if test="goodsName != null" >
+		        #{goodsName,jdbcType=VARCHAR},
+		      </if>
+		      <if test="goodsDescription != null" >
+		        #{goodsDescription,jdbcType=VARCHAR},
+		      </if>
+		      <if test="inventory != null" >
+		        #{inventory,jdbcType=INTEGER},
+		      </if>
+		      <if test="price != null" >
+		        #{price,jdbcType=DECIMAL},
+		      </if>
+		      <if test="postage != null" >
+		        #{postage,jdbcType=DECIMAL},
+		      </if>
+		      '1',now(),
+		      <if test="browseNum != null" >
+		        #{browseNum,jdbcType=INTEGER},
+		      </if>
+		      <if test="publishCustomer != null" >
+		        #{publishCustomer,jdbcType=VARCHAR},
+		      </if>
+		      now(),
+		      <if test="startPrice != null" >
+		        #{startPrice,jdbcType=DECIMAL},
+		      </if>
+		      <if test="markupPrice != null" >
+		        #{markupPrice,jdbcType=DECIMAL},
+		      </if>
+		      <if test="currentPrice != null" >
+		        #{currentPrice,jdbcType=DECIMAL},
+		      </if>
+		      <if test="endTime != null" >
+		        #{endTime,jdbcType=TIMESTAMP},
+		      </if>
+		      <if test="cityCode != null" >
+		        #{cityCode,jdbcType=VARCHAR},
+		      </if>
+		      now(),
+		      <if test="isRecommend != null" >
+		        #{isRecommend,jdbcType=VARCHAR},
+		      </if>
+		      <if test="sort != null" >
+		        #{sort,jdbcType=INTEGER}
+		      </if>
+		      
+	  	</trim>
+ 	</insert>
+ 	
+ 	<!-- 修改商品 -->
+  	<update id="updateGoodsById" parameterType="cn.com.hxfz.model.Goods">
+  		update hxdb.hx_goods 
+  		 <trim prefix="set" suffixOverrides=",">
+	      <if test="bigClassCode != null" >
+	        big_class_code = #{bigClassCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="smallClassVode != null" >
+	        small_class_code = #{smallClassVode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="userId != null" >
+	        user_id = #{userId,jdbcType=VARCHAR},
+	      </if>
+	      <if test="goodsType != null" >
+	        goods_type = #{goodsType,jdbcType=VARCHAR},
+	      </if>
+	      <if test="goodsName != null" >
+	        goods_name = #{goodsName,jdbcType=VARCHAR},
+	      </if>
+	      <if test="goodsDescription != null" >
+	        goods_description = #{goodsDescription,jdbcType=VARCHAR},
+	      </if>
+	      <if test="inventory != null" >
+	        inventory = #{inventory,jdbcType=INTEGER},
+	      </if>
+	      <if test="price != null" >
+	        price = #{price,jdbcType=DECIMAL},
+	      </if>
+	      <if test="postage != null" >
+	        postage = #{postage,jdbcType=DECIMAL},
+	      </if>
+	        last_update_time = now(),
+	      <if test="browseNum != null" >
+	        browse_num = #{browseNum,jdbcType=INTEGER},
+	      </if>
+	      <if test="publishCustomer != null" >
+	        publish_customer = #{publishCustomer,jdbcType=VARCHAR},
+	      </if>
+	        publish_time = now(),
+	      <if test="startPrice != null" >
+	        start_price = #{startPrice,jdbcType=DECIMAL},
+	      </if>
+	      <if test="markupPrice != null" >
+	        markup_price = #{markupPrice,jdbcType=DECIMAL},
+	       </if>
+	      <if test="currentPrice != null" >
+	        current_price = #{currentPrice,jdbcType=DECIMAL},
+	      </if>
+	      <if test="endTime != null" >
+	        end_time = #{endTime,jdbcType=TIMESTAMP},
+	      </if>
+	      <if test="cityCode != null" >
+	        city_code = #{cityCode,jdbcType=VARCHAR},
+	      </if>
+	      <if test="isRecommend != null" >
+	        is_recommend = #{isRecommend,jdbcType=VARCHAR},
+	      </if>
+	      <if test="sort != null" >
+	        sort = #{sort,jdbcType=INTEGER},
+	      </if>
+	    </trim>
+	    where id = #{goodsId,jdbcType=VARCHAR}
+ 	</update>
+ 	
+ 	<!-- 删除商品 -->
+  	<delete id="deleteGoodsByIds" parameterType="java.util.HashMap">
+  		update hxdb.hx_goods set del_flag = '1' where id in
+  		<foreach item="item" collection="goodsIdList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  	</delete>
+  	
+  	<!-- 获取商品评论列表-->
+  	<select id="getGoodsComment" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select gc.id,gc.user_id,u.nick_name,gc.goods_id,gc.reply_user_id,gc.comment_content,gc.goods_type,
+  		gc.create_time,gc.update_time,COALESCE(t.image_urls,'') as image_urls,COALESCE(t.image_ids,'') as image_ids  
+  		from hxdb.hx_goods_comment gc
+  		left join hxdb.hx_user u on u.id = gc.user_id
+  		left join hxdb.hx_goods g on g.id = gc.goods_id
+  		left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids   
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = u.id
+		where g.id = #{goodsId,jdbcType=VARCHAR}
+  	</select>
+  	
+  	<!-- 更新商品状态 -->
+  	<update id="updateGoodsStatusByIds" parameterType="java.util.HashMap">
+  		update hxdb.hx_goods set status = #{status}
+		where id in 
+		<foreach item="item" collection="goodsIdList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+ 	</update>
+ 	
+ 	<!-- 删除评论 -->
+  	<delete id="deleteGoodsCommentByIds" parameterType="java.util.HashMap">
+  		delete from hxdb.hx_goods_comment where id in
+  		<foreach item="item" collection="commentIdList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  	</delete>
+  	
+  	<!-- 获取拍卖结拍时间 -->
+  	<select id="getAuctionSession"  resultType="java.util.HashMap">
+  		select id,auction_session,days,create_time from hxdb.hx_auction_endtime 
+ 	</select>
+ 	
+ 	<!-- 保存拍卖结拍时间-->
+  	<insert id="saveAuctionSession" parameterType="java.util.HashMap">
+	  	insert into hxdb.hx_auction_endtime(id,auction_session,days,create_time)
+		values(#{id},#{auctionSession},#{days},now())
+ 	</insert>
+ 	
+ 	<!-- 删除拍卖结拍时间-->
+  	<delete id="deleteAuctionSession">
+	  	delete from hxdb.hx_auction_endtime
+ 	</delete>
+ 	
+ 	<!-- 获取出价记录 -->
+ 	<select id="getGoodsOfferRecord"  parameterType="java.util.HashMap" resultType="java.util.HashMap">
+ 		select id,goods_id,user_id,nick_name,offer_price,create_time,update_time 
+ 		from hxdb.hx_goods_offer_record where goods_id =  #{goodsId,jdbcType=VARCHAR}
+ 	</select>
+ 	
+ 	<!-- 删除出价记录 -->
+  	<delete id="deleteGoodsOfferRecordByIds" parameterType="java.util.HashMap">
+  		delete from hxdb.hx_goods_offer_record where id in
+  		<foreach item="item" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  	</delete>
+</mapper>

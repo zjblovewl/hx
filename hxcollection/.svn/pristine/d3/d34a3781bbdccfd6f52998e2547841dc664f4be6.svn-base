@@ -1,0 +1,40 @@
+﻿@charset "utf-8";
+
+@font-face{
+    font-family: FontMfLove;
+    src: url('../fonts/MfLoveSong.ttf');
+    font-weight: normal;
+    font-style: normal
+}
+.mfLove {
+    display: inline-block;
+    font: normal normal normal 14px/1 FontAwesome;
+    font-size: inherit;
+    text-rendering: auto;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale
+}
+html {
+    height: 100%;
+}
+
+body {
+    min-height: 100%;
+    position: relative;
+    font-size: 14px;
+    color: #fff;
+    background-color: #EFEEF0;
+    overflow-x：hidden；
+    overflow-y：auto；
+}
+
+a {
+    color: #fff
+}
+
+h4 {
+    line-height: 30px
+}
+
+
+

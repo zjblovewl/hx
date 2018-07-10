@@ -1,0 +1,95 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title> 
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel="stylesheet" href="css/common.css">
+    <link rel="stylesheet" href="css/login.css">
+    <script src="js/jquery.min.js"></script>
+    <script src="js/jquery.validate.min.js"></script>
+    <script src="js/common/md5.js"></script>
+    <style>
+       
+    </style>
+</head>
+<body>
+
+<div class="main">
+    <div class="login">
+        <div class="title title1">乾隆</div>
+        <div class="title title2">QianLong</div>
+        <div class="title title3">收藏品后台管理系统</div>
+        <div class="title title4">ShouCangpinhoutaiguanlixitong</div>
+        <div class="subtitle">
+            <span class="line"></span>
+            <span class="line_txt">欢迎登录</span>
+            <span class="line"></span>
+        </div>
+        <div class="input_area">
+            <label><i class="fa fa-user-o" aria-hidden="true"></i></label>
+			<input type="text"  name="username" id="username"  class="inputTxt username"/>
+            <label class="psd"><i class="fa fa-lock" aria-hidden="true"></i></label>
+			<input type="password" class="inputTxt password" name="password" id="password" />
+            <div class="button" id="login"></div>
+            <div class="cb_txt">               
+                <p></p>               
+            </div>
+            <img class="foot-img" src="images/login-img-foot.png"/>
+        </div>
+    </div>
+</div>
+<script>
+     $("#username").focus();
+ 	function login(){		
+ 		var loginname = $.trim($('#username').val());
+ 		if(!loginname || loginname == ""){
+ 			alert("请输入用户名");
+ 			return;
+ 		}
+ 		
+ 		var password = $.trim($('#password').val());
+ 		if(!password || password == ""){
+ 			alert("请输入密码");
+ 			return;
+ 		}		
+ 		$.ajax({
+ 			type:"post",    			
+ 			url : '../user/login.do',		
+ 			data:{
+ 				name : loginname,
+ 				password : hex_md5(password).toUpperCase()
+ 			},
+ 			success:function(result){     				
+ 				if(result==0){					
+ 					window.location.href='jsp/index.jsp';
+ 				}else{
+ 					alert("登录失败,该用户没有登录权限,请联系管理员授权");
+ 				}
+ 			},
+ 			error:function(){
+ 				alert("登录失败");
+ 			}
+ 		});
+ 	}
+ 	$(function(){ 		
+ 		$("#login").bind("click",function(){
+ 			login();
+ 	 	});
+ 	});    	
+ 	
+ 	 $(function(){  
+ 	    $(document).keypress(function (e) {
+ 	      if (e.keyCode == 13) {
+ 	    	  login();
+ 	      }
+ 	   });
+ 	}); 
+ </script>
+</body>
+</html>

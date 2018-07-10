@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>登录</title>
+    <link rel="stylesheet" href="../css/common.css">
+    <link rel="stylesheet" href="../css/login.css">
+    <style>
+
+    </style>
+</head>
+<body>
+<div class="main">
+    <div class="login">
+        <div class="title">乾隆收藏后台管理系统</div>
+        <div class="subtitle">
+            <span class="line"></span>
+            <span class="line_txt">欢迎登录</span>
+            <span class="line"></span>
+        </div>
+        <div class="input_area">
+            <label></label><input class="inputTxt username"/>
+            <label></label><input class="inputTxt password"/>
+            <div class="button">登录</div>
+            <div class="cb_txt">
+                <input type="checkbox" />
+                <p>记住密码</p>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+package cn.com.hxfz.dto;
+
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import cn.com.hxfz.sign.IgnoreSign;
+import cn.com.hxfz.util.DateUtil;
+
+/**
+ * 公共dto基类 <功能详细描述>
+ * @author Scott
+ * @since 1.0
+ */
+@JsonIgnoreProperties(
+{ "updateTime", "needLock" })
+public abstract class AbstractDto implements Serializable
+{
+    private static final long serialVersionUID = -7544380975022168993L;
+
+    @IgnoreSign
+    private boolean needLock = false;
+
+    @IgnoreSign
+    private String updateTime = DateUtil.getFormateDateAll();
+
+    /**
+     * @return the needLock
+     * @since 1.0
+     */
+    public boolean isNeedLock()
+    {
+        return needLock;
+    }
+
+    /**
+     * @param needLock 要设置的 needLock
+     * @since 1.0
+     */
+    public void setNeedLock(boolean needLock)
+    {
+        this.needLock = needLock;
+    }
+
+    public String getUpdateTime()
+    {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime)
+    {
+        this.updateTime = updateTime;
+    }
+}

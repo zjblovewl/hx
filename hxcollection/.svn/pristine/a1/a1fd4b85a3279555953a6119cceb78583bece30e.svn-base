@@ -1,0 +1,126 @@
+package cn.com.hxfz.bean;
+
+import java.io.Serializable;
+import java.util.List;
+
+import com.github.pagehelper.PageInfo;
+
+/**
+ * ClassName: PageBean <br>
+ * 响应页面分页信息<br>
+ *
+ * @author Scott
+ * @since 1.0
+ */
+public class PageBean<T> implements Serializable
+{
+
+    private static final long serialVersionUID = 161062864248489320L;
+
+    private Long total;
+
+    private int pageNum;
+
+    private int pageSize;
+
+    private List<T> rows;
+
+    private int pages;
+
+    public PageBean()
+    {
+
+    }
+
+    public PageBean(PageInfo<T> info)
+    {
+        this.total = info.getTotal();//总条数
+        this.pageNum = info.getPageNum();//当前页
+        this.pages = info.getPages();//总页数
+        this.pageSize = info.getPageSize();//每页条数
+        this.rows = info.getList();
+    }
+
+    /**
+     * total.
+     *
+     * @return the total
+     * @since 1.0
+     */
+    public Long getTotal()
+    {
+        return total;
+    }
+
+    public void setTotal(Long total)
+    {
+        this.total = total;
+    }
+
+    /**
+     * pageNum.
+     *
+     * @return the pageNum
+     * @since 1.0
+     */
+    public int getPageNum()
+    {
+        return pageNum;
+    }
+
+    public void setPageNum(int pageNum)
+    {
+        this.pageNum = pageNum;
+    }
+
+    /**
+     * pageSize.
+     *
+     * @return the pageSize
+     * @since 1.0
+     */
+    public int getPageSize()
+    {
+        return pageSize;
+    }
+
+    public void setPageSize(int pageSize)
+    {
+        this.pageSize = pageSize;
+    }
+
+    /**
+     * @return the rows
+     * @since 1.0
+     */
+    public List<T> getRows()
+    {
+        return rows;
+    }
+
+    /**
+     * @param rows 要设置的 rows
+     * @since 1.0
+     */
+    public void setRows(List<T> rows)
+    {
+        this.rows = rows;
+    }
+
+    /**
+     * pages.
+     *
+     * @return the pages
+     * @since 1.0
+     */
+    public int getPages()
+    {
+        return pages;
+    }
+
+    public void setPages(int pages)
+    {
+        this.pages = pages;
+    }
+
+}

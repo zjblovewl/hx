@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.UserOperationLogDao" >
+	
+	<!-- 用户操作历史映射信息 -->
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.UserOperationLog">
+		<id column="hx_user_operation_log_pk_id" property="id" jdbcType="VARCHAR" />
+		<result column="id" property="rid" jdbcType="VARCHAR" />
+		<result column="user_id" property="userId" jdbcType="VARCHAR" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="operation_type" property="operationType" jdbcType="VARCHAR" />
+		<result column="operation_content" property="operationContent" jdbcType="VARCHAR" />
+		<result column="operation_time" property="operationTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 获取用户操作历史数据 -->
+	<select id="getUserOperationLogList" parameterType="java.util.Map" resultType="java.util.Map">
+        select o.id,o.nick_name,o.operation_type,o.operation_content,
+      	to_char(o.operation_time,'YYYY-MM-DD HH24:MI:SS') as operation_time 
+		from hxdb.hx_user_operation_log o 
+		where 1=1
+        <if test="operationContent != null and operationContent != ''">
+          and operation_content like '%'||#{operationContent}||'%'
+        </if>
+        <if test="operationType != null and operationType != ''">
+          and operation_type like '%'||#{operationType}||'%'
+        </if>
+		order by o.operation_time desc
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+	
+	<!-- 获取用户操作历史总数 -->
+	<select id="getUserOperationLogCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(id)
+        from hxdb.hx_user_operation_log where 1=1
+        <if test="operationContent != null and operationContent != ''">
+          and operation_content like '%'||#{operationContent}||'%'
+        </if>
+        <if test="operationType != null and operationType != ''">
+          and operation_type like '%'||#{operationType}||'%'
+        </if>
+    </select>
+	
+</mapper>

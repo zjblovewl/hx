@@ -1,0 +1,468 @@
+<%@page import="cn.com.hxfz.util.Configuration"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+	String uploadImageUrl = Configuration.getInstance().getValue("upload_image_url");
+	String getImageUrl = Configuration.getInstance().getValue("get_image_url");
+%>
+<!DOCTYPE html>
+<html lang="en">	
+<head>
+<meta charset="UTF-8">
+<title>用户管理</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../H-ui.admin/H-ui.min.css" />
+<link rel="stylesheet" type="text/css" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../css/jspEditcommon.css" />
+
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/timeUtils.js"></script>
+<script src="../../js/common/md5.js"></script>
+<script src="../../js/commonCheckUtils.js"></script>
+
+<style>
+.controls .input-text{	
+    width: 67%;
+}
+
+.controls-ul{
+	overflow-y: scroll !important;
+	overflow-x: hidden;
+    height: 119px;
+	display: none;
+    margin-left: 64px;
+    width: 66%;
+    border: 1px solid #ddd;
+    padding-left: 5px;
+}
+.controls ul li{
+	margin-bottom:5px;
+}
+.controls .checkbox-role{
+	vertical-align:top;
+	margin-right:6px;
+}
+.modal-container{
+	height: 85% !important;
+}
+</style>
+</head>
+<body>
+	<!-- 修改/新增 -->
+	<p id="modal-title" class="modal-title">新增用户</p>
+	<div class="modal-container">
+		<div class="form-div-edit">
+			<div class="control-group">
+				<div class="controls">
+					<span class="control-label">用户名 </span>
+					<input id="user_name" type="text" placeholder="输入用户名" class="input-text">	
+					 <span class="lable-symbol">*</span>				 
+				</div>
+				<div class="controls">
+					<span class="control-label">密码</span>					
+					 <input id="password" type="password" placeholder="输入密码" class="input-text">
+					 <span class="lable-symbol">*</span>
+					 
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<span class="control-label">登录名</span>
+					 <input id="login_name" type="text" placeholder="输入登录名" class="input-text">
+					<span class="lable-symbol">*</span>
+				</div>
+				<div class="controls">
+					<span class="control-label">邮箱</span> 
+					<input id="email" type="text" placeholder="输入邮箱" class="input-text">
+					<span class="lable-symbol">*</span>
+				</div>
+			</div>	
+			<div class="control-group">				
+				<div class="controls">
+					<span class="control-label">用户角色</span> 
+					<input id="roles" type="text" placeholder="选择用户角色" class="input-text" readonly="readonly">
+					<span style="position: absolute;right: 56px;top: 3px;">▼</span>
+					<span class="lable-symbol">*</span>
+					<ul class="controls-ul">				
+					
+					</ul>
+				</div>
+				<div class="controls">
+					<span class="control-label">图片</span>
+					<form id="imgForm" class="inputBox" action="" method="post" enctype="multipart/form-data">
+						<input type="hidden" id="pageUrl">
+						<div class="parent-input-file" id="parent-input-file">
+							
+							<div class="cover-input-file">
+								<input type="file" id="addimg" value="" name="files"/>
+							</div>
+							<input id="pic-submit-info" type="button" value="上传" onclick="addformsubmitAct()" class="btn .btn-info submit-pic-btn" />					
+						</div>												
+					</form>						
+					<span class="lable-symbol" >*</span>
+
+				</div>
+			</div>	
+			
+			<div class="control-group button-group">			
+				<button id="submit_modal" class="btn btn-success marginRight10">确定提交</button>
+				<button id="close_modal" class="btn btn-danger">关闭</button>
+			</div>
+		</div>
+		<div id="pcImage" style="width: 0;height: 0;"></div>
+		<div id="mobileImage" style="width: 0;height: 0;"></div>
+	</div>
+	
+	<script type="text/javascript">
+	// 上传图片URL
+	var uploadImageUrl = '<%=uploadImageUrl%>';
+	// 获取图片URL
+	var getImageUrl = '<%=getImageUrl%>'
+	//上传图片
+	function addformsubmitAct(){
+		$("#imgForm").ajaxSubmit(pcOptionsFileAct);
+		$("#imgForm").ajaxSubmit(mobileOptionsFileAct);
+	}
+	//上传图片ID
+	var pcImageIds,mobileImageIds;
+	var pcOptionsFileAct = {
+			 url:uploadImageUrl,
+			 type: 'post',
+			 beforeSubmit: checkinputeditFileAct,//根据id获得上传图片的val值,验证上传格式
+			 data:{
+				 is_source:'pc',//来源pc
+			 },
+			 success: function (data) {	
+				 pcImageIds = "";
+			    for(var i=0;i<data.data.length;i++)
+		    	{
+			    	var map = data.data[i];
+			    	for(var k in map){  //通过定义一个局部变量k遍历获取到了map中所有的key值  
+		    		  pcImageIds += k+",";
+		    		  var docList=map[k]; //获取到了key所对应的value的值！   
+		    		  var imgUrl = getImageUrl+docList[0];
+		    		  $("#pcImage").attr("imgUrl",imgUrl);
+		    		}  
+		    	}
+			    if(pcImageIds!=null){
+			    	pcImageIds = pcImageIds.substr(0,pcImageIds.length-1);
+			    	$("#pcImage").attr("pcImageIds",pcImageIds);
+			    }
+		     },		
+			 error:function(){
+			 	alert("上传图片失败,系统错误");
+			 }
+	};
+	var mobileOptionsFileAct = {
+			 url:uploadImageUrl,
+			 type: 'post',
+			 beforeSubmit: checkinputeditFileAct,//根据id获得上传图片的val值,验证上传格式
+			 data:{
+				 is_source:'mobile',//来源mobile
+			 },
+			 success: function (data) {	
+				 mobileImageIds = "";
+			    for(var i=0;i<data.data.length;i++)
+		    	{
+			    	var map = data.data[i];
+			    	for(var k in map){  //通过定义一个局部变量k遍历获取到了map中所有的key值  
+			    	  mobileImageIds += k+",";
+		    		  var docList=map[k]; //获取到了key所对应的value的值！   
+		    		  var imgUrl = getImageUrl+docList[0];
+		    		  
+		    		  $("#mobileImage").attr("imgUrl",imgUrl);
+		    		}  
+		    	}
+			    if(mobileImageIds!=null){
+			    	mobileImageIds = mobileImageIds.substr(0,mobileImageIds.length-1);
+			    	$("#mobileImage").attr("mobileImageIds",mobileImageIds);	
+			    	
+			    	alert("上传成功");
+			    }
+		     },		
+			 error:function(){
+			 	alert("上传图片失败,系统错误");
+			 }
+	};
+
+	//验证图片上传格式
+	function  checkinputeditFileAct(){
+		var fileName = $("#addimg").val();			
+		if(fileName==""){
+			alert("请选择图片!");
+			return false;
+		}
+		var end = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length);
+		end = end.toLowerCase();
+		if( !(end=='jpg'||end=='jpeg'||end=='gif'||end=='png'||end=='bmp') )
+		{
+			window.parent.alert("上传图片格式错误!");
+			return false;
+		}
+		return true;
+	}
+	//添加图片
+	var imagesCode = [];
+	$("input[type='file']").change(function(){   
+		 var file = this.files[0];
+		   if (window.FileReader) {    
+		        var reader = new FileReader();    
+		        reader.readAsDataURL(file);    
+		        //监听文件读取结束后事件    
+		        reader.onloadend = function (e) {
+		        	imagesCode.push(e.target.result);
+		        	$("#parent-input-file").find('div[class="copy-cover-input-file"]').remove();
+		        	var imgCode = '<div class="copy-cover-input-file">'+
+						'<img alt="图片" src="'+e.target.result+'"/>'+
+						 '<span class="fa fa-times dele-input-file" aria-hidden="true"></span>'+ 
+						'</div>';						       	
+		        	$("#parent-input-file").prepend(imgCode);
+		         };    
+		    } 
+		});
+	$("#parent-input-file").on('click','.dele-input-file',function(){
+		$(this).parent().remove();
+	});
+	</script>
+	<script>
+		$(function() {
+			var checkUserNameURL = '<%=basePath%>user/checkSameUserName.do?rnd=' + Math.random();
+			var checkEmailURL = '<%=basePath%>user/checkSameEmailName.do?rnd=' + Math.random();
+			//初始化角色下拉框
+			$.ajax({
+				url : '<%=basePath%>role/getRoleList.do?rnd=' + Math.random(),
+				type : "post",
+				success : function(data) {
+					//console.log(data.resultList);
+					var html_roles = "";
+					for(var i=0;i<data.resultList.length;i++){
+						html_roles += '<li>'+
+							'<input class="checkbox-role" type="checkbox" ids="'+data.resultList[i].id+'" value="'+data.resultList[i].role_name+'"><span>'+data.resultList[i].role_name+'</span>'+
+							'</li> ';
+					}
+					$(".controls-ul").html(html_roles);
+				},
+				error : function() {
+					console.error("error");
+				}
+			});
+			var parentOBJ = window.parent;
+			//获取url
+			var src_data = parentOBJ.document.getElementById("modal-iframe")
+					.getAttribute("src-data");
+			var json_data = JSON.parse(src_data);
+			console.log(json_data);
+			var user_id,user_name,user_pwd,login_name,email,roleIds;
+			if (json_data.user_name) {
+				if(json_data.edit == 1){
+					$("#modal-title").text("查看用户");
+					$("#submit_modal").hide();
+					$('input').each(function(){
+						$(this).attr("readonly","readonly");
+						$(this).css({							
+							background:'#fff'
+						});
+						$(this).next().addClass("lable-symbol-white");
+						$(this).next().removeClass("lable-symbol");
+						$("#pic-submit-info").hide();
+					});
+				}else{
+					$("#modal-title").text("编辑用户");
+				}
+				
+				user_id = json_data.role_id;
+				$("#roles").val(json_data.role_name);
+				
+				$("#user_name").val(json_data.user_name);
+				$("#password").val(json_data.password);
+				$("#login_name").val(json_data.login_name);
+				$("#email").val(json_data.email);
+			}
+			//关闭
+			$("#close_modal").click(function() {
+				parentOBJ.modalIn();
+			});
+			
+			//校验用户名是否存在
+			var isWayTo = true;
+			$("#user_name").focus(function(){
+				$(this).blur(function(){
+					var userName = $("#user_name").val();
+					ajaxUserName(userName);//校验用户
+					return;
+				});
+				return;
+			});
+			//校验邮箱是否存在
+			var isWayToEmail = true;
+			$("#email").focus(function(){
+				$(this).blur(function(){
+					var userEmail = $("#email").val();
+					var isCheck = checkEmail(userEmail);
+					
+					if(!isCheck){
+						$("#email").next().text("X");
+						$("#email").next().addClass("lable-symbol");
+						$("#email").next().removeClass("lable-symbol-green");
+						return false;
+					}else{
+						$("#email").next().text("✔");
+						$("#email").next().addClass("lable-symbol-green");
+						$("#email").next().removeClass("lable-symbol");
+					}	
+					ajaxEmial(userEmail);//校验
+					return;
+				});
+				return;
+			});
+			
+			//保存提交
+			$("#submit_modal").click(function() {
+				user_name = $("#user_name").val();
+				user_pwd = $("#password").val();
+				login_name = $("#login_name").val();
+				email = $("#email").val();	
+							
+				if(!isWayToEmail || !isWayTo){				
+					return false;
+				}
+							
+				roleIds = "";
+				$(".controls-ul").find('input').each(function(){					
+					if($(this).is(":checked")){
+						roleIds += $(this).attr("ids") + ",";
+					}
+				});
+				roleIds = roleIds.substring(0, roleIds.length-1);
+				if(user_name == "" || login_name=="" || email == ""){
+					alert("*为必填内容");
+					return;
+				}
+				
+				$.ajax({
+					url : '<%=basePath%>user/saveOrUpdateUser.do?rnd=' + Math.random(),
+					type : "post",
+					data : {
+						userId : user_id,
+						userName : user_name,
+						userPwd : hex_md5(user_pwd).toUpperCase(),
+						loginName : login_name,
+						email : email,
+						roleIds : roleIds
+					},
+					success : function(data) {
+						parentOBJ.resfreshTable();
+					},
+					error : function() {
+						console.error("error");
+						parentOBJ.resfreshTable();
+					}
+				});
+				
+				parentOBJ.modalIn();//关闭
+				
+			});
+			
+			//获取当前时间，格式YYYY-MM-DD
+			function getNowFormatDate() {
+			    var date = new Date();
+			    var seperator1 = "-";
+			    var year = date.getFullYear();
+			    var month = date.getMonth() + 1;
+			    var strDate = date.getDate();
+			    if (month >= 1 && month <= 9) {
+			        month = "0" + month;
+			    }
+			    if (strDate >= 0 && strDate <= 9) {
+			        strDate = "0" + strDate;
+			    }
+			    var currentdate = year + seperator1 + month + seperator1 + strDate;
+			    return currentdate;
+			}
+			
+			$("#roles").click(function(){
+				$(".controls-ul").slideToggle();
+				if(user_id != undefined){								
+					for(var i=0;i<user_id.split(",").length;i++){												
+						$(".controls-ul").find('input').each(function(){					
+							if($(this).attr("ids") == user_id.split(",")[i]){
+								$(this).attr("checked",true);
+							}
+						});
+					}
+				}			
+			});
+								
+			$(".controls-ul").on('change',".checkbox-role",function(){
+				var checkbox_txt="";
+				roleIds = "";
+				$(".checkbox-role").each(function(){
+					if($(this).is(":checked")){
+						checkbox_txt += $(this).val()+",";
+						roleIds += $(this).val()+",";
+					}
+				});
+				$("#roles").val(checkbox_txt.substring(0,checkbox_txt.length-1));
+			});
+			function ajaxUserName(userName){
+				$.ajax({
+					url: checkUserNameURL,
+					type:"post",
+					dataType: 'json',
+					data:{
+						userId: json_data.id ==undefined?"":json_data.id,
+						userName: encodeURI(userName,'utf-8')							
+					},
+					success:function(data){									
+						if(data){							
+							$("#user_name").next().text("✔");
+							$("#user_name").next().addClass("lable-symbol-green");
+							$("#user_name").next().removeClass("lable-symbol");
+							return;
+						}else{
+							isWayTo = false;	
+							$("#user_name").next().text("X");
+							$("#user_name").next().addClass("lable-symbol");
+							$("#user_name").next().removeClass("lable-symbol-green");
+						}							
+					},
+					error:function(){
+						console.error("校验失败");							
+					}
+				});
+			}
+			function ajaxEmial(userEmail){
+				$.ajax({
+					url: checkEmailURL,
+					type:"post",
+					dataType: 'json',
+					data:{
+						userId: json_data.id ==undefined?"":json_data.id,
+						userEmail: encodeURI(userEmail,'utf-8')							
+					},
+					success:function(data){									
+						if(data){							
+							$("#email").next().text("✔");
+							$("#email").next().addClass("lable-symbol-green");
+							$("#email").next().removeClass("lable-symbol");
+							return;
+						}else{
+							isWayToEmail = false;	
+							$("#email").next().text("X");
+							$("#email").next().addClass("lable-symbol");
+							$("#email").next().removeClass("lable-symbol-green");
+						}							
+					},
+					error:function(){
+						console.error("校验失败");							
+					}
+				});
+			}
+		});
+	</script>
+</body>
+</html>

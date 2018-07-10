@@ -1,0 +1,197 @@
+package cn.com.hxfz.service.impl;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.hxfz.dao.HomePageAdvertisementDao;
+import cn.com.hxfz.dao.ImageRelateDao;
+import cn.com.hxfz.model.HomePageAdvertisement;
+import cn.com.hxfz.model.SysImageRel;
+import cn.com.hxfz.service.HomePageAdvertisementService;
+import cn.com.hxfz.util.CommUtils;
+import cn.com.hxfz.util.StringUtil;
+
+/**  
+ * @类功能说明：商城首页广告表业务处理实现类
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：liugui  
+ * @创建时间：2018年4月23日 上午上午9:41:47 
+ * @版本：V1.0  
+ */
+@Service("homePageAdvertisementService")
+public class HomePageAdvertisementServiceImpl implements
+		HomePageAdvertisementService {
+	private HomePageAdvertisementDao homePageAdvertisementDao;
+	public HomePageAdvertisementDao getHomePageAdvertisementDao() {
+		return homePageAdvertisementDao;
+	}
+	@Autowired
+	public void setHomePageAdvertisementDao(
+			HomePageAdvertisementDao homePageAdvertisementDao) {
+		this.homePageAdvertisementDao = homePageAdvertisementDao;
+	}
+	private ImageRelateDao imageRelateDao;
+	public ImageRelateDao getImageRelateDao() {
+		return imageRelateDao;
+	}
+	@Autowired
+	public void setImageRelateDao(ImageRelateDao imageRelateDao) {
+		this.imageRelateDao = imageRelateDao;
+	}
+	/**
+	 * @description 获取商城首页广告
+	 * @method  getAdvertisementRecords
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<HomePageAdvertisement>
+	 * @date: 2018年4月23日 上午9:58:26
+	 * @author:liugui
+	 */
+	public List<HomePageAdvertisement> getAdvertisementRecords(Map<String,Object> paramsMap){
+		return homePageAdvertisementDao.getHomePageAdvertisementRecords(paramsMap);
+	}
+	/**
+	 * @description 广告总数
+	 * @method  getAdvertisementCount
+	 * @param @return
+	 * @return int
+	 * @date: 2018年4月23日 上午9:58:53
+	 * @author:liugui
+	 */
+	public int getAdvertisementCount(Map<String,Object> paramsMap){
+		return homePageAdvertisementDao.getHomePageAdvertisementCount(paramsMap);
+	}
+
+	/**
+	 * @description  保存广告信息
+	 * @method  saveOrUpdateAdver
+	 * @param @param homePageAdvertisement
+	 * @return void
+	 * @date: 2018年4月23日 上午10:25:50
+	 * @author:liugui
+	 */
+	public void saveOrUpdateAdver(HomePageAdvertisement homePageAdvertisement){
+		String  aid = homePageAdvertisement.getId();
+		//广告Id不为空,编辑
+		if(StringUtil.availableStr(aid)){
+			homePageAdvertisementDao.updateAdvertisementById(homePageAdvertisement);
+		}else{
+			aid = CommUtils.getUUID();
+			homePageAdvertisement.setId(aid);
+			homePageAdvertisementDao.saveAdvertisement(homePageAdvertisement);
+		}
+		// 先删除广告图片信息，再新增图片
+		// 广告id
+		List<String> aIdList = new ArrayList<String>();
+		aIdList.add(aid);
+		Map<String, Object> paramsImg = new HashMap<String, Object>();
+		paramsImg.put("serviceIdList", aIdList);
+		imageRelateDao.deleteImageAdvertisementRel(paramsImg);
+		//imageIds不为空
+		if(StringUtil.availableStr(homePageAdvertisement.getImageIds())){
+			String[] imageIds = homePageAdvertisement.getImageIds().split(",");
+			int sort = 1;
+			for(int i = 0;i < imageIds.length;i++){
+				if(StringUtil.availableStr(imageIds[i])){
+					SysImageRel bean = new SysImageRel();
+					bean.setId(CommUtils.getUUID());
+					bean.setImage_id(imageIds[i]);
+					bean.setService_id(aid);
+					bean.setSort(sort++);
+					//新增到系统公共图片和分类关系表
+					imageRelateDao.saveImageAdvertisementRel(bean);
+				}
+			}
+		}
+	}
+	/**
+	 * @description 删除广告
+	 * @method  deleteAdvertisementByIds
+	 * @param @param params
+	 * @return void
+	 * @date: 2018年4月23日 上午10:37:09
+	 * @author:liugui
+	 */
+    public void deleteAdvertisementByIds(Map<String,Object> paramsMap){
+		// 广告id
+		List<String> advIdList = new ArrayList<String>();
+		// 删除广告图片id
+		List<String> imageIdList = new ArrayList<String>();
+		if(paramsMap.get("advIds")!=null && paramsMap.get("advIds") != ""){
+			String ids = paramsMap.get("advIds").toString();
+			String[] advIds = ids.split(",");
+			for(String id : advIds){
+				advIdList.add(id);
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("advIdList", advIdList);
+			// 删除广告
+			homePageAdvertisementDao.deleteAdvertisementRecords(params);
+		}
+		if(paramsMap.get("imageIds")!=null && paramsMap.get("imageIds") != ""){
+			String[] imageIds = paramsMap.get("imageIds").toString().split(",");
+			for(String imgId : imageIds){
+				imageIdList.add(imgId);
+			}
+			// 删除商品图片信息
+			if(imageIdList.size()>0){
+				Map<String, Object> paramsImg = new HashMap<String, Object>();
+				paramsImg.put("imageIdList", imageIdList);
+				paramsImg.put("serviceIdList", advIdList);
+				imageRelateDao.deleteImageByIds(paramsImg);
+				imageRelateDao.deleteImageAdvertisementRel(paramsImg);
+			}
+		}
+	}
+    /**
+	 * 
+	 * @description 删除图片
+	 * @method  deleteImageByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月18日 下午5:08:20
+	 * @author:liugui
+	 */
+	public void deleteImageByIds(Map<String, String> paramsMap){
+		// 删除商品分类id
+		List<String> imageIdList = new ArrayList<String>();
+		// 删除商品分类图片信息
+		if(StringUtil.availableStr(paramsMap.get("imageIds"))){
+			String[] imageIds = paramsMap.get("imageIds").split(",");
+			imageIdList = Arrays.asList(imageIds);
+			Map<String, Object> paramsImg = new HashMap<String, Object>();
+			paramsImg.put("imageIdList", imageIdList);
+			imageRelateDao.deleteImageByIds(paramsImg);
+		}
+	}
+	
+	/**
+	 * @description 更新状态
+	 * @method  updateStatus
+	 * @param @param params
+	 * @return void
+	 * @date: 2018年5月7日 上午11:22:49
+	 * @author:liugui
+	 */
+	public void updateStatus(Map<String,Object> paramsMap){
+		String advIds = paramsMap.get("advIds").toString();
+		// 广告id
+		List<String> advIdList = new ArrayList<String>();
+		if(StringUtil.availableStr(advIds)){
+			String[] ids = advIds.split(",");
+			for(String id : ids){
+				advIdList.add(id);
+			}
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("advIdList", advIdList);
+			// 更新广告状态
+			homePageAdvertisementDao.updateStatus(params);
+		}
+	}
+}

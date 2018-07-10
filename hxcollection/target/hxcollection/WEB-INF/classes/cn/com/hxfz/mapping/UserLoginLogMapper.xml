@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.UserLoginLogDao" >
+	
+	<!-- 用户登录日志映射信息 -->
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.UserLoginLog">
+		<id column="hx_user_login_log_pk_id" property="id" jdbcType="VARCHAR" />
+		<result column="id" property="rid" jdbcType="VARCHAR" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="login_num" property="loginNum" jdbcType="INTEGER" />
+		<result column="version" property="version" jdbcType="VARCHAR" />
+		<result column="phone" property="phone" jdbcType="VARCHAR" />
+		<result column="equipment_information" property="equipmentInformation" jdbcType="VARCHAR" />
+		<result column="login_time" property="loginTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 获取用户登录日志数据 -->
+	<select id="getUserLoginLogList" parameterType="java.util.Map" resultType="java.util.Map">
+       select id,nick_name,login_num,version,equipment_information,phone,to_char(login_time,'YYYY-MM-DD HH24:MI:SS')
+        as login_time from hxdb.hx_user_login_log where 1=1
+        <if test="id != null and id != ''">
+          and id like '%'||#{id}||'%'
+        </if>
+        <if test="nickName != null and nickName != ''">
+          and nick_name like '%'||#{nickName}||'%'
+        </if>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+	
+	<!-- 获取用户登录日志总数 -->
+	<select id="getUserLoginLogCount" resultType="java.lang.Integer">
+        select count(id)
+        from hxdb.hx_user_login_log where 1=1
+        <if test="id != null and id != ''">
+          and id like '%'||#{id}||'%'
+        </if>
+        <if test="nickName != null and nickName != ''">
+          and nick_name like '%'||#{nickName}||'%'
+        </if>
+    </select>
+	
+</mapper>

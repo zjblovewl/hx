@@ -1,0 +1,171 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.GoodsClassificationDao" >
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.GoodsClassification" >
+	    <id column="id" property="classId" jdbcType="VARCHAR" />
+	    <result column="class_type" property="classType" jdbcType="VARCHAR" />
+	    <result column="class_code" property="classCode" jdbcType="VARCHAR" />
+	    <result column="class_name" property="className" jdbcType="VARCHAR" />
+	    <result column="parent_code" property="parentCode" jdbcType="VARCHAR" />
+	    <result column="sort" property="sort" jdbcType="INTEGER" />
+	    <result column="describe" property="describe" jdbcType="VARCHAR" />
+	    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+	    <result column="image_urls" property="imageUrls" jdbcType="VARCHAR" />
+	    <result column="parent_name" property="parentName" jdbcType="VARCHAR" />
+	    <result column="image_ids" property="imageIds" jdbcType="VARCHAR" />
+	</resultMap>
+  	<!-- 获取藏品分类详细信息  -->
+	<select id="getClassifyById" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+		 select c.id,c.class_type,c.class_code,c.class_name,c.parent_code,c.sort,c.describe,
+        to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,COALESCE(t.image_urls,'') as image_urls ,
+        COALESCE(t.image_ids,'') as image_ids,
+        p.class_name as parent_name
+        from hxdb.hx_goods_classification c 
+		left join hxdb.hx_goods_classification p on p.class_code =c.parent_code
+		left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids 
+			from (select * from hxdb.hx_images_class_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = c.id
+        where 1=1 and c.id = #{classId}
+	</select>
+	<!-- 藏品分类列表-->
+	<select id="getClassifyRecords" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+        select c.id,c.class_type,c.class_code,c.class_name,c.parent_code,c.sort,c.describe,
+        to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,COALESCE(t.image_urls,'') as image_urls ,
+        COALESCE(t.image_ids,'') as image_ids,
+        p.class_name as parent_name
+        from hxdb.hx_goods_classification c 
+		left join hxdb.hx_goods_classification p on p.class_code =c.parent_code and p.class_type =  #{classType}
+		left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids 
+			from (select * from hxdb.hx_images_class_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = c.id
+		where 1=1 and c.class_type =  #{classType}
+        <if test="className != null and className != ''">
+          and c.class_name like '%'||#{className}||'%'
+        </if>
+        <if test="parentCode != null and parentCode != ''">
+          and c.parent_code = #{parentCode}
+        </if>
+        <if test="classIdList != null and classIdList != ''">
+          and c.id in
+	  		<foreach item="item" collection="classIdList" open="(" separator="," close=")">
+	            #{item}
+	        </foreach>
+        </if>
+        order by c.sort asc
+        limit #{limit} offset #{offset}
+    </select>
+    
+	<!-- 获取菜单详细信息 -->
+    <select id="getGoodsClassifyDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+   		select id,class_code,class_name,parent_code,sort,describe,to_char(create_time,'YYYY-MM-DD HH24:MI:SS')
+        as create_time from hxdb.hx_goods_classification
+		where 1=1 and id = #{classId}
+    </select>
+    
+    <!-- 新增校验藏品分类是否已存在 同一级别下的分类名称不能相同-->
+  	<select id="checkAddClassify" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) as total_count  from hxdb.hx_goods_classification 
+  		where parent_code = #{parent_code} 
+  		and class_name = #{class_name}
+  		and class_type = #{class_type}
+  	</select>
+  	
+  	<!-- 编辑校验藏品分类是否已存在 同一级别下的分类名称不能相同-->
+ 	<select id="checkEditClassify" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) as total_count  from hxdb.hx_goods_classification 
+  		where id != #{class_id} 
+  		and parent_code = #{parent_code} 
+  		and class_name = #{class_name}
+  		and class_type = #{class_type}
+  	</select>
+  	
+    <!-- 保存藏品分类 -->
+  	<insert id="saveClassify" parameterType="java.util.HashMap">
+	  	insert into hxdb.hx_goods_classification(id,class_type,class_code,class_name,parent_code,sort,describe,create_time)
+		values(#{classId},#{classType},#{classCode},#{className},#{parentCode},#{sort},#{describe},now())
+ 	</insert>
+ 	
+ 	<!-- 修改藏品分类 -->
+  	<update id="updateClassifyById" parameterType="java.util.HashMap">
+  		update hxdb.hx_goods_classification 
+  		set class_name = #{className},class_code = #{classCode},parent_code = #{parentCode},sort = #{sort},
+  		describe = #{describe}
+		where id = #{classId}
+ 	</update>
+ 	
+ 	<!-- 删除藏品分类 -->
+  	<delete id="deleteClassifyByIds" parameterType="java.util.HashMap">
+  		delete from hxdb.hx_goods_classification where id in
+  		<foreach item="classIdList" collection="classIdList" open="(" separator="," close=")">
+            #{classIdList}
+        </foreach>
+  	</delete>
+  	
+  	<!-- 删除图片 -->
+  	<delete id="deleteImageByIds" parameterType="java.util.HashMap">
+  		delete from hxdb.sys_images where id in
+  		<foreach item="imageIdList" collection="imageIdList" open="(" separator="," close=")">
+            #{imageIdList}
+        </foreach>
+  	</delete>
+  	
+  	<!-- 新增校验藏品分类是否已存在 同一级别下的分类code不能相同-->
+  	<select id="checkAddClassCode" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) from hxdb.hx_goods_classification 
+  		where  class_code = #{class_code}
+  		and class_type = #{class_type}
+  	</select>
+  	
+  	<!-- 编辑校验藏品分类是否已存在 同一级别下的分裂code不能相同-->
+ 	<select id="checkEditClassCode" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) from hxdb.hx_goods_classification 
+  		where id != #{class_id} 
+  		and class_code = #{class_code}
+  		and class_type = #{class_type}
+  	</select>
+  	
+  	<!-- 获取藏品分类详细信息  -->
+	<select id="getImageUrlById" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select image_url from hxdb.sys_images si 
+		inner join hx_images_class_rel cr on cr.image_id = si.id
+        where si.id in
+  		<foreach item="imageIdList" collection="imageIdList" open="(" separator="," close=")">
+            #{imageIdList}
+        </foreach>
+        order by cr.sort asc
+	</select>
+	
+	<!-- 根据分类id获取图片ids  -->
+	<select id="getImageIdsByClassId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select string_agg(gr.image_id,',') image_ids from hxdb.hx_images_class_rel cr
+		inner join hx_goods_classification gc on gc.id = gr.service_id
+        where gr.service_id = #{classId}
+	</select>
+	
+	<!-- 获取藏品大小类下拉框值  -->
+	<select id="getGoodsClass" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+		select class_type,class_code,class_name,parent_code from hxdb.hx_goods_classification
+        where 1=1 
+        <if test="classType != null and classType != ''">
+          and class_type = #{classType}
+        </if>
+        <if test="bigClassCode != null and bigClassCode != ''">
+          and parent_code = #{bigClassCode}
+        </if>
+  		order by sort asc
+	</select>
+	
+	<!-- 保存图片分类表 -->
+  	<insert id="saveImageClassRel" parameterType="java.util.HashMap">
+	  	insert into hxdb.hx_images_class_rel(id,image_id,service_id,sort)
+		values(#{id},#{imageId},#{serviceId},#{sort})
+ 	</insert>
+</mapper>

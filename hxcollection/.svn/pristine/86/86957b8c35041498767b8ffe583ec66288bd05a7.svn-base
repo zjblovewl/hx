@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.MenuDao" >
+  <resultMap id="BaseResultMap" type="cn.com.hxfz.model.Menu" >
+    <id column="id" property="menuId" jdbcType="VARCHAR" />
+    <result column="menu_name" property="menuName" jdbcType="VARCHAR" />
+    <result column="url" property="url" jdbcType="VARCHAR" />
+    <result column="parent_id" property="parentId" jdbcType="VARCHAR" />
+    <result column="permission" property="permission" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="menu_icon" property="menuIcon" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> 
+    <result column="level" property="level" jdbcType="VARCHAR" /> 
+  </resultMap>
+	<!-- 获取菜单详细信息  -->
+	<select id="getMenuById" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+			select id,menu_name,url,parent_id,permission,sort,menu_icon,description,del_flag,create_time,level
+			from hxdb.sys_menu
+			where del_flag = '0' and id = #{menuId}
+	</select>
+	<!--获取所有菜单 -->
+  <select id="getMenuList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+    	select id,menu_name,url,parent_id,permission,sort,menu_icon,description,del_flag,level,to_char(create_time,'yyyy-mm-dd hh24:mi:ss')as create_time
+    	from hxdb.sys_menu m 
+    	where 1=1 and m.del_flag = '0'
+    	<if test="menuName != null and menuName != ''">
+          and menu_name like '%'||#{menuName}||'%'
+        </if>
+    	order by sort asc,create_time asc
+		LIMIT #{limit} OFFSET #{offset}
+  </select>	
+  
+  <!-- 获取菜单详细信息 -->
+   <select id="getMenuDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+   		select id,menu_name,url,parent_id,permission,sort,menu_icon,description,del_flag,level,to_char(create_time,'yyyy-mm-dd hh24:mi:ss')as create_time 
+		from hxdb.sys_menu
+		where del_flag = '0' and id = #{menuId}
+   </select>
+   
+  <!-- 查询菜单数量 -->
+  <select id="getMenuCount" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) as totalcount from hxdb.sys_menu where del_flag = '0'
+  		<if test="menuName != null and menuName != ''">
+          and menu_name like '%'||#{menuName}||'%'
+        </if>
+  </select>
+   
+   <!-- 获取所有菜单数据 -->
+   <select id="getAllMenuRecords" parameterType="java.util.HashMap"  resultMap="BaseResultMap">
+   		select id,menu_name,url,parent_id,permission,sort,menu_icon,description,del_flag,level,to_char(create_time,'yyyy-mm-dd hh24:mi:ss')as create_time 
+		from hxdb.sys_menu
+		where del_flag = '0' 
+		<if test="menuName != null and menuName != ''">
+          and menu_name like '%'||#{menuName}||'%'
+        </if>
+		order by level asc,sort asc
+   </select>
+   
+   <!-- 新增校验菜单是否已存在 同一级别下的资源名称不能相同-->
+  <select id="checkAddMenu" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) from hxdb.sys_menu where del_flag = '0' and parent_id = #{res_pid} and menu_name = #{res_name}
+  </select>
+  
+  <!-- 编辑校验菜单是否已存在 同一级别下的资源名称不能相同-->
+  <select id="checkEditMenu" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) from hxdb.sys_menu where del_flag = '0' and id != #{resId} and parent_id = #{res_pid} and menu_name = #{res_name}
+  </select>
+  
+  <!-- 保存菜单 -->
+  <insert id="saveMenu" parameterType="java.util.HashMap">
+	  insert into hxdb.sys_menu(id,menu_name,url,parent_id,permission,sort,menu_icon,description,del_flag,level,create_time)
+		values(#{menuId},#{menuName},#{url},#{parentId},#{permission},#{sort},#{menuIcon},#{description},'0',#{level},now())
+  </insert>
+  
+  <!-- 修改菜单 -->
+  <update id="updateMenuById" parameterType="java.util.HashMap">
+  		update hxdb.sys_menu 
+  		set menu_name = #{menuName},url = #{url},parent_id = #{parentId},permission = #{permission},
+  		sort = #{sort},menu_icon = #{menuIcon},description = #{description},level = #{level}
+		where id = #{menuId}
+  </update>
+  
+  <!-- 删除菜单 -->
+  <delete id="deleteMenuById" parameterType="java.util.HashMap">
+  		update hxdb.sys_menu set del_flag = '1' where id in
+  		<foreach item="menuIdList" collection="menuIdList" open="(" separator="," close=")">
+            #{menuIdList}
+        </foreach>
+  </delete>
+  <!-- 删除菜单 -->
+  <delete id="deleteRoleAndMenuByMenuId" parameterType="java.util.HashMap">
+  		delete from hxdb.sys_role_menu where menu_id in
+  		<foreach item="menuIdList" collection="menuIdList" open="(" separator="," close=")">
+            #{menuIdList}
+        </foreach>
+  </delete>
+  
+  <!-- 根据菜单id获取子节点 -->
+  <select id="getChildMenuByMenuId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select rm.menu_id,m.menu_name,m.url,m.menu_icon from hxdb.sys_role r
+		inner join hxdb.sys_role_menu rm on rm.role_id = r.id
+		inner join hxdb.sys_menu m on m.id = rm.menu_id
+		where r.id = #{roleId} and parent_id = #{menuId} order by sort asc
+  </select>
+  
+</mapper>

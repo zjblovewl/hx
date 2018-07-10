@@ -1,0 +1,18 @@
+//校验邮箱格式
+function checkEmail(email){
+	 var myreg = /^(\w-*\.*)+@(\w-?)+(\.\w{2,})+$/;
+   if(!myreg.test(email)){       
+        return false;
+   }else{
+ 	  return true;
+   }
+}
+//校验手机号
+function checkMobile(str) {
+	var re = /^1\d{10}$/
+	 if (re.test(str)) {
+	   return true;
+	 } else {
+	   return false;
+	 }
+}

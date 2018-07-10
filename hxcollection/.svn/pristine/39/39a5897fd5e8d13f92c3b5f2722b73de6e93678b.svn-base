@@ -1,0 +1,354 @@
+package cn.com.hxfz.service.impl;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.hxfz.dao.ImageRelateDao;
+import cn.com.hxfz.dao.UserDao;
+import cn.com.hxfz.model.SysImageRel;
+import cn.com.hxfz.model.User;
+import cn.com.hxfz.service.SysUserService;
+import cn.com.hxfz.util.CommUtils;
+import cn.com.hxfz.util.StringUtil;
+import cn.com.hxfz.util.StringUtils;
+
+
+@Service("sysUserService")
+public class SysUserServiceImpl implements SysUserService {
+	
+	private UserDao userDao;
+
+	public UserDao getUserMapper() {
+		return userDao;
+	}
+
+	@Autowired
+	public void setUserMapper(UserDao userDao) {
+		this.userDao = userDao;
+	}
+	private ImageRelateDao imageRelateDao;
+	public ImageRelateDao getImageRelateDao() {
+		return imageRelateDao;
+	}
+	@Autowired
+	public void setImageRelateDao(ImageRelateDao imageRelateDao) {
+		this.imageRelateDao = imageRelateDao;
+	}
+	/**
+	 * 方法功能说明：登录
+	 * 创建：2018年03月21日 by liugui  
+	 * @param paramsMap
+	 * @return
+	 */
+	public User findUserByUserNameAndPassword(Map<String, Object> paramsMap) {
+		User user = userDao.findUserByUserNameAndPassword(paramsMap);
+		return user;
+	}/**
+	 * 方法功能说明：登录
+	 * 创建：2018年03月23日 by liugui  
+	 * @param paramsMap
+	 * @return
+	 */
+	public List<Map<String, Object>> getRoleListByUserId(Map<String, Object> paramsMap){
+		return userDao.getRoleListByUserId(paramsMap);
+	}
+
+	/**
+	 * 方法功能说明：保存日志
+	 * 创建：2018年03月26日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public void saveLog(Map<String, Object> paramsMap){
+		userDao.saveLog(paramsMap);
+	}
+	/**
+	 * 方法功能说明：查询用户
+	 * 创建：2018年03月26日 by liugui  
+	 * @param paramsMap
+	 * @return
+	 */
+	public List<Map<String, Object>> getUserRecords(Map<String, Object> paramsMap){
+		return userDao.getUserRecords(paramsMap);
+	}
+	
+	/**
+	 * @description 导出用户
+	 * @method  getUserRecordsToExport
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年5月2日 上午9:20:46
+	 * @author:liugui
+	 */
+	public List<Map<String, Object>> getUserRecordsToExport(Map<String, Object> paramsMap){
+		return userDao.getUserRecordsToExport(paramsMap);
+	}
+	
+	/**
+	 * 方法功能说明：查询用户数量
+	 * 创建：2018年03月26日 by liugui 
+	 * @return
+	 */
+	public int getUserCount(Map<String, Object> params){
+		return userDao.getUserCount(params);
+	}
+	
+	/**
+	 * 方法功能说明：重置密码
+	 * 创建：2018年03月26日 by liugui 
+	 * @return
+	 */
+	public void refreshPassword(Map<String, Object> paramsMap){
+		userDao.refreshPassword(paramsMap);
+	}
+	
+	/**
+	 * 方法功能说明：查询用户详细信息
+	 * 创建：2018年03月26日 by liugui
+	 * @return
+	 */
+	public Map<String, Object> getUserDetail(Map<String, Object> paramsMap){
+		return userDao.getUserDetail(paramsMap);
+	}
+	
+	/**
+	 * 方法功能说明：校验用户是否已存在
+	 * 创建：2018年03月26日 by liugui
+	 * @return
+	 */
+	public Boolean checkSameUserName(Map<String, Object> paramsMap){
+		int count = 0;
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//userId不为空,则为编辑
+		if(paramsMap.get("userId")!=null && paramsMap.get("userId") != ""){
+			count = userDao.checkEditUser(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}			
+		}else{
+			count = userDao.checkAddUser(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}	
+		}
+		return result;
+	}
+		
+	/**
+	 * 方法功能说明：校验登录名是否已存在
+	 * 创建：2018年03月29日 by liugui  
+	 * @return
+	 */
+	public Boolean checkSameLoginName(Map<String, Object> paramsMap){
+		int count = 0;
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//userId不为空,则为编辑
+		if(paramsMap.get("userId")!=null && paramsMap.get("userId") != ""){
+			count = userDao.checkEditLoginName(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}			
+		}else{
+			count = userDao.checkAddLoginName(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}	
+		}
+		return result;
+	}
+	/**
+	 * 方法功能说明：校验邮箱是否已存在
+	 * 创建：2018年03月26日 by liugui
+	 * @return
+	 */
+	public Boolean checkSameEmailName(Map<String, Object> paramsMap){
+		int count = 0;
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//userId不为空,则为编辑
+		if(paramsMap.get("userId") != null && paramsMap.get("userId") != ""){
+			count = userDao.checkEditEmail(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}			
+		}else{
+			count = userDao.checkAddEmail(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}	
+		}
+		return result;
+	}
+	
+	/**
+	 * @description 保存用户
+	 * @method  saveOrUpdateUser
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月4日 上午9:18:12
+	 * @author:liugui
+	 */
+	public void saveOrUpdateUser(Map<String, Object> paramsMap){
+		String userId = "";
+		//userId不为空,编辑
+		if(StringUtil.availableStr(paramsMap.get("userId").toString())){
+			userId = paramsMap.get("userId").toString();
+			userDao.updateUserById(paramsMap);
+		}else{
+			userId = CommUtils.getUUID();
+			paramsMap.put("userId", userId);
+			userDao.saveUser(paramsMap);
+		}
+		//删除当前角色所有权限
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("userId", userId);
+		userDao.deleteUserRoleById(map);
+		//保存角色
+		if(StringUtil.availableStr(paramsMap.get("roleIds").toString())){
+			String[] roleIds = paramsMap.get("roleIds").toString().split(",");
+			for(String roleId : roleIds){
+				Map<String, Object> params = new HashMap<String, Object>();
+				params.put("id", CommUtils.getUUID());
+				params.put("userId", userId);
+				params.put("roleId", roleId);
+				userDao.saveUserAndRole(params);
+			}
+		}
+		// 先删除用户图片信息，再新增图片
+		// 删除用户id
+		List<String> userIdList = new ArrayList<String>();
+		userIdList.add(userId);
+		Map<String, Object> paramsImg = new HashMap<String, Object>();
+		paramsImg.put("serviceIdList", userIdList);
+		imageRelateDao.deleteImageUserRel(paramsImg);
+		String imageId = paramsMap.get("imageIds").toString();
+		//imageIds不为空
+		if(StringUtil.availableStr(imageId)){
+			String[] imageIds = imageId.split(",");
+			int sort = 1;
+			for(int i = 0;i < imageIds.length;i++){
+				if(StringUtil.availableStr(imageIds[i])){
+					SysImageRel bean = new SysImageRel();
+					bean.setId(CommUtils.getUUID());
+					bean.setImage_id(imageIds[i]);
+					bean.setService_id(userId);
+					bean.setSort(sort++);
+					//新增到系统公共图片和用户关系表
+					imageRelateDao.saveImageUserRel(bean);
+				}
+			}
+		}
+		
+	}
+	
+	/**
+	 * 
+	 * @description 删除用户
+	 * @method  deleteUserById
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月4日 上午9:25:38
+	 * @author:liugui
+	 */
+	public void deleteUserById(Map<String, Object> paramsMap){
+		// 删除用户图片id
+		List<String> imageIdList = new ArrayList<String>();
+		// 用户id
+		List<String> idList =  new ArrayList<String>();
+		String ids = paramsMap.get("userIds").toString();
+		if(StringUtils.isNotEmpty(ids)){
+			String[] userIds = ids.split(",");
+			idList = Arrays.asList(userIds);
+			Map<String, Object> params = new HashMap<String, Object>();
+			params.put("idList", idList);
+			userDao.deleteUserById(params);
+			userDao.deleteUserAndRoleById(params);
+		}
+		if(paramsMap.get("imageIds")!=null && paramsMap.get("imageIds") != ""){
+			String[] imageIds = paramsMap.get("imageIds").toString().split(",");
+			for(String imgId : imageIds){
+				imageIdList.add(imgId);
+			}
+			// 删除藏品图片信息
+			if(imageIdList.size()>0){
+				Map<String, Object> paramsImg = new HashMap<String, Object>();
+				paramsImg.put("imageIdList", imageIdList);
+				paramsImg.put("serviceIdList", idList);
+				imageRelateDao.deleteImageByIds(paramsImg);
+				imageRelateDao.deleteImageUserRel(paramsImg);
+			}
+		}
+	}
+	
+	/**
+	 * 方法功能说明：校验原密码是否正确
+	 * 创建：2018年03月26日 by liugui
+	 * @return
+	 */
+	public Boolean checkPassword(Map<String, Object> paramsMap){
+		User user = userDao.findUserByUserNameAndPassword(paramsMap);	
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//user不为空,则为验证通过
+		if(user != null){		
+			result = true;				
+		}else{
+			result = false;
+		}	
+		return result;
+	}
+	
+	/**
+	 * 方法功能说明：修改用户密码
+	 * 创建：2018年03月26日 by liugui
+	 * @return
+	 */
+	public void updatePassword(Map<String, Object> paramsMap){
+		userDao.updatePassword(paramsMap);
+	}
+	
+	/**
+	 * @description 校验用户登录信息
+	 * @method  checkUserLoginInfo
+	 * @param @param paramsMap
+	 * @param @return 1：登录成功！ 2:用户名不存在 3:密码输入错误 4:用户没有登录权限
+	 * @return int
+	 * @date: 2018年4月24日 下午1:57:25
+	 * @author:liugui
+	 */
+	public int checkUserLoginInfo(Map<String, Object> paramsMap){
+		int result = 0;
+		int count = userDao.checkUserName(paramsMap);
+		if(count > 0){
+			int flag = userDao.checkUserPwd(paramsMap);
+			if(flag == 0){
+				result = 3;
+			}
+		}else{
+			result = 2;
+		}
+		
+		return result;
+	}
+}

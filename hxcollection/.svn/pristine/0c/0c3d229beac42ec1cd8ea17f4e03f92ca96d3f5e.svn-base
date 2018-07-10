@@ -1,0 +1,258 @@
+package cn.com.hxfz.service.impl;
+
+import java.sql.Timestamp;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import cn.com.hxfz.dao.GeneralUserDao;
+import cn.com.hxfz.service.GeneralUserService;
+import cn.com.hxfz.util.CommonUtils;
+import cn.com.hxfz.util.StringUtils;
+
+/**
+ * @类功能说明：
+ * @公司名称：南京华讯方舟通讯设备有限公司
+ * @作者：qiangxuan
+ * @创建时间：2018年4月2日 上午11:29:15
+ * @版本：V1.0
+ */
+
+@Service("generalUserService")
+public class GeneralUserServiceImpl implements GeneralUserService {
+
+	static Logger logger = Logger.getLogger(GeneralUserServiceImpl.class
+			.getName());
+
+	@Autowired
+	private GeneralUserDao generalUserDao;
+
+	@Override
+	public List<Map<String, Object>> getGeneralUser(Map<String, Object> param) {
+		return generalUserDao.getGeneralUser(param);
+	}
+
+	@Override
+	public int getGeneralUserCount(Map<String, Object> param) {
+		int total = generalUserDao.getGeneralUserCount(param);
+		return total;
+	}
+
+	@Override
+	public void updateGeneralUser(Map<String, Object> paramsMap) {
+		generalUserDao.updateGeneralUserById(paramsMap);
+	}
+
+	@Override
+	public void deleteGeneralUser(Map<String, Object> paramsMap) {
+		generalUserDao.deleteGeneralUserById(paramsMap);
+	}
+
+	@Override
+	public void delMoreGeneralUser(Map<String, Object> paramsMap) {
+		generalUserDao.delMoreGeneralUser(paramsMap);
+	}
+
+	@Override
+	public void saveGeneralUser(Map<String, Object> paramsMap) {
+
+		if ((paramsMap.get("id") != null && StringUtils.isNotEmpty(paramsMap.get("id").toString()))) {
+			
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			//isLock 是否锁定  0：锁定  1：激活
+			if(Integer.parseInt(paramsMap.get("isLock").toString()) == 1){
+				paramsMap.put("lockDays",  null);
+				paramsMap.put("lockTime", null);
+				paramsMap.put("lockReason", null);
+			}else{
+				paramsMap.put("lockTime", Timestamp.valueOf(sdf.format(new Date())));
+				if ((paramsMap.get("lockDays") != null && StringUtils.isNotEmpty(paramsMap.get("lockDays").toString()))) {
+					paramsMap.put("lockDays",  Integer.valueOf(paramsMap.get("lockDays").toString()));
+				}
+				logger.info("锁定天数："+Integer.valueOf(paramsMap.get("lockDays").toString()));
+			
+				logger.info("锁定时间："+Timestamp.valueOf(sdf.format(new Date())));
+			}
+			paramsMap.put("receiveAddress",paramsMap.get("receiveAddress"));
+			generalUserDao.updateUserReceiveAddressById(paramsMap);
+			generalUserDao.updateGeneralUserById(paramsMap);
+		} else {
+			String id = CommonUtils.getUUID();
+    		String delflag = "0";
+    		String isflagnickname = "0";
+    		String isAuthentication = "0";
+			paramsMap.put("id", id);
+			paramsMap.put("delflag", delflag);
+			paramsMap.put("isflagnickname", isflagnickname);
+			paramsMap.put("isAuthentication", isAuthentication);
+			generalUserDao.saveGeneralUser(paramsMap);
+		}
+
+	}
+
+	@Override
+	public Boolean checkSameUserName(Map<String, Object> paramsMap) {
+		int count = 0;
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//userId不为空,则为编辑
+		if((paramsMap.get("id") != null && StringUtils.isNotEmpty(paramsMap.get("id").toString()))){
+			count = generalUserDao.checkEditUser(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}			
+		}else{
+			count = generalUserDao.checkAddUser(paramsMap);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}	
+		}
+		return result;
+	}
+
+	@Override
+	public Boolean checkSamePhone(Map<Object, String> paramsMap) {
+		int count = 0;
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		//id不为空,则为编辑
+		if(paramsMap.get("id") != null && StringUtils.isNotEmpty(paramsMap.get("id").toString())){
+			count = generalUserDao.checkEditPhone(paramsMap);
+			logger.info("编辑时手机号count:"+count);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}			
+		}else{
+			count = generalUserDao.checkAddPhone(paramsMap);
+			logger.info("新增时手机号count:"+count);
+			if(count > 0){
+				result = false;
+			}else{
+				result = true;
+			}	
+		}
+		return result;
+	}
+
+	@Override
+	public List<Map<String, Object>> getExportUserList(Map<String, Object> map) {
+		return generalUserDao.getExportUserList(map);
+	}
+
+	@Override
+	public List<Map<String, Object>> getCommonUserInfo(Map<String, Object> param) {
+		return generalUserDao.getCommonUserInfo(param);
+	}
+
+	@Override
+	public int getCommonUserCount(Map<String, Object> param) {
+		int total = generalUserDao.getCommonUserCount(param);
+		return total;
+	}
+
+	 /**查询省市信息**/
+	@Override
+	public Map<String, Object> queryAreaInfo(Map<String, Object> param) {
+		List<Map<String, Object>> listMaps = generalUserDao.queryAreaInfo(param);
+		Map<String, Object> dataMap = new HashMap<String, Object>();
+		List<Map<String, Object>> cityList = new ArrayList<Map<String, Object>>();
+		List<Map<String, Object>> provinceList = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < listMaps.size(); i++) {
+			Map<String, Object> provinceMaps = new HashMap<String, Object>();
+			Map<String, Object> listMap = listMaps.get(i);
+			if (listMap.get("province") != null
+					&& listMap.get("province").toString().length() > 0) {
+				provinceMaps.put("province_name", listMap.get("province"));
+				provinceMaps.put("province_code", listMap.get("code"));
+				provinceMaps.put("province_id", listMap.get("id"));
+				provinceMaps.put("province_city", listMap.get("city"));
+				provinceList.add(provinceMaps);
+			}
+		}
+
+		for (int i = 0; i < provinceList.size(); i++) {
+			Map<String, Object> listMap = provinceList.get(i);
+			if (listMap.get("province_name").toString().length() > 0
+					&& listMap.get("province_city").toString().length() > 0) {
+				List<Map<String, Object>> getCityInfo = new ArrayList<Map<String, Object>>();
+				Map<String, Object> cityInfoMaps = new HashMap<String, Object>();
+				cityInfoMaps.put("city_name", listMap.get("province_city"));
+				cityInfoMaps.put("city_code", listMap.get("province_code"));
+				getCityInfo.add(cityInfoMaps);
+				listMap.put("city_info", getCityInfo);
+				cityList.add(listMap);
+			}else{
+				List<Map<String, Object>> getCityInfo = getCityInfo(listMaps,
+						(String) listMap.get("province_id"));
+				listMap.put("city_info", getCityInfo);
+				cityList.add(listMap);
+			}
+
+		}
+		dataMap.put("data", cityList);
+		return dataMap;
+	}
+	
+	/**通过省Id查询下面的市信息**/
+	public static List <Map<String, Object>> getCityInfo(List <Map<String, Object>> listMaps,String provinceId){
+		List<Map<String, Object>> getCityInfo = new ArrayList<Map<String, Object>>();
+		for (int i = 0; i < listMaps.size(); i++) {
+			Map<String, Object> listMap = listMaps.get(i);
+			if (listMap.get("province").toString().length() == 0
+					&& listMap.get("city").toString().length() > 0) {
+				if (listMaps.get(i).get("parent").equals(provinceId)) {
+					Map<String, Object> cityInfoMaps = new HashMap<String, Object>();
+					cityInfoMaps.put("city_name", listMap.get("city"));
+					cityInfoMaps.put("city_code", listMap.get("code"));
+					getCityInfo.add(cityInfoMaps);
+				}
+
+			}
+		}
+		return getCityInfo;
+	}
+	
+	/**
+	 * 通过用户id查询用户认证信息
+	 */
+	@Override
+	public List<Map<String, Object>> getUserAuthInfoById(Map<String, Object> param) {
+		return generalUserDao.getUserAuthInfoById(param);
+	}
+	
+	/**
+	 * 通过用户id保存审核结果
+	 */
+	@Override
+	public void updateAuditInfo(Map<String, Object> param) {
+		generalUserDao.updateUserAuditInfoById(param);
+	}
+	/**
+	 * 通过用户id查询用户认证信息总数
+	 */
+	@Override
+	public int getUserAuditCount(Map<String, Object> paramsMap) {
+		int total = generalUserDao.getUserAuditInfoCount(paramsMap);
+		return total;
+	}
+	/**
+	 * 通过用户id保存认证结果
+	 */
+	@Override
+	public void updateAuthenticationStatus(Map<String, Object> param) {
+		generalUserDao.updateUserAnthById(param);
+	}
+
+}

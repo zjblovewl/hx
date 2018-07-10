@@ -1,0 +1,118 @@
+package cn.com.hxfz.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.com.hxfz.model.Role;
+
+public interface RoleDao {
+
+	/**
+	 * 方法功能说明：获取登录用户的角色信息
+	 * 创建：2018年03月22日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public Role findRoleByRoleId(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：根据角色id获取菜单列表
+	 * 创建：2018年03月22日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public List<Map<String, Object>> getMenuListByRoleId(Map<String, Object> paramsMap);
+	/**
+	 * 方法功能说明：查询角色
+	 * 创建：2018年03月22日 by liugui
+	 * @param paramsMap
+	 * @return
+	 */
+	public List<Map<String, Object>> getRoleRecords(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：查询角色数量
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public int getRoleCount(Map<String, Object> paramsMap);
+	
+	public List<Map<String, Object>> getRoleList();
+	
+	/**
+	 * 方法功能说明：新增校验角色是否已存在
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public int checkAddRole(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：编辑校验角色是否已存在
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public int checkEditRole(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：保存角色
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public void saveRole(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：修改角色
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public void updateRoleById(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：删除角色
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public void deleteRoleById(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：获取角色权限
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public List<Map<String, Object>> getRolePermission(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：查询菜单根目录
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public List<Map<String, Object>> getMenuRootDirectoryRecords();
+	
+	/**
+	 * 方法功能说明：根据父节点获取子节点菜单数据
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public List<Map<String, Object>> getChildMenusByParentId(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：删除当前角色所有权限 
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public void deleteRoleMenuByRoleId(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：建立角色和菜单关系
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public void saveRoleAndMenu(Map<String, Object> paramsMap);
+	
+	/**
+	 * 方法功能说明：删除用户角色记录
+	 * 创建：2018年03月22日 by liugui
+	 * @return
+	 */
+	public void deleteUserRoleByRoleId(Map<String, Object> paramsMap);	
+}

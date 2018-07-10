@@ -1,0 +1,28 @@
+package cn.com.hxfz.dao;
+
+import java.util.List;
+import java.util.Map;
+
+public interface OperationLogDao {
+
+//    List<Map<String,Object>> getOperationLog(Map<String, Object> param);
+	
+	/**
+	 * 
+	 * 方法功能说明：获取操作日志数量 
+	 * 创建：2018年3月27日 by qiangxuan
+	 * 返回类型：int      
+	 * @param param
+	 * @return
+	 */
+	int getOperationLogCount(Map<String, Object> param);
+	/**
+	 * 
+	 * 方法功能说明： 获取操作日志列表 
+	 * 创建：2018年3月27日 by qiangxuan
+	 * 返回类型：List<Map<String,Object>>      
+	 * @param param
+	 * @return
+	 */
+	List<Map<String, Object>> getOperationList(Map<String, Object> param);
+}

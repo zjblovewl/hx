@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.SysMessageDao" >
+  <!-- 查询消息列表 -->
+  <select id="getMessageRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select id,message_title,message_content,platform,to_char(create_time,'yyyy-mm-dd hh24:mi:ss')as create_time
+  		from hxdb.hx_message 
+		where 1=1 
+		<if test="mesTitle != null and mesTitle != ''">
+          and message_title like '%'||#{mesTitle}||'%'
+        </if>
+        <if test="relateType != null and relateType != ''">
+          and relate_type = #{relateType}
+        </if>
+		LIMIT #{limit} OFFSET #{offset}
+  </select>
+  
+  <!-- 查询消息数量 -->
+  <select id="getMessageCount" resultType="java.lang.Integer">
+  		select count(id) as totalcount from hxdb.hx_message 
+  </select>
+  
+  <!-- 保存消息 -->
+  <insert id="saveMessage" parameterType="java.util.HashMap">
+	  	insert into hxdb.hx_message(id,platform,message_title,message_content,create_time)
+		values(#{mesId},#{platform},#{message_title},#{message_content},now())
+  </insert>
+  
+  <!-- 修改消息 -->
+  <update id="updateMessageById" parameterType="java.util.HashMap">
+  		update hxdb.hx_message set message_title = #{message_title},message_content = #{message_content},platform = #{platform}
+  		where id = #{mesId}
+  </update>
+  
+  <!-- 删除消息 -->
+  <delete id="deleteMessageByIds" parameterType="java.util.List">
+  		delete from hxdb.hx_message where id in
+  		<foreach item="mesIdList" collection="mesIdList" open="(" separator="," close=")">
+            #{mesIdList}
+        </foreach>
+  </delete>
+</mapper>

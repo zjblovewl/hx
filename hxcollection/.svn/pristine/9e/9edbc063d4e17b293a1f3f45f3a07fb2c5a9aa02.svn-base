@@ -1,0 +1,97 @@
+package cn.com.hxfz.dto;
+
+import java.util.Date;
+
+/**
+ * @公司名称: 南京华讯方舟通讯设备有限公司
+ * @项目名称: hxcollection
+ * @类路径: cn.com.hxfz.dto
+ * @作者: qiangxuan
+ * @时间: 2018/3/13 10:56
+ * @版本: V1.0
+ */
+public class SelectUserSuggestionByPageDto extends PageDto{
+
+    private static final long serialVersionUID = 1L;
+
+    private Integer id;
+
+    private Long clientUserId;
+
+    private String suggestionContent;
+
+    private Date commitTime;
+
+    private String feedback;
+
+    private Long serverUserId;
+
+    private Date feedbackTime;
+
+    private String description;
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
+
+    public Long getClientUserId() {
+        return clientUserId;
+    }
+
+    public void setClientUserId(Long clientUserId) {
+        this.clientUserId = clientUserId;
+    }
+
+    public String getSuggestionContent() {
+        return suggestionContent;
+    }
+
+    public void setSuggestionContent(String suggestionContent) {
+        this.suggestionContent = suggestionContent == null ? null : suggestionContent.trim();
+    }
+
+    public Date getCommitTime() {
+        return commitTime;
+    }
+
+    public void setCommitTime(Date commitTime) {
+        this.commitTime = commitTime;
+    }
+
+    public String getFeedback() {
+        return feedback;
+    }
+
+    public void setFeedback(String feedback) {
+        this.feedback = feedback == null ? null : feedback.trim();
+    }
+
+    public Long getServerUserId() {
+        return serverUserId;
+    }
+
+    public void setServerUserId(Long serverUserId) {
+        this.serverUserId = serverUserId;
+    }
+
+    public Date getFeedbackTime() {
+        return feedbackTime;
+    }
+
+    public void setFeedbackTime(Date feedbackTime) {
+        this.feedbackTime = feedbackTime;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description == null ? null : description.trim();
+    }
+
+}

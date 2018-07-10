@@ -1,0 +1,185 @@
+package cn.com.hxfz.controller;
+
+import java.io.IOException;
+import java.net.URLDecoder;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import cn.com.hxfz.model.Menu;
+import cn.com.hxfz.service.SysMenuService;
+import cn.com.hxfz.util.CommUtils;
+import cn.com.hxfz.util.LogUtil;
+import cn.com.hxfz.util.ServletHelp;
+import cn.com.hxfz.util.StringUtils;
+
+@Controller
+@RequestMapping("/menu")
+public class SysMenuController {
+	private SysMenuService menuService;
+
+	public SysMenuService getMenuService() {
+		return menuService;
+	}
+	@Autowired
+	public void setMenuService(SysMenuService menuService) {
+		this.menuService = menuService;
+	}
+	
+	/**
+	 * 方法功能说明：菜单查询
+	 * 创建：2018年03月27日 by liugui  
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/getMenuRecords.do")
+	public void getMenuRecords(HttpServletRequest request,HttpServletResponse response,
+			Integer pageSize, Integer pageIndex, String menuName){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {	
+			operation = "查看【资源管理】";
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			//paramsMap.put("offset", pageIndex);
+			//paramsMap.put("limit", pageSize);
+			paramsMap.put("menuName", menuName);
+			Map<String, Object> params = CommUtils.convertDecode(paramsMap);
+			List<Menu> resultList = menuService.getAllMenuRecords(params);
+			//int totalCount = menuService.getMenuCount();
+			Map<String, Object> map = new HashMap<String, Object>();
+			map.put("rows", resultList);
+			//map.put("total", totalCount);
+			JSONObject jsonObj = JSONObject.fromObject(map);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}	
+
+	/**
+	 * 方法功能说明：获取菜单详细信息
+	 * 创建：2018年03月27日 by liugui  
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/getMenuDetail.do")
+	public void getMenuDetail(HttpServletRequest request,HttpServletResponse response,String menuId){
+		try {					
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("menuId", menuId);			
+			Map<String, Object> resultList = menuService.getMenuDetail(paramsMap);			
+			Map<String, Object> map = new HashMap<String, Object>();			
+			map.put("result", resultList);
+			JSONObject jsonObj = JSONObject.fromObject(map);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 方法功能说明：校验菜单是否已存在
+	 * 创建：2018年03月27日 by liugui  
+	 * @param request
+	 * @param response
+	 */	
+	@RequestMapping(value="/checkSameMenuName.do")
+	@ResponseBody
+	public Boolean checkSameMenuName(HttpServletRequest request,HttpServletResponse response,String res_pid,String resId,String res_name){
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		try {		
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("parentId", res_pid);
+			paramsMap.put("menuId", resId);
+			paramsMap.put("menuName",URLDecoder.decode(res_name, "utf-8"));
+			result = menuService.checkSameMenuName(paramsMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+	
+	/**
+	 * 方法功能说明：保存菜单信息
+	 * 创建：2018年03月27日 by liugui  
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/saveOrUpdateMenu.do")
+	public void saveOrUpdateMenu(HttpServletRequest request,HttpServletResponse response,String resId,String res_name,String res_pid,String res_url,
+			String res_key,String res_desc,String res_order,String res_icon){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {
+			if(StringUtils.isNotEmpty(resId)){
+				operation = "编辑【资源管理】："+res_name;	
+			}else{
+				operation = "新增【资源管理】："+res_name;
+			}
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("menuId", resId);
+			paramsMap.put("menuName", res_name);
+			paramsMap.put("parentId", res_pid);
+			paramsMap.put("url", res_url);
+			paramsMap.put("permission", res_key);
+			paramsMap.put("description", res_desc);
+			paramsMap.put("sort", Integer.parseInt(res_order));
+			paramsMap.put("menuIcon", res_icon);
+			menuService.saveOrUpdateMenu(paramsMap);			
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "保存成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}
+	
+	/**
+	 * 方法功能说明：删除菜单信息
+	 * 创建：2018年03月27日 by liugui  
+	 * @param request
+	 * @param response
+	 */
+	@RequestMapping(value="/deleteMenuById.do")
+	public void deleteMenuById(HttpServletRequest request,HttpServletResponse response,String menuId,String menuName){
+		//operation 操作，errorMsg异常信息
+		String operation = "",errorMsg = "";
+		try {
+			operation = "删除【资源管理】："+URLDecoder.decode(menuName, "utf-8");
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+			paramsMap.put("menuId", menuId);		
+			menuService.deleteMenuById(paramsMap);			
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "删除成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}	
+	
+}

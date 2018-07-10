@@ -1,0 +1,114 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.RoleDao" >
+  <resultMap id="BaseResultMap" type="cn.com.hxfz.model.Role" >
+    <id column="id" property="roleId" jdbcType="VARCHAR" />
+    <result column="role_name" property="roleName" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> 
+  </resultMap>
+  
+  <!-- 获取登录用户的角色信息 -->
+  <select id="findRoleByRoleId" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  		select id,role_name,description,del_flag,create_time,update_time from hxdb.sys_role where del_flag = '0'
+  		and id = #{roleId}	
+  </select>
+  
+  
+  <!-- 根据角色id获取菜单列表（一对多） -->
+  <select id="getMenuListByRoleId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select rm.* from hxdb.sys_role r
+  		left join hxdb.sys_role_menu rm on r.id = rm.role_id 
+  		left join hxdb.sys_menu m on m.id = rm.menu_id
+  		where 1=1 and r.del_flag = '0'
+  		<if test="roleId!=null and roleId!=''">
+			and rm.role_id = #{roleId} 
+	    </if>
+	    order by m.sort asc
+  </select>
+
+ <!-- 查询角色 -->
+  <select id="getRoleRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select id,role_name,description,to_char(create_time,'yyyy-mm-dd hh24:mi:ss')as create_time from hxdb.sys_role
+  		where del_flag = '0' 
+  		<if test="roleName != null and roleName != ''">
+          and role_name like '%'||#{roleName}||'%'
+        </if>
+  		order by create_time desc
+		LIMIT #{limit} OFFSET #{offset}
+  </select>
+  
+  <!-- 查询角色数量 -->
+  <select id="getRoleCount" resultType="java.lang.Integer">
+  		select count(id) as totalcount from hxdb.sys_role where del_flag = '0'
+  </select>
+  
+  <!-- 查询角色列表 -->
+  <select id="getRoleList" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select id,role_name,description,to_char(create_time,'yyyy-mm-dd hh24:mi:ss')as create_time from hxdb.sys_role
+  		where del_flag = '0' 
+  		order by create_time desc
+  </select>
+  
+  <!-- 新增校验角色是否已存在 -->
+  <select id="checkAddRole" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) as total_count from hxdb.sys_role where del_flag = '0' and role_name = #{roleName}
+  </select>
+  
+  <!-- 编辑校验角色是否已存在 -->
+  <select id="checkEditRole" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id) as total_count from hxdb.sys_role where del_flag = '0' and id != #{roleId} and role_name = #{roleName}
+  </select>
+  
+  <!-- 保存角色 -->
+  <insert id="saveRole" parameterType="java.util.HashMap">
+	  	insert into hxdb.sys_role(id,role_name,description,del_flag,create_time)
+		values(#{roleId},#{roleName},#{roleDesc},'0',now())
+  </insert>
+  
+  <!-- 修改角色 -->
+  <update id="updateRoleById" parameterType="java.util.HashMap">
+  		update hxdb.sys_role set role_name = #{roleName},description = #{roleDesc} where id = #{roleId}
+  </update>
+  
+  <!-- 删除角色 -->
+  <delete id="deleteRoleById" parameterType="java.util.HashMap">
+  		update hxdb.sys_role set del_flag = '1' where id = #{roleId}
+  </delete>
+  
+  <!-- 获取角色权限 -->
+  <select id="getRolePermission" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select rm.role_id,rm.menu_id,m.menu_name from hxdb.sys_role r
+		inner join hxdb.sys_role_menu rm on rm.role_id = r.id
+		inner join hxdb.sys_menu m on m.id = rm.menu_id
+		where r.id = #{roleId}
+  </select>
+  
+  <!-- 查询菜单根目录 -->
+  <select id="getMenuRootDirectoryRecords" resultType="java.util.HashMap">
+  		select id,menu_name,parent_id,menu_icon,permission from hxdb.sys_menu where del_flag = '0' and parent_id = '0' order by sort asc
+  </select>
+  
+  <!-- 根据父节点获取子节点菜单数据 -->
+  <select id="getChildMenusByParentId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select id,menu_name,parent_id,menu_icon,permission from hxdb.sys_menu where del_flag = '0' and parent_id = #{menuId} order by sort asc
+  </select>
+  
+  <!-- 删除当前角色所有权限 -->
+  <delete id="deleteRoleMenuByRoleId" parameterType="java.util.HashMap">
+  		delete from hxdb.sys_role_menu where role_id = #{roleId}
+  </delete>
+  
+  <!-- 建立角色和菜单关系 -->
+  <insert id="saveRoleAndMenu" parameterType="java.util.HashMap">
+  		insert into hxdb.sys_role_menu(id,role_id,menu_id)
+  		values(#{id},#{roleId},#{menuId})
+  </insert>
+  
+  <!-- 删除用户角色表记录 -->
+  <update id="deleteUserRoleByRoleId" parameterType="java.util.HashMap">
+  		delete from hxdb.sys_user_role where role_id = #{roleId}
+  </update>
+</mapper>

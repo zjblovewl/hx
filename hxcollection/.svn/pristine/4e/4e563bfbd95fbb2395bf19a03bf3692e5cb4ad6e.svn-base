@@ -1,0 +1,345 @@
+<%@page import="cn.com.hxfz.util.Configuration"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@page import="cn.com.hxfz.model.User"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+	String uploadImageUrl = Configuration.getInstance().getValue("upload_image_url");
+	String getImageUrl = Configuration.getInstance().getValue("get_image_url");
+	User user = (User) request.getSession().getAttribute("user");
+	String name = user.getUserName();
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>新增交易帖</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../H-ui.admin/H-ui.min.css" />
+<link rel="stylesheet" href="../../css/jspEditcommon.css" />
+<link rel="stylesheet" type="text/css" href="../../css/common_menu.css">
+<link rel="stylesheet" type="text/css" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" href="../../css/zTreeStyle/zTreeStyle.css">
+
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/jquery.form.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/timeUtils.js"></script>
+<script src="../../js/common/md5.js"></script>
+<script src="../../js/jquery.ztree.all.js"></script>
+<script src="../../js/commonCheckUtils.js"></script>
+
+<style>
+	.modal-container{
+	    overflow-y: scroll;
+		padding: 0 20px 0 20px !important;
+	    height: 86%;
+	}
+	.label-select-oneline {
+	    width: 18% !important;
+	    text-align: left !important;
+	}
+	.select-style {
+    	width: 60% !important;
+    }
+</style>
+</head>
+<body>
+	<!-- 新增 -->
+	<p id="modal-title" class="modal-title">新增交易帖</p>
+	<div class="modal-container">
+		<div class="form-div-edit">
+			<div class="control-group">				
+				<div class="controls">
+					<span class="control-label">用户</span>
+					 <input id="user_id" type="text"  class="input-text" readonly="readonly" style="cursor:pointer;">
+					 <span class="lable-symbol">*</span>
+				</div>
+				<div class="controls">
+					<span class="control-label">发布时间</span>
+					 <input id="publish_time" data-type="input-time" class="input-text" readonly="readonly">
+					 <span class="lable-symbol">*</span>
+				</div>									
+			</div>
+			<div class="control-group">				
+				<div class="controls">
+					<span class="control-label">商品名称</span>
+					 <input id="goods_name" type="text"  class="input-text">
+					 <span class="lable-symbol">*</span>
+				</div>
+				<div class="controls">
+					<span class="control-label">库存</span>
+					 <input id="inventory" type="text" class="input-text">
+					 <span class="lable-symbol">*</span>
+				</div>
+			</div>
+			<div class="control-group">
+				<div class="marginTop10 controls">
+		     		<span class="label-select-oneline">所属大类</span>
+		     		<select id="big_class_code" name="bigClazz" class="form-control select-style">	
+		     			<option value="">--请选择--</option>		     			
+		     		</select>
+		     	</div>  
+		     	<div class="marginTop10 controls">
+		     		<span class="label-select-oneline">所属小类</span>
+		     		<select id="small_class_code" name="smallClazz" class="form-control select-style">	
+		     			<option value="">--请选择--</option>					     			
+		     		</select>
+		     	</div>  
+			</div>
+			<div class="area-text-parent">
+					<span class="control-label">商品描述</span>
+					 <textarea id="goods_description" rows="3" cols="20"  class="area-text"></textarea>
+					 <span class="lable-symbol">*</span>			
+			</div>
+			<div class="control-group">
+				<div class="controls">
+					<span class="control-label">交易价格</span>
+					 <input id="price" type="text" class="input-text" >
+					 <span class="lable-symbol">*</span>
+				</div>
+				<div class="controls">
+					<span class="control-label">邮费</span>
+					 <input id="postage" type="text"  class="input-text">
+					 <span class="lable-symbol">*</span>
+				</div>
+			</div>
+			
+			<div class="marginTop20">				
+					<span class="control-label">上传图片</span>			
+					<form id="imgForm" class="inputBox" action="" method="post" enctype="multipart/form-data">
+						<input type="hidden" id="pageUrl">
+						<div class="parent-input-files" id="parent-input-files">						
+							<div class="cover-input-files">
+								<input type="file" id="addimg" value="" name="files"/>
+							</div>
+							
+						</div>														
+					</form>						 				
+			</div>
+			<div class="control-group button-group">			
+				<button id="submit_modal" class="btn btn-success marginRight10">确认</button>
+				<button id="close_modal" class="btn btn-danger">取消</button>
+			</div>
+		</div>
+
+	<div id="pcImage" imageIds="" style="width: 0;height: 0;"></div>
+	</div>
+	<script type="text/javascript">
+		// 上传图片URL
+		var uploadImageUrl = '<%=uploadImageUrl%>';
+		var delImageUrl = '<%=basePath%>goodsClassification/deleteImageByIds.do?rnd=' + Math.random();
+		var parentPicOBJ = window.parent;
+		//上传图片ID
+		var imageIds;
+		var optionsFileAct = {
+				 url:uploadImageUrl,
+				 type: 'post',
+				 beforeSubmit: checkinputeditFileAct,//根据id获得上传图片的val值,验证上传格式
+				 data:{
+					 is_source:'pc',//来源pc
+				 },
+				 success: function (data) {	
+					 imageIds = data.data[0];								  
+				    if(imageIds!=null){	
+				    	var images = $("#pcImage").attr("imageIds");
+				    	$("#pcImage").attr("imageIds",images+","+imageIds);
+				    }
+			     },		
+				 error:function(){
+					 parentPicOBJ.$.showSuccessTimeout("上传图片失败,系统错误");
+				 }
+		};
+		
+		//验证图片上传格式
+		function  checkinputeditFileAct(){
+			var fileName = $("#addimg").val();			
+			if(fileName==""){
+				parentPicOBJ.$.showSuccessTimeout("请选择图片!");
+				return false;
+			}
+			var end = fileName.substring(fileName.lastIndexOf(".")+1,fileName.length);
+			end = end.toLowerCase();
+			if( !(end=='jpg'||end=='jpeg'||end=='gif'||end=='png'||end=='bmp') )
+			{
+				parentPicOBJ.$.showSuccessTimeout("上传图片格式错误!");
+				return false;
+			}
+			return true;
+		}
+		//添加图片
+		var imagesCode = [];
+		$("input[type='file']").change(function(){   
+			 var file = this.files[0];
+			   if (window.FileReader) {    
+			        var reader = new FileReader();    
+			        reader.readAsDataURL(file);    
+			        //监听文件读取结束后事件    
+			        reader.onloadend = function (e) {
+			        	imagesCode.push(e.target.result);
+			        	$("#parent-input-files").find('div[class="cover-input-file"]').remove();
+			        	var imgCode = '<div class="cover-input-files">'+
+							'<img alt="图片" src="'+e.target.result+'"/>'+
+							 '<i class="fa fa-times dele-input-file" aria-hidden="true"></i>'+ 
+							'</div>';						       	
+			        	$("#parent-input-files").prepend(imgCode);
+			        	
+			        	//========自动上传图片==========		
+			    		$("#imgForm").ajaxSubmit(optionsFileAct);			    		
+			         };    
+			    } 
+			});
+		$("#parent-input-files").on('click','.dele-input-file',function(){
+			var ids = $("#pcImage").attr("imageIds");
+			if(ids != "" && ids != undefined){
+				$.post(delImageUrl,{imageIds:ids});
+			}			
+			$(this).parent().remove();
+		});
+	</script>
+	<script>
+		$(function() {	
+			var username = '<%=name%>';
+			var queryBigClazzUrl = '<%=basePath%>goodsClassification/getGoodsClass.do?rnd=' + Math.random();
+			var saveGoodsURL = '<%=basePath%>goods/saveOrUpdateTransGoods.do?rnd=' + Math.random();
+			var queryUrl = '<%=basePath%>generalUser/queryGeneralUserList.do?rnd=' + Math.random();
+			var parentOBJ = window.parent;
+			//获取url
+			var src_data = parentOBJ.document.getElementById("modal-iframe")
+					.getAttribute("src-data");
+			var json_data = JSON.parse(src_data);
+			console.log(json_data)
+			
+			if(json_data.edit=="callback"){
+				$("#user_id").val(json_data.callTxt.split(',')[0]);				
+			}
+			//关闭
+			$("#close_modal").click(function() {
+				parentOBJ.modalIn();
+			});
+			//保存提交
+			$("#submit_modal").click(function() {
+				var params = {};
+							
+				params.goodsId= ''; //商品id
+				params.bigClassCode=  $("#big_class_code").val(); //大类
+				params.smallClassVode= $("#small_class_code").val();  //小类			
+				params.userId= json_data.callTxt.split(',')[1];  //用户id
+				params.nickName = '';  //用户昵称，空
+				params.goodsType ='1';  //商品类型
+				params.goodsName= $("#goods_name").val(); //商品名称
+				params.goodsDescription= $("#goods_description").val();  //商品描述
+				params.inventory= $("#inventory").val();  //库存
+				params.price= $("#price").val(); //交易价格
+				params.postage= $("#postage").val();  //邮费
+				params.status=  ''; //状态，空
+				params.firstStepTime = '';  //初次发布时间，空
+				params.lastUpdateTime = '';  //最新更新时间，空
+				params.browseNum= '';  //浏览次数，空
+				params.publishCustomer= username;   //发布用户
+				params.publishTime= $("#publish_time").val();  //发布时间
+				params.startPrice= ''; //起拍价格，空
+				params.markupPrice=  ''; //每手加价，空
+				params.currentPrice= '';  //当前价格，空
+				params.endTime= '';  //结拍时间，空
+				params.cityCode= '';  //城市code，空
+				params.isRecommend= '';  //是否推荐，空
+				params.sort= '';  //推荐排序，空
+				params.imageIds= $("#pcImage").attr("imageIds");  //商品图片id
+				params.imageUrls = '';   //商品图片urls
+				console.log(params)
+				
+				$.ajax({
+					url: saveGoodsURL,
+					type:"post",
+					data:{
+						 paramsStr:JSON.stringify(params) 
+					},
+					success:function(data){
+						console.log("success");
+						parentOBJ.resfreshWindow();
+					},
+					error:function(){
+						console.error("提交失败");
+						parentOBJ.resfreshWindow();
+					}
+				});
+								
+				parentOBJ.modalIn();//关闭
+				
+			});
+			//大类
+			var dataArray = [];
+			$.ajax({
+				url: queryBigClazzUrl,
+				type: "post",
+				data:{
+					class_type:1
+				},
+				success: function(data){
+					var rows = data.resultList;
+					var bigCode ="";
+					var smallCode = "";
+					dataArray = rows;
+					var indexArray = [];
+					for(var i=0;i<rows.length;i++){
+						if(rows[i].parent_code == 0){	
+							indexArray.push(i);
+							bigCode += '<option value="'+rows[i].class_code+'">'+rows[i].class_name+'</option>';
+						}			
+					}
+					for(var i=0;i<rows.length;i++){
+						if(rows[i].parent_code == rows[parseInt(indexArray[0])].class_code){
+							smallCode += '<option value="'+dataArray[i].class_code+'">'+dataArray[i].class_name+'</option>';
+						}
+					}
+					$("#big_class_code").append(bigCode);
+					
+					$("#small_class_code").attr("disabled","disabled");
+					
+				},
+				error: function(){
+					console.error("请求失败");
+				}
+			});
+			//大类小类联动事件	
+			 $("#big_class_code").change(function() {				
+				var currentClazz = $('#big_class_code option:selected').attr("value");
+				var smallCode = '';
+				
+				if(currentClazz == ""){
+					$("#small_class_code").attr("disabled","disabled");
+					return;
+				}else{
+					$("#small_class_code").attr("disabled",false);
+				}
+				for(var i=0;i<dataArray.length;i++){
+					if(dataArray[i].parent_code == currentClazz){
+						smallCode += '<option value="'+dataArray[i].class_code+'">'+dataArray[i].class_name+'</option>';
+					}
+				}
+				$("#small_class_code").html(smallCode);		
+			 });
+			//校验数字
+			 $('#price').bind('input propertychange', function() {		
+				    $(this).val($(this).val().replace(/[^\d]/g,''));
+				});
+			 $('#postage').bind('input propertychange', function() {		
+				    $(this).val($(this).val().replace(/[^\d]/g,''));
+				});
+			 $('#inventory').bind('input propertychange', function() {		
+				    $(this).val($(this).val().replace(/[^\d]/g,''));
+				});
+			 //用户列表			
+			$("#user_id").bind('click',function(){
+				parentOBJ.setWindowDialog(720,600);
+				var userlistUrl = '<%=basePath%>generalUser/allCommonUserInfo.do?rnd=' + Math.random();				
+				parentOBJ.modalOut("component/mutiCheckboxComponent.jsp",{name:"用户选择",edit:"userId",url:"transaction/dealTieEdit.jsp",width:720,height:600,queryUrl:userlistUrl});		
+			});
+			 
+		});
+	</script>
+</body>
+</html>

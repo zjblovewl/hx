@@ -1,0 +1,35 @@
+#\u4e3b\u6570\u636e\u5e93\u6570\u636e\u6e90
+jdbc.driverClassName=org.postgresql.Driver
+jdbc.url=jdbc:postgresql://192.168.50.215:5432/hxdb?useUnicode\=true&characterEncoding\=utf8
+jdbc.username=postgres
+jdbc.password=123456
+jdbc.initialSize=1
+jdbc.minIdle=1
+jdbc.maxActive=20
+jdbc.maxWait=60000
+jdbc.removeAbandoned=true
+jdbc.removeAbandonedTimeout=180
+jdbc.timeBetweenEvictionRunsMillis=60000
+jdbc.minEvictableIdleTimeMillis=300000
+jdbc.validationQuery=SELECT 1
+jdbc.testWhileIdle=true
+jdbc.testOnBorrow=false
+jdbc.testOnReturn=false
+
+#\u4ece\u6570\u636e\u5e93\u6570\u636e\u6e90
+#slave.jdbc.driverClassName=org.postgresql.Driver
+#slave.jdbc.url=jdbc:postgresql://192.168.50.49:5432/cldb?useUnicode\=true&characterEncoding\=utf8
+#slave.jdbc.username=hxcl
+#slave.jdbc.password=hxcl123
+#slave.jdbc.initialSize=1
+#slave.jdbc.minIdle=1
+#slave.jdbc.maxActive=20
+#slave.jdbc.maxWait=60000
+#slave.jdbc.removeAbandoned=true
+#slave.jdbc.removeAbandonedTimeout=180
+#slave.jdbc.timeBetweenEvictionRunsMillis=60000
+#slave.jdbc.minEvictableIdleTimeMillis=300000
+#slave.jdbc.validationQuery=SELECT 1
+#slave.jdbc.testWhileIdle=true
+#slave.jdbc.testOnBorrow=false
+#slave.jdbc.testOnReturn=false

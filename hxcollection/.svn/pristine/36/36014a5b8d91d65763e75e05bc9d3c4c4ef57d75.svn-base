@@ -1,0 +1,131 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.UserDao" >
+  <resultMap id="BaseResultMap" type="cn.com.hxfz.model.User" >
+    <id column="id" property="userId" jdbcType="VARCHAR" />
+    <result column="user_name" property="userName" jdbcType="VARCHAR" />
+    <result column="login_name" property="loginName" jdbcType="VARCHAR" />
+    <result column="password" property="password" jdbcType="VARCHAR" />
+    <result column="email" property="email" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" /> 
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" /> 
+  </resultMap>
+  
+  <!-- 登录 -->
+  <select id="findUserByUserNameAndPassword" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  		select id,user_name,login_name,password,email,del_flag,create_time,update_time from hxdb.sys_user where del_flag = '0'
+  		and user_name = #{userName} and password = #{password}  		
+  </select>
+  
+  <!-- 根据用户id获取角色列表（一对多） -->
+  <select id="getRoleListByUserId" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select ur.* from hxdb.sys_user r
+  		left join  hxdb.sys_user_role ur on r.id = ur.user_id
+  		where 1=1 and r.del_flag = '0'
+  		<if test="userId!=null and userId!=''">
+			and ur.user_id = #{userId} 
+	    </if>	
+  </select>
+  
+  <!-- 保存操作日志 -->
+  <insert id="saveLog" parameterType="java.util.HashMap">
+  		insert into hxdb.sys_operation_log(id,user_name,ip_address,operation,error_msg,create_time)
+		values(#{id},#{userName},#{ipAddress},#{operation},#{errorMsg},now());
+  </insert>
+  
+   <!-- 查询用户 -->
+  <select id="getUserRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select u.id,u.user_name,u.login_name,u.email,to_char(u.create_time,'yyyy-mm-dd hh24:mi:ss')as create_time,
+  		string_agg(ur.role_id,',') role_id,string_agg(r.role_name,',') role_name
+  		from hxdb.sys_user u
+  		left join hxdb.sys_user_role ur on ur.user_id = u.id
+  		left join hxdb.sys_role r on ur.role_id = r.id
+		where u.del_flag = '0'
+		<if test="userName != null and userName != ''">
+          and u.user_name like '%'||#{userName}||'%'
+        </if>
+        <if test="loginName != null and loginName != ''">
+          and u.login_name like '%'||#{loginName}||'%'
+        </if>
+        group by u.id,u.user_name,u.login_name,u.email,u.create_time
+		order by u.create_time desc
+		LIMIT #{limit} OFFSET #{offset}
+  </select>
+  
+  <!-- 查询用户数量 -->
+  <select id="getUserCount" resultType="java.lang.Integer">
+  		select count(id) as totalcount from hxdb.sys_user where del_flag = '0'
+  </select>
+  
+  <!-- 重置密码 -->
+  <update id="refreshPassword" parameterType="java.util.HashMap">
+  		update hxdb.sys_user set password = #{password} where id = #{userId}
+  </update>
+  
+  <!-- 查询用户详细信息 -->
+  <select id="getUserDetail" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select u.id,u.user_name,u.login_name,u.password,u.email,to_char(u.create_time,'yyyy-mm-dd hh24:mi:ss')as create_time from hxdb.sys_user u
+		where u.del_flag = '0' and u.id = #{userId}  		
+  </select>
+  
+  <!-- 新增校验用户是否已存在 -->
+  <select id="checkAddUser" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id)as total_count from hxdb.sys_user where del_flag = '0' and user_name = #{userName}
+  </select>
+  
+  <!-- 编辑校验用户是否已存在 -->
+  <select id="checkEditUser" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id)as total_count from hxdb.sys_user where del_flag = '0' and id != #{userId} and user_name = #{userName}
+  </select>
+  
+  <!-- 新增校验邮箱是否已存在 -->
+  <select id="checkAddEmail" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id)as total_count from hxdb.sys_user where del_flag = '0' and email = #{userEmail}
+  </select>
+  
+  <!-- 编辑校验邮箱是否已存在 -->
+  <select id="checkEditEmail" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(id)as total_count from hxdb.sys_user where del_flag = '0' and id != #{userId} and email = #{userEmail}
+  </select>
+  
+  <!-- 保存用户 -->
+  <insert id="saveUser" parameterType="java.util.HashMap">
+	  	insert into hxdb.sys_user(id,user_name,login_name,password,email,del_flag,create_time)
+		values(#{userId},#{userName},#{loginName},#{password},#{userEmail},'0',now())
+  </insert>
+  
+  <!-- 修改用户 -->
+  <update id="updateUserById" parameterType="java.util.HashMap">
+  		update hxdb.sys_user set user_name = #{userName},login_name = #{loginName},email = #{userEmail} where id = #{userId}
+  </update>
+  <!-- 修改用户密码 -->
+  <update id="updatePassword" parameterType="java.util.HashMap">
+  		update hxdb.sys_user set password = #{newPassword} where user_name = #{userName}
+  </update>
+  <!-- 建立用户和角色关系 -->
+  <insert id="saveUserAndRole" parameterType="java.util.HashMap">
+  		insert into hxdb.sys_user_role(id,user_id,role_id)
+  		values(#{id},#{userId},#{roleId})
+  </insert>
+  
+  <!-- 删除用户 -->
+  <delete id="deleteUserById" parameterType="java.util.Map">
+  		update hxdb.sys_user set del_flag = '1'
+  		where id in
+  		<foreach item="item" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  </delete>
+  <!-- 删除用户和角色关系 -->
+  <delete id="deleteUserAndRoleById" parameterType="java.util.Map">
+  		delete from hxdb.sys_user_role where user_id in
+  		<foreach item="item" collection="idList" open="(" separator="," close=")">
+            #{item}
+        </foreach>
+  </delete>
+  <!-- 删除用户和角色关系 -->
+  <delete id="deleteUserRoleById" parameterType="java.util.Map">
+  		delete from hxdb.sys_user_role where user_id = #{userId}  		
+  </delete>
+</mapper>

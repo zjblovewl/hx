@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.DictionaryDao" >
+  <resultMap id="BaseResultMap" type="cn.com.hxfz.model.Dictionary" >
+    <id column="id" property="dicId" jdbcType="VARCHAR" />
+    <result column="dic_name" property="dicName" jdbcType="VARCHAR" />
+    <result column="dic_value" property="dicValue" jdbcType="VARCHAR" />
+    <result column="describe" property="describe" jdbcType="VARCHAR" />
+    <result column="pid" property="pid" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+  </resultMap>
+  <select id="getDictionaryDetail" parameterType="java.util.HashMap" resultMap="BaseResultMap">
+  		select id,dic_name,dic_value,describe,pid,sort from hxdb.sys_dictionary 
+  		where id = #{dicId}		
+  </select>
+  <!-- 查询字典列表 -->
+  <select id="getDictionaryRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select id,dic_name,dic_value,describe,pid,sort
+  		from hxdb.sys_dictionary 
+		where 1=1 and pid = '0'
+		<if test="dicName != null and dicName != ''">
+          and dic_name like '%'||#{dicName}||'%'
+        </if>
+        <if test="dicValue != null and dicValue != ''">
+          and dic_value like '%'||#{dicValue}||'%'
+        </if>
+		LIMIT #{limit} OFFSET #{offset}
+  </select>
+  
+  <!-- 查询字典数量 -->
+  <select id="getDictionaryCount" resultType="java.lang.Integer">
+  		select count(id) as totalcount from hxdb.sys_dictionary  where  pid = '0'
+  </select>
+  
+  <!-- 保存字典 -->
+  <insert id="saveDictionary" parameterType="java.util.HashMap">
+	  	insert into hxdb.sys_dictionary(id,dic_name,dic_value,pid)
+		values(#{dicId},#{dicName},#{dicValue},#{pId})
+  </insert>
+  
+  <!-- 修改字典 -->
+  <update id="updateDictionaryById" parameterType="java.util.HashMap">
+  		update hxdb.sys_dictionary set dic_name = #{dicName},dic_value = #{dicValue},pid = #{pId}
+  		where id = #{dicId}
+  </update>
+  
+   <!-- 保存字典键值对 -->
+  <insert id="saveKeyAndVal" parameterType="java.util.HashMap">
+	  	insert into hxdb.sys_dictionary(id,dic_name,dic_value,pid,sort)
+		values(#{dicId},#{dicName},#{dicValue},#{pId},#{sort})
+  </insert>
+  
+  <!-- 修改字典键值对 -->
+  <update id="updateKeyAndValById" parameterType="java.util.HashMap">
+  		update hxdb.sys_dictionary set dic_name = #{dicName},dic_value = #{dicValue},
+  		pid = #{pId},sort = #{sort} where id = #{dicId}
+  </update>
+  
+  <!-- 删除字典 -->
+  <delete id="deleteDictionaryByIds" parameterType="java.util.Map">
+  		delete from hxdb.sys_dictionary where id in
+  		<foreach item="dicIdList" collection="dicIdList" open="(" separator="," close=")">
+            #{dicIdList}
+        </foreach>
+  </delete>
+  <!-- 查询字典键值对列表 -->
+  <select id="getKeyAndValRecords" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select id,dic_name,dic_value,describe,pid,sort
+  		from hxdb.sys_dictionary 
+		where 1=1 and pid = #{pId}
+		order by sort asc
+  </select>
+  <!-- 根据字典key查询字典键值对列表 -->
+  <select id="getDicListByDicKey" parameterType="java.util.HashMap" resultType="java.util.HashMap">
+  		select c.id,c.dic_name,c.dic_value,c.describe,c.pid,c.sort
+  		from hxdb.sys_dictionary c
+  		left join hxdb.sys_dictionary p on p.id = c.pid
+		where 1=1 and p.dic_value = #{pic_value}
+		order by sort asc
+  </select>
+</mapper>

@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.GoodsComplaintDao" >
+	
+	<!-- 藏品投诉映射信息 -->
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.GoodsComplaint">
+		<id column="hx_goods_complaints_pk_id" property="id" jdbcType="VARCHAR" />
+		<result column="id" property="rid" jdbcType="VARCHAR" />
+		<result column="report_people" property="reportPeople" jdbcType="VARCHAR" />
+		<result column="report_object" property="reportObject" jdbcType="VARCHAR" />
+		<result column="report_type" property="reportType" jdbcType="VARCHAR" />
+		<result column="report_content" property="reportContent" jdbcType="VARCHAR" />
+		<result column="report_time" property="reportTime" jdbcType="TIMESTAMP" />
+		<result column="deal_status" property="dealStatus" jdbcType="VARCHAR" />
+		<result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		<result column="remarks" property="remarks" jdbcType="VARCHAR" />
+	</resultMap>
+	
+	<!-- 获取藏品投诉数据 -->
+	<select id="getGoodsComplaintList" parameterType="java.util.Map" resultType="java.util.Map">
+      	select id,report_people,report_object,report_type,report_content,to_char(report_time,'YYYY-MM-DD HH24:MI:SS')
+        as report_time,deal_status,remarks,to_char(create_time,'YYYY-MM-DD HH24:MI:SS')
+        as create_time from hxdb.hx_goods_complaints where 1=1
+        <if test="reportContent != null and reportContent != ''">
+          and report_content like '%'||#{reportContent}||'%'
+        </if>
+        <if test="reportType != null and reportType != ''">
+          and report_type like '%'||#{reportType}||'%'
+        </if>
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+	
+	<!-- 获取藏品投诉总数 -->
+	<select id="getGoodsComplaintCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+      	select count(id) from hxdb.hx_goods_complaints where 1=1
+        <if test="reportContent != null and reportContent != ''">
+          and report_content like '%'||#{reportContent}||'%'
+        </if>
+        <if test="reportType != null and reportType != ''">
+          and report_type like '%'||#{reportType}||'%'
+        </if>
+    </select>
+	
+	
+	<!--根据ID更新藏品投诉信息 -->
+	<update id="updateGoodsComInfoById" parameterType="java.util.HashMap">
+  		update hxdb.hx_goods_complaints set remarks = #{remarks}, deal_status = #{dealStatus} 
+  		where id = #{id}
+  	</update>
+	
+	<!-- 删除藏品投诉 -->
+  	<delete id="deleteGCById" parameterType="java.util.HashMap">
+  		delete from hxdb.hx_goods_complaints 
+  		where id = #{id}
+  	</delete>
+  	
+  	<!-- 批量删除藏品投诉 -->
+  	<delete id="delMoreGC" parameterType="java.util.HashMap">
+  		delete from hxdb.hx_goods_complaints 
+  		where id in (${id})
+  	</delete>
+	
+	
+</mapper>

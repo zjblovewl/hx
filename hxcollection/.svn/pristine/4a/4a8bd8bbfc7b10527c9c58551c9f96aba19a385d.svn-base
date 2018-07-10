@@ -1,0 +1,568 @@
+package cn.com.hxfz.controller;
+
+import java.io.IOException;
+import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
+
+import org.apache.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.alibaba.fastjson.JSON;
+
+import cn.com.hxfz.service.GeneralUserService;
+import cn.com.hxfz.util.CommUtils;
+import cn.com.hxfz.util.ExcelModelNew;
+import cn.com.hxfz.util.LogUtil;
+import cn.com.hxfz.util.ServletHelp;
+
+/**
+ * 
+ * @类功能说明：用户管理控制层
+ * @项目名称：  hxcollection
+ * @包名：	 cn.com.hxfz.controller
+ * @类名：	 GeneralUserController.java
+ * @公司名称：  南京华讯方舟通讯设备有限公司  
+ * @作者：         qiangxuan  
+ * @创建时间：   2018年4月18日 下午4:45:09 
+ * @版本：         V1.0
+ */
+@Controller
+@RequestMapping(value = "/generalUser")
+public class GeneralUserController {
+	
+	static Logger logger = Logger.getLogger(GeneralUserController.class.getName());
+	
+	/**
+	 * 用户业务层
+	 */
+	@Autowired
+	private GeneralUserService generalUserService;
+	
+	/**
+	 * 
+	 * @description 获取普通用户列表
+	 * @method  queryGeneralUserList
+	 * @param @param request
+	 * @param @param response
+	 * @param @param pageSize
+	 * @param @param pageIndex
+	 * @param @param id
+	 * @return void
+	 * @date: 2018年4月8日 下午3:11:14
+	 * @author:qiangxuan
+	 */
+	@RequestMapping(value = "/queryGeneralUserList.do",method = { RequestMethod.POST, RequestMethod.GET})    
+    public void queryGeneralUserList(HttpServletRequest request,HttpServletResponse response,
+    		Integer pageSize, Integer pageIndex,String id, String nickName, String password, String sex, String phone, String cityCode, Integer credit, String isAuthentication, BigDecimal walletBalance, String walletPwd, String lockReason, Date lockTime, Integer lockDays, String receiveAddress, String registerTime,String startTime, String endTime, Integer loginNum, Date loginTime, Date createTime, Date updateTime, String isLock, String clearTime, String delFlag, String isFlagNickName,String isRecommend,Integer sort){
+        Map<String, Object> param = new HashMap<String, Object>();
+        try {
+        	
+        	 param.put("limit",pageSize);
+             param.put("offset",pageIndex);
+             
+             param.put("id", id);
+             //用户列表展示页面所需属性。用户列表编辑、查看页面所有属性都需要展示
+             if (nickName != null && !nickName.equals("")) {
+				param.put("nickName", URLDecoder.decode(nickName,"UTF-8"));
+             }
+             if (phone != null && !phone.equals("")) {
+ 				param.put("phone", URLDecoder.decode(phone,"UTF-8"));
+             }
+             if (isAuthentication != null && !isAuthentication.equals("")) {
+  				param.put("isAuthentication", URLDecoder.decode(isAuthentication,"UTF-8"));
+             }
+             /**
+              *  根据注册开始时间、结束时间进行时间段查询
+              */
+             if (startTime != null && !startTime.equals("")){
+                 logger.info("转化后的日期："+URLDecoder.decode(startTime,"UTF-8"));
+            	 param.put("startTime", URLDecoder.decode(startTime,"UTF-8"));
+             }
+             if (endTime != null && !endTime.equals("")){
+                 logger.info("转化后的日期："+URLDecoder.decode(endTime,"UTF-8"));
+            	 param.put("endTime", URLDecoder.decode(endTime,"UTF-8"));
+             }
+             param.put("registerTime", registerTime);
+             param.put("cityCode",cityCode);
+             param.put("loginTime",loginTime);
+             param.put("updateTime", updateTime);
+             param.put("loginNum",loginNum);
+             
+             param.put("lockReason", lockReason);
+             param.put("lockTime", lockTime);
+             param.put("lockDays", lockDays);
+             param.put("password", password);
+             param.put("sex",sex);
+             param.put("credit",credit);
+             param.put("walletBalance",walletBalance);
+             param.put("walletPwd",walletPwd);
+             param.put("createTime",createTime);
+             param.put("delFlag",delFlag);
+             param.put("isFlagNickName",isFlagNickName);
+             param.put("isRecommend",isRecommend);
+             param.put("sort", sort);
+             
+             	param.put("isLock", isLock);//根据锁定时间+锁定天数/当前时间判断锁定状态
+             	param.put("clearTime", clearTime);//解锁时间
+             	param.put("receiveAddress",receiveAddress);// 收货地址位于  hx_my_receive_address表中，   需编辑查看页面展示
+            
+            
+        	List<Map<String, Object>> resultList= generalUserService.getGeneralUser(param);
+        	
+			int total = generalUserService.getGeneralUserCount(param);
+			
+        	Map<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap.put("rows", resultList);
+			resultMap.put("total", total);
+        	JSONObject jsonObj = JSONObject.fromObject(resultMap);
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.getMessage();
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 * @description 根据ID删除普通用户
+	 * @method  deleteUser
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @date: 2018年4月11日 下午4:37:21
+	 * @author:qiangxuan
+	 */
+	@RequestMapping(value = "/deleteUserById.do",method = { RequestMethod.POST})
+	@ResponseBody
+	public void deleteUser(HttpServletRequest request,HttpServletResponse response){
+	    //operation 操作，errorMsg异常信息
+	    String operation = "",errorMsg = "";
+	    String id = request.getParameter("userIds");
+	    try {
+	    	operation = "删除【用户管理】";
+	    	Map<String, Object> paramsMap = new HashMap<String, Object>();											
+	    	paramsMap.put("id", id);		
+	    	generalUserService.deleteGeneralUser(paramsMap);			
+	    	Map<String, Object> result = new HashMap<String, Object>();			
+	    	result.put("success", true);			
+	    	result.put("resultMsg", "删除成功");			
+	    	JSONObject jsonObj = JSONObject.fromObject(result);		
+	    	ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+	    } catch (IOException e) {
+	    	e.printStackTrace();
+	    	errorMsg = e.getMessage();
+	    }finally{
+	    	LogUtil.saveLog(request,operation,errorMsg);
+	    }
+	}
+	
+	/**
+	 * 
+	 * @description 批量删除普通用户
+	 * @method  batchDelGeneralUser
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @date: 2018年4月11日 下午4:37:48
+	 * @author:qiangxuan
+	 */
+	@RequestMapping(value = "/delGeneralUserBatch.do", method = { RequestMethod.POST })
+	@ResponseBody
+	public void batchDelGeneralUser(HttpServletRequest request,HttpServletResponse response) {
+		String operation = "", errorMsg = "";
+		String id = request.getParameter("userIds");
+		StringBuilder sb = new StringBuilder("");
+		String deleteStr = "";
+		if (id != null && !"".equals(id)) {
+			if (id.indexOf(",") != -1) {
+				String[] ids = id.split(",");
+				for (String i : ids) {
+					sb.append("'");
+					sb.append(i);
+					sb.append("'");
+					sb.append(",");
+				}
+				//'1','2','3'
+				deleteStr = sb.substring(0, sb.length() - 1);
+			} else {
+				//'1'
+				deleteStr = "'" + id + "'";
+			}
+		}
+		try {
+			operation = "批量删除【用户管理】";
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("id", deleteStr);
+			generalUserService.delMoreGeneralUser(paramsMap);
+			Map<String, Object> result = new HashMap<String, Object>();
+			result.put("success", true);
+			result.put("resultMsg", "删除成功");
+			JSONObject jsonObj = JSONObject.fromObject(result);
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+			errorMsg = e.getMessage();
+		} finally {
+			LogUtil.saveLog(request, operation, errorMsg);
+		}
+	}
+	
+	/**
+	 * 
+	 * @description 新增、编辑普通用户
+	 * @method  saveOrUpdateTimeTask
+	 * @param @param request
+	 * @param @param response
+	 * @return void
+	 * @date: 2018年4月11日 下午4:38:29
+	 * @author:qiangxuan
+	 */
+	@RequestMapping(value = "/addOrUpdateGeneralUser.do",method = { RequestMethod.POST})
+	@ResponseBody
+	public void saveOrUpdateTimeTask(HttpServletRequest request, HttpServletResponse response){
+		String data = request.getParameter("data");
+		String operation = "",errorMsg = "";
+		try {
+			Map<String, Object> paramsMap = (Map)JSON.parse(data);
+			logger.info("收货地址："+paramsMap.get("receiveAddress"));
+			generalUserService.saveGeneralUser(paramsMap);
+				
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "保存成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}
+	/**
+	 * 
+	 * @description 校验普通用户昵称是否已存在
+	 * @method  checkSameUserNickName
+	 * @param @param request
+	 * @param @param response
+	 * @param @param userId
+	 * @param @param nickName
+	 * @param @return
+	 * @return Boolean
+	 * @date: 2018年4月11日 下午5:28:58
+	 * @author:qiangxuan
+	 */
+	
+	@RequestMapping(value="/checkSameNickName.do")
+	@ResponseBody
+	public Boolean checkSameNickName(HttpServletRequest request,HttpServletResponse response, String nickName){
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		String id = request.getParameter("id");
+		logger.info(id);
+		try {		
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("id", id);
+			paramsMap.put("nickName",URLDecoder.decode(nickName, "utf-8"));
+			result = generalUserService.checkSameUserName(paramsMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+	/**
+	 * 
+	 * @description： 校验手机号是否存在
+	 * @method:  checkSamePhone
+	 * @param:   @param request
+	 * @param:   @param response
+	 * @param:   @param phone
+	 * @param:   @return
+	 * @return:  Boolean
+	 * @date:    2018年4月19日 上午9:58:49 by qiangxuan
+	 */
+	@RequestMapping(value="/checkSamePhone.do")
+	@ResponseBody
+	public Boolean checkSamePhone(HttpServletRequest request, HttpServletResponse response, String phone){
+		//result true:校验通过,false:校验不通过
+		Boolean result = false;
+		String id = request.getParameter("id");
+		logger.info("前台传入后台的数据ID："+id);
+		try {
+			Map<Object, String> paramsMap = new HashMap<Object, String>();
+			paramsMap.put("id", id);
+			paramsMap.put("phone", URLDecoder.decode(phone, "UTF-8"));
+			result = generalUserService.checkSamePhone(paramsMap);
+		} catch (Exception e) {
+			e.printStackTrace();
+			result = false;
+		}
+		return result;
+	}
+
+	/**
+	 * 
+	 * @description： 用户列表数据导出
+	 * @method:  exportEveryHourReportGata
+	 * @param:   @param request
+	 * @param:   @param response
+	 * @param:   @param nickName
+	 * @param:   @param phone
+	 * @param:   @param cityCode
+	 * @param:   @param isAuthentication
+	 * @param:   @param registerTime
+	 * @param:   @param loginTime
+	 * @param:   @param walletBalance
+	 * @param:   @param credit
+	 * @return:  void
+	 * @date:    2018年4月19日 上午9:59:19 by qiangxuan
+	 */
+	@RequestMapping(value="/exportUserInfoData.do",method = { RequestMethod.POST, RequestMethod.GET})
+	@ResponseBody
+	public String exportEveryHourReportGata(HttpServletRequest request,HttpServletResponse response,String nickName, String phone, String isAuthentication, String registerTime, String startTime, String endTime){
+		try {			
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			String nickNameParam=request.getParameter("nickName");			//出参
+			logger.info("前台传入的参数："+nickNameParam);
+            //用户列表展示页面所需属性。用户列表编辑、查看页面所有属性都需要展示
+            if (nickName != null && !nickName.equals("")) {
+            	paramsMap.put("nickName", URLDecoder.decode(nickName,"UTF-8"));
+            }
+            if (phone != null && !phone.equals("")) {
+            	paramsMap.put("phone", URLDecoder.decode(phone,"UTF-8"));
+            }
+            if (isAuthentication != null && !isAuthentication.equals("")) {
+            	paramsMap.put("isAuthentication", URLDecoder.decode(isAuthentication,"UTF-8"));
+            }
+            /**
+             *  根据注册开始时间、结束时间进行时间段查询
+             */
+            if (startTime != null && !startTime.equals("")){
+                logger.info("转化后的日期："+URLDecoder.decode(startTime,"UTF-8"));
+                paramsMap.put("startTime", URLDecoder.decode(startTime,"UTF-8"));
+            }
+            if (endTime != null && !endTime.equals("")){
+                logger.info("转化后的日期："+URLDecoder.decode(endTime,"UTF-8"));
+                paramsMap.put("endTime", URLDecoder.decode(endTime,"UTF-8"));
+            }
+			paramsMap.put("registerTime", registerTime);
+			Map<String, Object> params = CommUtils.convertDecode(paramsMap);
+			logger.info("获取到的参数："+params);
+			List<Map<String, Object>> resultList = generalUserService.getExportUserList(params);
+			int[] typeArr = new int[] {
+					ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING,
+					ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING,ExcelModelNew.TYPE_STRING			
+			};
+			String[] headArr = new String[] {"藏家","用户昵称","手机号","城市","是否认证","钱包余额","信誉度","注册时间","登录时间"};
+			String[] nameArr = new String[] {"collector","nick_name","phone","city","is_authentication","wallet_balance","credit","register_time","login_time"};
+			ExcelModelNew excelModel = new ExcelModelNew(resultList);
+			excelModel.setColumnTypeArr(typeArr);
+			excelModel.setColumnHeadArr(headArr);
+			excelModel.setColumnNameArr(nameArr);
+			excelModel.setSheetName("所有用户信息数据");
+			try {										
+				String fileName = "所有用户信息数据.xls";
+				excelModel.exportExcel(fileName, response, request);
+			} catch (Exception e) {
+				logger.error(e);
+				e.printStackTrace();
+			}
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		return "success";
+	}
+	
+	/**
+	 * 
+	 * @description： 查询所有用户信息，包含用户所有信息，可调用，属公共信息
+	 * @method:  queryAllCommonUserInfo
+	 * @param:   @param request
+	 * @param:   @param response
+	 * @param:   @param pageSize
+	 * @param:   @param pageIndex
+	 * @param:   @param id
+	 * @param:   @param nickName
+	 * @param:   @param password
+	 * @param:   @param sex
+	 * @param:   @param phone
+	 * @param:   @param cityCode
+	 * @param:   @param autograph
+	 * @param:   @param credit
+	 * @param:   @param isAuthentication
+	 * @param:   @param walletBalance
+	 * @param:   @param walletPwd
+	 * @param:   @param lockReason
+	 * @param:   @param lockTime
+	 * @param:   @param lockDays
+	 * @param:   @param registerTime
+	 * @param:   @param loginNum
+	 * @param:   @param loginTime
+	 * @param:   @param createTime
+	 * @param:   @param updateTime
+	 * @param:   @param delFlag
+	 * @param:   @param isFlagNickName
+	 * @param:   @param isRecommend
+	 * @param:   @param sort
+	 * @return:  void
+	 * @date:    2018年4月19日 上午9:59:52 by qiangxuan
+	 */
+	@RequestMapping(value="/allCommonUserInfo.do")
+	@ResponseBody
+	public void queryAllCommonUserInfo(HttpServletRequest request, HttpServletResponse response,Integer pageSize, Integer pageIndex,
+			String id, String nickName, String password, String sex, String phone, String cityCode, String autograph ,Integer credit, String isAuthentication, BigDecimal walletBalance, String walletPwd, String lockReason, Date lockTime, Integer lockDays, String registerTime, Integer loginNum, Date loginTime, Date createTime, Date updateTime, String delFlag, String isFlagNickName,String isRecommend,Integer sort){
+		Map<String, Object> param = new HashMap<String, Object>();
+		try {
+	        param.put("id", id);
+			param.put("nickName", nickName);
+		    param.put("password", password);
+			param.put("sex",sex);
+			param.put("phone", phone);
+            param.put("cityCode",cityCode);
+            param.put("autograph",autograph);
+            param.put("credit",credit);
+ 			param.put("isAuthentication", isAuthentication);
+ 			param.put("walletBalance",walletBalance);
+            param.put("walletPwd",walletPwd);
+            param.put("lockReason", lockReason);
+            param.put("lockTime", lockTime);
+            param.put("lockDays", lockDays);
+            param.put("registerTime", registerTime);
+            param.put("loginTime",loginTime);
+            param.put("createTime",createTime);
+            param.put("updateTime", updateTime);
+            param.put("loginNum",loginNum);
+            param.put("delFlag",delFlag);
+            param.put("isFlagNickName",isFlagNickName);
+            param.put("isRecommend",isRecommend);
+            param.put("sort", sort);
+            List<Map<String, Object>> resultList = generalUserService.getCommonUserInfo(param);
+			int total = generalUserService.getCommonUserCount(param);
+			
+        	Map<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap.put("rows", resultList);
+			resultMap.put("total", total);
+			
+			JSONObject jsonObj = JSONObject.fromObject(resultMap);
+			logger.info("输出参数："+jsonObj.toString());
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+
+	/**
+	 *  
+	 * @description 获取省市列表
+	 * @method  queryAreaInfo
+	 * @param @param request
+	 * @param @param response
+	 * @param @return
+	 * @return ResponseParamVo
+	 * @date: 2018年4月3日 下午2:44:48
+	 * @author:zhangjingjing
+	 */
+	@RequestMapping(value = "/queryAreaInfo.do")
+	@ResponseBody
+	public void queryAreaInfo(HttpServletRequest request, HttpServletResponse response)
+	{
+		String data = request.getParameter("data");
+		try {
+			Map<String, Object> paramsMap = new HashMap<String, Object>();											
+	    	paramsMap.put("id", "");		
+			Map<String, Object> map = generalUserService.queryAreaInfo(null);
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap.put("rows", map);
+        	JSONObject jsonObj = JSONObject.fromObject(map);
+        	logger.info("输出参数："+jsonObj.toString());
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/**
+	 * 
+	 * @description： 根据用户id查询用户实名认证信息
+	 * @method:  queryUserAudit
+	 * @param:   @param request
+	 * @param:   @param response
+	 * @param:   @param paramsStr
+	 * @return:  void
+	 * @date:    2018年5月8日 下午2:25:24 by qiangxuan
+	 */
+	@RequestMapping(value = "/queryUserAuthenTicationInfo.do",method = { RequestMethod.POST, RequestMethod.GET})
+	public void queryUserAudit(HttpServletRequest request, HttpServletResponse response, String userId){
+		String id =  request.getParameter("id");
+		try {		
+			Map<String, Object> paramsMap = new HashMap<String, Object>();
+			paramsMap.put("id", id);
+			List<Map<String, Object>> resultList =  generalUserService.getUserAuthInfoById(paramsMap);
+			
+			int total = generalUserService.getUserAuditCount(paramsMap);
+			
+			logger.info("用户认证信息："+ resultList);
+			Map<String, Object> resultMap = new HashMap<String, Object>();			
+	
+			resultMap.put("rows", resultList);
+			resultMap.put("total", total);
+        	JSONObject jsonObj = JSONObject.fromObject(resultMap);
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	/**
+	 * 
+	 * @description： 根据id更新用户审核结果
+	 * @method:  saveAuditInfo
+	 * @param:   @param request
+	 * @param:   @param response
+	 * @param:   @param paramsStr
+	 * @return:  void
+	 * @date:    2018年5月8日 下午4:26:03 by qiangxuan
+	 */
+	@SuppressWarnings("all")
+	@RequestMapping(value = "/updateAuditInfo.do",method = { RequestMethod.POST})
+	@ResponseBody
+	public void saveAuditInfo(HttpServletRequest request, HttpServletResponse response, String paramsStr){
+		String operation = "",errorMsg = "";
+		JSONObject paramsMap = JSONObject.fromObject(paramsStr);
+		try {
+			//根据id更改实名认证审核是否通过（hx_realname_authentication   is_pass 0:未通过，1：已通过，2：认证不通过）
+			generalUserService.updateAuditInfo(paramsMap);
+			int isPassStatus = Integer.parseInt(paramsMap.getString("isPass"));
+			if (isPassStatus == 1 ) {	
+				//根据id更改用户认证状态 （hx_user is_authentication 0:未认证 1:已认证）
+				generalUserService.updateAuthenticationStatus(paramsMap);
+			}
+			
+			Map<String, Object> result = new HashMap<String, Object>();			
+			result.put("success", true);			
+			result.put("resultMsg", "审核成功");			
+			JSONObject jsonObj = JSONObject.fromObject(result);		
+			ServletHelp.outRequestForJson(request, response, jsonObj.toString());
+		} catch (IOException e) {
+			e.printStackTrace();
+		}finally{
+			LogUtil.saveLog(request,operation,errorMsg);
+		}
+	}
+	
+}

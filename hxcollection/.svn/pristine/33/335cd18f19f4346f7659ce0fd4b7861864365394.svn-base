@@ -1,0 +1,81 @@
+package cn.com.hxfz.dao;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.com.hxfz.model.Dictionary;
+
+/**
+ * 
+ * @类功能说明：系统消息接口
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：liugui  
+ * @创建时间：2018年4月9日 下午2:53:48 
+ * @版本：V1.0
+ */
+public interface SysMessageDao {
+
+	/**
+	 * 
+	 * @description 查询系统消息记录
+	 * @method  getMessageRecords
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月9日 下午2:54:20
+	 * @author:liugui
+	 */
+	public List<Map<String, Object>> getMessageRecords(Map<String, Object> paramsMap);
+	/**
+	 * 
+	 * @description 查询系统消息总数
+	 * @method  getMessageCount
+	 * @param @return
+	 * @return int
+	 * @date: 2018年4月9日 下午2:56:26
+	 * @author:liugui
+	 */
+	public int getMessageCount();
+	/**
+	 * 
+	 * @description 查询系统消息详细信息
+	 * @method  getMessageDetail
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return Dictionary
+	 * @date: 2018年4月9日 下午2:57:13
+	 * @author:liugui
+	 */
+	public List<Map<String, Object>> getMessageDetail(Map<String, Object> paramsMap);
+	/**
+	 * 
+	 * @description 保存系统消息信息
+	 * @method  saveMessage
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月9日 下午5:32:28
+	 * @author:liugui
+	 */
+	public void saveMessage(Map<String, Object> paramsMap);
+	/**
+	 * 
+	 * @description 根据消息id更新信息
+	 * @method  updateMessageById
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月9日 下午5:32:51
+	 * @author:liugui
+	 */
+	public void updateMessageById(Map<String, Object> paramsMap);
+	/**
+	 * 删除消息
+	 * @description 
+	 * @method  deleteMessageByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月9日 下午5:33:18
+	 * @author:liugui
+	 */
+	public void deleteMessageByIds(Map<String, Object> paramsMap);
+	
+}

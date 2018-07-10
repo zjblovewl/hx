@@ -1,0 +1,124 @@
+/*-----------公共样式---------------*/
+
+.float_right{
+    float: right;
+    margin-right: 45px;
+    color: #fff;
+}
+
+.customsearch{
+	padding-bottom:10px;margin-right: 0;
+}
+.customsearch-input{
+	text-align: left;
+	float:left;margin-right:5px;
+	position: relative;
+}
+.customsearch button{
+	height:33px;
+}
+/* 时间图标 */
+.customsearch-input .time_icon{
+	position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(-150%,-50%);
+    -webkit-transform: translate(-150%,-50%);
+    -ms-transform: translate(-150%,-50%);
+}
+.controls .time_icon{
+	position: absolute;
+    right: 18%;
+    top: 33%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+   
+}
+/* 手机图标 */
+.customsearch-input .phone_icon{
+	position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translate(-150%,-50%);
+    -webkit-transform: translate(-150%,-50%);
+    -ms-transform: translate(-150%,-50%);
+}
+.controls .phone_icon{
+	position: absolute;
+    right: 18%;
+    top: 33%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}
+/*-----------定义bootstrap---------------*/
+.bootstrap-table{
+    position: absolute;
+    display: block;
+    top: 36px;
+    right: 10px;
+    left:0;
+    bottom: 0;
+}
+
+.fixed-table-body {
+    overflow: hidden;
+    height: auto;
+}
+.label-input-oneline{
+	text-align: right;
+	display:inline-block;
+	width:25%;
+}
+.label-select-oneline{
+	text-align: right;
+	display:inline-block;
+	width:25%;
+}
+.select-style{	
+	display:inline-block !important;
+}
+
+.allLine{			
+	display: flex;
+	margin-bottom: 10px;	
+	justify-content: space-between;    
+}
+.allLine_btn{
+	display: flex;
+	margin-bottom: 5px;	
+	justify-content: flex-end;  
+	padding-right: 8px;  
+}
+.allLine-time{
+	display:block;
+	height: 38px;
+}
+/*-----------定义下拉框---------------*/
+
+.selectOption{
+    border:1px solid #aaa;
+    border-radius: 3px;
+    width: 120px;
+    height: 100px;
+    display: inline-block;
+    position: absolute;
+    top: 25px;
+    z-index: 555;
+    background: #fff;
+    display: none;
+}
+.marginRight20{
+	margin-right:20px;
+}
+.marginRight10{
+	margin-right:10px;
+}
+.marginRight5{
+	margin-right:5px;
+}
+i{
+	cursor: pointer;
+	color: #666;
+}

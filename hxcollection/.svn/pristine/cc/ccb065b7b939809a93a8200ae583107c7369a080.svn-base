@@ -1,0 +1,105 @@
+package cn.com.hxfz.service;
+
+import java.util.List;
+import java.util.Map;
+
+import cn.com.hxfz.model.GoodsClassification;
+
+/**
+ * 
+ * @类功能说明：商品分类业务接口
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：liugui  
+ * @创建时间：2018年4月10日 下午2:23:15 
+ * @版本：V1.0
+ */
+public interface GoodsClassificationService {
+	/**
+	 * 
+	 * @description  获取商品分类树
+	 * @method  getClassifyRecords
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<GoodsClassification>
+	 * @date: 2018年4月10日 下午2:23:38
+	 * @author:liugui
+	 */
+	public List<GoodsClassification> getClassifyRecords(Map<String, Object> paramsMap);
+	/**
+	 * 
+	 * @description  查看商品分类详细信息
+	 * @method  getGoodsClassifyDetail
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return GoodsClassification
+	 * @date: 2018年4月10日 下午2:27:01
+	 * @author:liugui
+	 */
+	public GoodsClassification getGoodsClassifyDetail(Map<String, String> paramsMap);
+	
+	/**
+	 * 
+	 * @description 删除商品分类信息
+	 * @method  deleteClassifyByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月10日 下午2:27:24
+	 * @author:liugui
+	 */
+	public void deleteClassifyByIds(Map<String, String> paramsMap);
+	
+	/**
+	 * 
+	 * @description 校验分类是否已存在 同一级别下的分类名称不能相同
+	 * @method  checkSameClassName
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return Boolean
+	 * @date: 2018年4月10日 下午3:43:44
+	 * @author:liugui
+	 */
+	public Boolean checkSameClassName(Map<String, Object> paramsMap);
+	
+	/**
+	 * 
+	 * @description 保存交易分类信息
+	 * @method  saveOrUpdateTransClass
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月10日 下午4:05:24
+	 * @author:liugui
+	 */
+	public void saveOrUpdateTransClass(Map<String, Object> paramsMap);
+
+	/**
+	 * @description 校验分类是否已存在  同一级别下的分类CODE不能相同
+	 * @method  checkSameClassCode
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return Boolean
+	 * @date: 2018年4月12日 下午4:19:30
+	 * @author:liugui
+	 */
+	public Boolean checkSameClassCode(Map<String, Object> paramsMap);
+	
+	/**
+	 * @description 获取商品大小类下拉框值
+	 * @method  getGoodsClass
+	 * @param @param paramsMap
+	 * @param @return
+	 * @return List<Map<String,Object>>
+	 * @date: 2018年4月17日 上午10:22:19
+	 * @author:liugui
+	 */
+	public List<Map<String, Object>> getGoodsClass(Map<String, Object> paramsMap);
+	/**
+	 * 
+	 * @description 删除图片
+	 * @method  deleteImageByIds
+	 * @param @param paramsMap
+	 * @return void
+	 * @date: 2018年4月18日 下午5:08:20
+	 * @author:liugui
+	 */
+	public void deleteImageByIds(Map<String, String> paramsMap);
+}

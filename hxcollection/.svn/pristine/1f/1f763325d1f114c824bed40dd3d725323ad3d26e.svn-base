@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.OrderDao" >
+  <resultMap id="BaseResultMap" type="cn.com.hxfz.model.Order" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="order_code" property="orderCode" jdbcType="VARCHAR" />
+    <result column="buyer_id" property="buyerId" jdbcType="VARCHAR" />
+    <result column="buyer_name" property="buyerName" jdbcType="VARCHAR" />
+    <result column="seller_id" property="sellerId" jdbcType="VARCHAR" />
+    <result column="seller_name" property="sellerName" jdbcType="VARCHAR" />
+    <result column="order_type" property="orderType" jdbcType="CHAR" />
+    <result column="pay_money" property="payMoney" jdbcType="NUMERIC" />
+    <result column="pay_method" property="payMethod" jdbcType="CHAR" />
+    <result column="receive_address" property="receiveAddress" jdbcType="VARCHAR" />
+    <result column="consignee" property="consignee" jdbcType="VARCHAR" />
+    <result column="contact_information" property="contactInformation" jdbcType="VARCHAR" />
+    <result column="logistics_company" property="logisticsCompany" jdbcType="VARCHAR" />
+    <result column="logistics_code" property="logisticsCode" jdbcType="VARCHAR" />
+    <result column="refund_reason" property="refundReason" jdbcType="VARCHAR" />
+    <result column="order_status" property="orderStatus" jdbcType="CHAR" />
+    <result column="order_generation_time" property="orderGenerationTime" jdbcType="TIMESTAMP" />
+    <result column="order_finish_time" property="orderFinishTime" jdbcType="TIMESTAMP" />
+    <result column="apply_refund_time" property="applyRefundTime" jdbcType="TIMESTAMP" />
+    <result column="confirm_refund_time" property="confirmRefundTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    o.id, order_code, buyer_id, buyer_name, seller_id, seller_name, order_type, pay_money, 
+    pay_method, receive_address, consignee, contact_information, logistics_company, logistics_code, 
+    refund_reason, order_status, cancel_reason, 
+    to_char(order_generation_time,'YYYY-MM-DD HH24:MI:SS') as order_generation_time, 
+    to_char(order_finish_time,'YYYY-MM-DD HH24:MI:SS') as order_finish_time,
+    to_char(cancel_time,'YYYY-MM-DD HH24:MI:SS') as cancel_time,
+    to_char(apply_refund_time,'YYYY-MM-DD HH24:MI:SS') as apply_refund_time,
+    to_char(confirm_refund_time,'YYYY-MM-DD HH24:MI:SS') as confirm_refund_time,
+    o.remark, o.del_flag
+  </sql>
+  <!-- 查询订单详细信息-->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from hxdb.hx_order
+    where id = #{id,jdbcType=VARCHAR}
+  </select>
+  
+  <!-- 订单列表-->
+  <select id="getOrderRecords" parameterType="java.util.Map" resultType="java.util.Map" >
+    select o.id, o.order_code, o.buyer_id, o.buyer_name,o.seller_id, o.seller_name, o.order_type, o.postage,
+    	o.pay_money,o.pay_method, o.receive_address, o.consignee, o.cancel_reason, o.contact_information, 
+    	o.logistics_company, o.logistics_code, o.refund_reason, o.order_status, 
+    	to_char(o.order_generation_time,'yyyy-mm-dd hh24:mi:ss') as order_generation_time, 
+    	to_char(o.cancel_time,'yyyy-mm-dd hh24:mi:ss') as cancel_time, 
+    	to_char(o.order_finish_time,'yyyy-mm-dd hh24:mi:ss') as order_finish_time,
+    	to_char(o.apply_refund_time,'yyyy-mm-dd hh24:mi:ss') as apply_refund_time,
+    	to_char(o.confirm_refund_time,'yyyy-mm-dd hh24:mi:ss') as confirm_refund_time,
+    	o.remark, o.del_flag,
+			g.price,g.amount,n.goods_name,
+			n.goods_description,
+			p.describe,p.class_name,p.parent_code,p.class_code,
+			COALESCE(t.image_urls,'') as image_urls ,COALESCE(t.image_ids,'') as image_ids 
+	from hxdb.hx_order o
+	left join hxdb.hx_order_goods g 
+	on o.id = g.order_id 
+	LEFT JOIN hxdb.hx_goods n 
+	ON n.id = g.goods_id 
+	left join hxdb.hx_goods_classification p 
+	on p.parent_code = n.big_class_code and p.class_code = n.small_class_code 
+	left join
+		(		        
+			select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids  
+			from (select * from hxdb.hx_images_goods_rel order by sort asc) re
+			left join hxdb.sys_images img on img.id = re.image_id
+			group by re.service_id 	
+		)t on t.service_id = n.id
+	where o.del_flag = '0' 
+	<!-- 订单号 -->
+    <if test="orderCode != null and orderCode != ''">
+         and o.order_code like '%'||#{orderCode}||'%'
+    </if>
+    <!-- 买家名称 -->
+    <if test="buyerName != null and buyerName != ''">
+         and o.buyer_name like '%'||#{buyerName}||'%'
+    </if>
+  	<!-- 卖家名称 -->
+    <if test="sellerName != null and sellerName != ''">
+         and o.seller_name like '%'||#{sellerName}||'%'
+    </if>
+    <!-- 订单状态 
+       		1：待付款
+			2：待发货
+			3：待收货
+			4：待评论
+			5：已完成
+			6：待退款
+			7：已退款
+			8：取消订单-->
+    <if test="orderStatus != null and orderStatus != ''">
+         and o.order_status like '%'||#{orderStatus}||'%'
+    </if>
+    <!-- 订单类型  1：普通订单 2：拍卖订单-->
+    <if test="orderType != null and orderType != ''">
+         and o.order_type like '%'||#{orderType}||'%'
+    </if>
+     <!-- 订单生成开始时间 -->
+    <if test="startTime != null and startTime != ''">
+          and to_char(o.order_generation_time ,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+    </if>
+    <!-- 订单生成结束时间 -->
+    <if test="endTime != null and endTime != ''">
+          and to_char(o.order_generation_time ,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+    </if> 
+    order by o.order_generation_time desc 
+    LIMIT #{limit} OFFSET #{offset}
+  </select>
+  
+  <!-- 查询订单数量  -->
+  <select id="getOrderCount" resultType="java.lang.Integer">
+  	select count(*) 
+	from hxdb.hx_order o
+	left join hxdb.hx_order_goods g 
+	on o.id = g.order_id
+	where o.del_flag = '0' 
+	<!-- 订单号 -->
+    <if test="orderCode != null and orderCode != ''">
+         and o.order_code like '%'||#{orderCode}||'%'
+    </if>
+    <!-- 买家名称 -->
+    <if test="buyerName != null and buyerName != ''">
+         and o.buyer_name like '%'||#{buyerName}||'%'
+    </if>
+  	<!-- 卖家名称 -->
+    <if test="sellerName != null and sellerName != ''">
+         and o.seller_name like '%'||#{sellerName}||'%'
+    </if>
+    <!-- 订单状态 
+       		1：待付款
+			2：待发货
+			3：待收货
+			4：待评论
+			5：已完成
+			6：待退款
+			7：已退款
+			8：取消订单-->
+    <if test="orderStatus != null and orderStatus != ''">
+         and o.order_status like '%'||#{orderStatus}||'%'
+    </if>
+    <!-- 订单类型  1：普通订单 2：拍卖订单-->
+    <if test="orderType != null and orderType != ''">
+         and o.order_type like '%'||#{orderType}||'%'
+    </if>
+     <!-- 订单生成开始时间 -->
+    <if test="startTime != null and startTime != ''">
+          and to_char(o.order_generation_time ,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+    </if>
+    <!-- 订单生成结束时间 -->
+    <if test="endTime != null and endTime != ''">
+          and to_char(o.order_generation_time ,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+    </if> 
+  </select>
+  
+
+  <!-- 根据ID编辑订单收货地址 -->
+  <update id="updateOrderById" parameterType="java.util.HashMap">	
+	update hxdb.hx_order 
+	set receive_address = #{receiveAddress} 
+	where id = #{id}
+  </update>
+  
+  <!-- 导出订单记录至excel -->
+  <select id ="exportOrderRecord" parameterType="java.util.Map" resultType="java.util.Map" >
+  	 select o.id, o.order_code, o.buyer_name, o.seller_name, o.postage,o.cancel_reason,
+    	o.pay_money, g.price,g.amount, o.receive_address, o.consignee, o.contact_information, 
+    	o.logistics_company, o.logistics_code, o.refund_reason, 
+		(case when  o.order_type = '1' then '普通订单' when  o.order_type ='2' then '拍卖订单' end)as order_type,
+		(case when  o.pay_method = '1' then '支付宝' when  o.pay_method ='2' then '微信' when  o.pay_method ='3' then '钱包' end)as pay_method,
+		(case when  o.order_status = '1' then '待付款' when  o.order_status ='2' then '待发货' when  o.order_status ='3' then '待收货' 
+			  when  o.order_status ='4' then '待评论' when  o.order_status ='5' then '已完成' when  o.order_status ='6' then '待退款' 
+			  when  o.order_status ='7' then '已退款' when  o.order_status ='8' then '取消订单' end)as order_status,
+    	to_char(o.order_generation_time,'yyyy-mm-dd hh24:mi:ss') as order_generation_time, 
+		to_char(o.cancel_time,'yyyy-mm-dd hh24:mi:ss') as cancel_time, 
+    	to_char(o.order_finish_time,'yyyy-mm-dd hh24:mi:ss') as order_finish_time,
+    	to_char(o.apply_refund_time,'yyyy-mm-dd hh24:mi:ss') as apply_refund_time,
+    	to_char(o.confirm_refund_time,'yyyy-mm-dd hh24:mi:ss') as confirm_refund_time, o.remark
+	from hxdb.hx_order o
+	left join hxdb.hx_order_goods g 
+	on o.id = g.order_id
+	where o.del_flag = '0' 
+	<!-- 订单号 -->
+    <if test="orderCode != null and orderCode != ''">
+         and o.order_code like '%'||#{orderCode}||'%'
+    </if>
+    <!-- 买家名称 -->
+    <if test="buyerName != null and buyerName != ''">
+         and o.buyer_name like '%'||#{buyerName}||'%'
+    </if>
+  	<!-- 卖家名称 -->
+    <if test="sellerName != null and sellerName != ''">
+         and o.seller_name like '%'||#{sellerName}||'%'
+    </if>
+    <!-- 订单状态 
+       		1：待付款
+			2：待发货
+			3：待收货
+			4：待评论
+			5：已完成
+			6：待退款
+			7：已退款
+			8：取消订单-->
+    <if test="orderStatus != null and orderStatus != ''">
+         and o.order_status like '%'||#{orderStatus}||'%'
+    </if>
+    <!-- 订单类型  1：普通订单 2：拍卖订单-->
+    <if test="orderType != null and orderType != ''">
+         and o.order_type like '%'||#{orderType}||'%'
+    </if>
+     <!-- 订单生成开始时间 -->
+    <if test="startTime != null and startTime != ''">
+          and to_char(o.order_generation_time ,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+    </if>
+    <!-- 订单生成结束时间 -->
+    <if test="endTime != null and endTime != ''">
+          and to_char(o.order_generation_time ,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+    </if> 
+  	
+  </select>
+  
+  
+</mapper>

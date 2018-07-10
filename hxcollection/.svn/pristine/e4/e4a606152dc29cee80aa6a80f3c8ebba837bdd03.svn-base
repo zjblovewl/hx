@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.TradingFlowDao" >
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.TradingFlow" >
+		 <id column="id" property="Id" jdbcType="VARCHAR" />
+		  <id column="user_id" property="userId" jdbcType="VARCHAR" />
+		   <id column="third_precode" property="thirdPrecode" jdbcType="VARCHAR" />
+		    <id column="channel_flowcode" property="channelFlowcode" jdbcType="VARCHAR" />
+		   	<id column="third_flowcode" property="thirdFlowcode" jdbcType="VARCHAR" />
+		    <id column="order_id" property="orderId" jdbcType="VARCHAR" />
+		     <id column="transaction_type" property="transactionType" jdbcType="VARCHAR" /> 
+		      <id column="pay_type" property="payType" jdbcType="VARCHAR"/>
+		       <id column="transaction_price" property="transactionPrice" jdbcType="DECIMAL" />
+		       <id column="transaction_state" property="transactionState" jdbcType="VARCHAR" />
+		       <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 获取交易流水数据 -->
+	<select id="queryTradingFlowList" parameterType="java.util.Map" resultType="java.util.Map">
+		select o.id,o.third_precode,o.channel_flowcode,e.order_code,o.third_flowcode,u.nick_name,o.transaction_type,o.pay_type,o.transaction_price,o.transaction_state,to_char(o.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time   
+			from hxdb.hx_order_flow o 
+			left join hxdb.hx_user u on o.user_id = u.id 
+			left join hxdb.hx_order e on o.order_id = e.id 
+			where 1 = 1
+		<if test="nickName != null and nickName != ''">
+          and u.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <if test="orderCode != null and orderCode != ''">
+          and e.order_code like '%'||#{orderCode}||'%'
+        </if>
+        <if test="transactionType != null and transactionType != ''">
+          and o.transaction_type like '%'||#{transactionType}||'%'
+        </if>
+        <if test="transactionState != null and transactionState != ''">
+          and o.transaction_state like '%'||#{transactionState}||'%'
+        </if>
+        <if test="startTime != null and startTime != ''">
+          and to_char(o.create_time,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_char(o.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+        </if> 
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<!-- 获取交易流水总数 -->
+	<select id="queryTradingFlowCount" resultType="java.lang.Integer">
+		select count(*)
+		from hxdb.hx_order_flow o 
+		left join hxdb.hx_user u on o.user_id = u.id 
+		left join hxdb.hx_order e on o.order_id = e.id 
+		where 1=1
+		<if test="nickName != null and nickName != ''">
+          and u.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <if test="orderCode != null and orderCode != ''">
+          and e.order_code like '%'||#{orderCode}||'%'
+        </if>
+        <if test="transactionType != null and transactionType != ''">
+          and o.transaction_type like '%'||#{transactionType}||'%'
+        </if>
+        <if test="transactionState != null and transactionState != ''">
+          and o.transaction_state like '%'||#{transactionState}||'%'
+        </if>
+         <if test="startTime != null and startTime != ''">
+          and to_char(o.create_time,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_char(o.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+        </if> 
+	</select>
+
+	<!-- 获取需导出的交易流水并导出EXCEL -->
+  	<select id="exportTradeFlowList" parameterType="java.util.Map" resultType="java.util.Map">
+  		select o.id,u.nick_name as nick_name,o.third_precode as third_precode,o.channel_flowcode as channel_flowcode,o.third_flowcode as third_flowcode,e.order_code ,
+		(case when o.transaction_type ='1' then '付款' when o.transaction_type ='2' then '退款' end)as transaction_type,
+		(case when o.pay_type = '1' then '支付宝'  when o.pay_type = '2' then '微信' end )as pay_type,o.transaction_price,
+		(case when o.transaction_state = '1' then '成功' when o.transaction_state = '2' then '失败' end)as transaction_state,
+		to_char(o.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time 
+		from hxdb.hx_order_flow o 
+		left join hxdb.hx_user u 
+		on o.user_id = u.id 
+		left join hxdb.hx_order e on o.order_id = e.id 
+		where 1 = 1 
+		<if test="nickName != null and nickName != ''">
+          and u.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <if test="orderCode != null and orderCode != ''">
+          and e.order_code like '%'||#{orderCode}||'%'
+        </if>
+        <if test="transactionType != null and transactionType != ''">
+          and o.transaction_type like '%'||#{transactionType}||'%'
+        </if>
+        <if test="transactionState != null and transactionState != ''">
+          and o.transaction_state like '%'||#{transactionState}||'%'
+        </if>
+  		 <if test="startTime != null and startTime != ''">
+          and to_char(o.create_time,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_char(o.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+        </if> 
+  	</select>
+
+
+
+
+</mapper>

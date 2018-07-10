@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.UserOpinionFeedbackDao" >
+	
+	<!-- 用户意见反馈映射信息 -->
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.UserOpinionFeedback">
+		<id column="hx_user_opinion_ feedbac_pk_id" property="id" jdbcType="VARCHAR" />
+		<result column="id" property="id" jdbcType="VARCHAR" />
+		<result column="nick_name" property="nickName" jdbcType="VARCHAR" />
+		<result column="feedback_content" property="feedbackContent" jdbcType="VARCHAR" />
+		<result column="submit_time" property="submitTime" jdbcType="TIMESTAMP" />
+		<result column="customerservice_feedback" property="customerserviceFeedback" jdbcType="VARCHAR" />
+		<result column="processing_state" property="processingState" jdbcType="VARCHAR" />
+
+	</resultMap>
+	
+	<!-- 获取用户意见与反馈数据 -->
+	<select id="getUserOpinionFeedbackList" parameterType="java.util.Map" resultType="java.util.Map">
+        select f.id,f.nick_name,f.feedback_content,f.customerservice_feedback,f.processing_state, 
+			to_char(f.submit_time,'YYYY-MM-DD HH24:MI:SS') as submit_time,
+			to_char(f.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time
+ 		from hxdb.hx_user_opinion_feedbac f
+ 		where 1=1
+        <if test="feedbackContent != null and feedbackContent != ''">
+          and feedback_content like '%'||#{feedbackContent}||'%'
+        </if>
+        <if test="customerserviceFeedback != null and customerserviceFeedback != ''">
+          and customerservice_feedback like '%'||#{customerserviceFeedback}||'%'
+        </if>
+        <if test="processingState != null and processingState != ''">
+          and processing_state like '%'||#{processingState}||'%'
+        </if>
+        order by f.submit_time desc
+        LIMIT #{limit} OFFSET #{offset}
+    </select>
+	
+	<!-- 获取用户用户意见与反馈总数 -->
+	<select id="getUserOpinionFeedbackCount" parameterType="java.util.Map" resultType="java.lang.Integer">
+        select count(id)
+        from hxdb.hx_user_opinion_feedbac where 1=1
+       <if test="feedbackContent != null and feedbackContent != ''">
+          and feedback_content like '%'||#{feedbackContent}||'%'
+        </if>
+        <if test="customerserviceFeedback != null and customerserviceFeedback != ''">
+          and customerservice_feedback like '%'||#{customerserviceFeedback}||'%'
+        </if>
+        <if test="processingState != null and processingState != ''">
+          and processing_state like '%'||#{processingState}||'%'
+        </if>
+    </select>
+	
+	<!-- 根据ID删除用户意见与反馈 -->
+  	<delete id="deleteOpinionFeedbackById" parameterType="java.util.Map">
+  		delete from hxdb.hx_user_opinion_feedbac where id= #{id}
+  	</delete>
+  	
+	<!-- 查看用户反馈 更新查看状态-->
+	<update id="updateUserFC" parameterType="java.util.HashMap">
+  		update hxdb.hx_user_opinion_feedbac set processing_state = '2' 
+  		where id = #{id}
+  	</update>
+	
+</mapper>

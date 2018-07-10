@@ -1,0 +1,117 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.TimeTaskDao">
+
+
+	<!-- sys_schedule表查询 项目启动即可加载 -->
+	<select id="getTimeTaskList" resultType="java.util.HashMap">
+		select id,name,expression,status,classname,description,
+		to_char(start_time,'YYYY-MM-DD HH24:MI:SS') as
+		start_time,to_char(end_time,'YYYY-MM-DD HH24:MI:SS') as end_time,
+		create_user,create_time,update_user,update_time,del_flag
+		from hxdb.sys_schedule where status = '1' and del_flag = '0'
+	</select>
+
+	<!-- 获取定时任务列表 -->
+	<select id="getTimeTask" parameterType="java.util.Map"
+		resultType="java.util.Map">
+		select
+		id,name,expression,t_group,status,classname,description,to_char(start_time,'YYYY-MM-DD HH24:MI:SS')
+		as start_time,to_char(end_time,'YYYY-MM-DD HH24:MI:SS')
+		as end_time,del_flag
+		from hxdb.sys_schedule where del_flag = '0'
+		<if test="name != null and name != ''">
+			and name like '%'||#{name}||'%'
+		</if>
+		<if test="description != null and description != ''">
+			and description like '%'||#{description}||'%'
+		</if>
+		<if test="startTime != null and startTime != ''">
+			and to_char(start_time,'YYYY-MM-DD HH24:MI:SS') >= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and to_char(end_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime}
+		</if>
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<!-- 获取定时任务总数量 -->
+	<select id="getTimeTaskCount" resultType="java.lang.Integer">
+		select count(id)
+		from hxdb.sys_schedule where del_flag = '0'
+		<if test="name != null and name != ''">
+			and name like '%'||#{name}||'%'
+		</if>
+		<if test="description != null and description != ''">
+			and description like '%'||#{description}||'%'
+		</if>
+		<if test="startTime != null and startTime != ''">
+			and to_char(start_time,'YYYY-MM-DD HH24:MI:SS') >= #{startTime}
+		</if>
+		<if test="endTime != null and endTime != ''">
+			and to_char(end_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime}
+		</if>
+	</select>
+
+	<!-- 新增定时任务 -->
+	<insert id="saveTimeTask" parameterType="java.util.HashMap">
+		insert into
+		hxdb.sys_schedule(id,name,t_group,expression,status,classname,description,start_time,end_time,create_time,del_flag)
+		values(#{id},#{name},#{tGroup},#{expression},#{status},#{classname},#{description},#{startTime},#{endTime},now(),'0')
+	</insert>
+
+	<!-- 修改定时任务 -->
+	<update id="updateTimeTaskById" parameterType="java.util.HashMap">
+		update hxdb.sys_schedule set name = #{name}, t_group = #{tGroup}, expression
+		= #{expression},description = #{description}, classname =
+		#{classname}, status = #{status}, start_time = #{startTime},end_time =
+		#{endTime},update_time = now()
+		where id = #{id}
+	</update>
+
+	<!-- 逻辑删除单个定时任务 -->
+	<update id="deleteTimeTaskById" parameterType="java.util.HashMap">
+		update hxdb.sys_schedule set status = '0',del_flag = '1',update_time = now()
+		where id = #{id}
+	</update>
+	
+	<!-- 逻辑批量删除定时任务 -->
+	<update id="delMoreTimeTask" parameterType="java.util.HashMap">
+		update hxdb.sys_schedule set status = '0',del_flag = '1',update_time = now()
+		where id in (${id})
+	</update>
+	
+	<!--根据ID暂停定时任务  -->
+	<update id = "pauseTimeTaskById" parameterType = "java.util.HashMap">
+		update hxdb.sys_schedule set status = '0',update_time = now()
+		where id in (${id})
+	</update>
+	
+	<!--根据ID启动定时任务  -->
+	<update id = "startTimeTaskById" parameterType = "java.util.HashMap">
+		update hxdb.sys_schedule set status = '1',update_time = now()
+		where id in (${id})
+	</update>
+	
+	<!-- 新增校验定时任务名称是否已存在 -->
+  	<select id="checkAddTask" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(*) from hxdb.sys_schedule where del_flag = '0' and name = #{name}
+  	</select>
+  	
+  	
+  	<!-- 编辑校验定时任务名称是否已存在 -->
+  	<select id="checkEditTask" parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  		select count(*) from hxdb.sys_schedule where del_flag = '0' and name = #{name}
+  	</select>
+	
+	<!-- 通过ID查询定时任务名称 -->
+  	<select id="queryNameById" parameterType="java.lang.String" resultType="java.lang.String">
+  		select u.name from hxdb.sys_schedule u where id = #{id}
+  	</select>
+	
+	<!-- 通过ID查询定时任务状态 -->
+  	<select id="queryStatusById" parameterType="java.lang.String" resultType="java.lang.String">
+  		select u.status from hxdb.sys_schedule u where id = #{id}
+  	</select>
+	
+</mapper>

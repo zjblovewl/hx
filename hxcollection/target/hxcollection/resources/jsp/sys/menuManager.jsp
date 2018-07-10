@@ -1,0 +1,327 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+            <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>菜单管理</title>
+<link rel="stylesheet" type="text/css" href="../../H-ui.admin/H-ui.min.css">
+<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="../../css/font-awesome.min.css">
+<link rel="stylesheet" type="text/css" href="../../css/common_menu.css">
+
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/bootstrap.min.js"></script>
+
+<style>
+	.btn-group{
+		margin-bottom: 6px;
+	}
+	.table{
+		width: 100%;
+		padding-left: 10px;
+	}
+	.table tr th{
+		font-size: 14px;
+		height: 100%;
+		background:#e0d4bf;
+		border-right: 1px solid #ddd;
+		line-height: 2 !important;
+	}
+	.table tr td,.table tr th{
+		text-align: left;
+	}
+	.table tr td{	    
+    	line-height: 30px !important;
+	}
+	.close_menu{
+		background:url("../../images/allbgs.png") no-repeat -48px 0px;
+		width: 16px;
+		height:16px;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 6px;
+		margin-bottom: 3px;
+		cursor:pointer;
+	}
+	.open_menu{
+		background:url("../../images/allbgs.png") no-repeat -32px 0px;
+		width: 16px;
+		height:16px;
+		display: inline-block;
+		vertical-align: middle;
+		margin-right: 6px;
+		margin-bottom: 3px;
+		cursor:pointer;
+	}
+	.first_name{
+		font-size: 15px;
+	}
+	.second_name{
+		padding-left: 28px;
+		font-size: 14px;
+	} 
+	.third_name{
+		padding-left: 50px;
+		font-size:13px;
+	}
+	.four_name{
+		padding-left: 70px;
+		font-size:13px;
+	} 
+	.one{
+	
+	}
+	.two{
+		display: none;
+	}
+	.three{
+		display: none;
+	}
+	.elses{
+		display: none;
+	}
+</style>
+</head>
+<body>
+	<div>
+		<div class="btn-group pull-left">
+			<button id="btn_add" type="button" class="btn btn-primary btn-space">
+				<span class="fa fa-plus-square" aria-hidden="true" class="btn-icon-space">新增</span>
+			</button>
+		</div>
+		<table id="table" class="table">
+			
+		</table>
+	</div>
+	<script>
+		var modalObj = window.parent;
+		var queryUrl = '<%=basePath%>menu/getMenuRecords.do?rnd=' + Math.random();
+		var deleteURL = '<%=basePath%>menu/deleteMenuById.do?rnd=' + Math.random();
+		$.ajax({
+			url:queryUrl,
+			type:"post",
+			dataType:'json',
+			success:function(data){
+				var rows = data.rows;
+				var opertionIconArray = [];
+				opertionIconArray.push("<div><i class='fa fa-eye' title='查看' onclick='checkMenu.call(this)' style='margin-right:8px;font-size: 16px;'></i>");
+				opertionIconArray.push("<i class='fa fa-edit' title='编辑' onclick='editMenu.call(this)'  style='margin-right:8px;font-size: 16px;'></i>");
+				opertionIconArray.push("<i class='fa fa-trash' title='删除' onclick='deleteMenu.call(this)'  style='margin-right:8px;font-size: 16px;'></i>");	
+				opertionIconArray.push("<i class='fa fa-plus' title='添加下级菜单' onclick='addMenu.call(this)'   style='font-size: 16px;'></i>");
+				opertionIconArray.push('</div>');
+				var opertionIcon = "";
+				var tableCode = "<tbody>"+'<tr><th style="width:30%;">菜单名称</th><th style="width:30%;">链接</th><th style="width:10%;">排序</th><th style="width:15%;">权限标识</th><th>操作</th></tr>';
+				for(var i=0;i<rows.length;i++){
+					var innerTd = "";
+					var isLabel = "";
+					var trClass = "";
+					var isOpen = false;
+					var hasChild = true;
+					var pid = rows[i].parentId;
+					var menuId = rows[i].menuId;
+    				if(rows[i].url == ""){    				
+    					isLabel = '<span class="close_menu label_btn" onclick="foldORexpand.call(this)"></span>';
+    					opertionIcon = opertionIconArray.join('');
+    				}else{
+    					hasChild = false;
+    					opertionIcon = opertionIconArray[0] +opertionIconArray[1]+opertionIconArray[2]+opertionIconArray[4];
+    				}
+					if(rows[i].level == 1){
+						trClass = "one";
+						innerTd =  '<div class="first_name">'+isLabel+'<i class="fa '+rows[i].menuIcon+'"></i><a onclick="checkMenu.call(this)">'+rows[i].menuName+'</a></div>';
+    				}else if(rows[i].level == 2){
+    					trClass = "two";
+    					innerTd = '<div class="second_name">'+isLabel+'<a onclick="checkMenu.call(this)">'+rows[i].menuName+'</a></div>';
+    				}else if(rows[i].level == 3){
+    					trClass = "three";
+    					innerTd = '<div class="third_name">'+isLabel+'<a onclick="checkMenu.call(this)">'+rows[i].menuName+'</a></div>';
+    				}else{
+    					trClass = "elses";
+    					innerTd = '<div class="four_name">'+isLabel+'<a onclick="checkMenu.call(this)">'+rows[i].menuName+'</a></div>';
+    				}	
+					tableCode += '<tr class="'+trClass+'" isOpen="'+isOpen+'" hasChild="'+hasChild+'" pid="'+pid+'" menuId="'+menuId+'">'+
+						'<td>'+innerTd+'</td>'+						
+						'<td>'+rows[i].url+'</td>'+
+						'<td>'+rows[i].sort+'</td>'+					
+						'<td>'+rows[i].permission+'</td>'+
+						 '<td>'+opertionIcon + '</td>'+
+						'</tr>'
+				}
+				tableCode += '</tbody>';
+				$("#table").html(tableCode);
+			},
+			error:function(){
+				console.error("error");
+			}
+				
+		});
+		
+		
+		/**
+		 *公共方法
+		 */
+		 //初始化表格		 
+		function foldORexpand(){
+			if($(this).hasClass("close_menu")){
+				$(this).removeClass("close_menu");
+				$(this).addClass("open_menu");
+				$(this).parent().parent().parent().attr("isOpen","true");
+				var currentClazz = $(this).parent().parent().parent().attr("class");
+				var hasChildren = $(this).parent().parent().parent().attr("hasChild")
+				var nextClazz = $(this).parent().parent().parent().next().attr("class");
+				$(this).parent().parent().parent().nextUntil('tr[class="'+currentClazz+'"]').each(function(){
+					if($(this).attr("class") == nextClazz){
+						$(this).slideDown();
+					}
+				})
+			}else{
+				$(this).removeClass("open_menu");
+				$(this).addClass("close_menu");
+				$(this).parent().parent().parent().attr("isOpen","false");
+				var currentClazz = $(this).parent().parent().parent().attr("class");
+				var nextClazz = $(this).parent().parent().parent().next().attr("class");
+				
+				$(this).parent().parent().parent().nextUntil('tr[class="'+currentClazz+'"]').each(function(){
+					$(this).find('span').each(function(){
+						if($(this).hasClass("open_menu")){
+							$(this).removeClass("open_menu");
+							$(this).addClass("close_menu");
+						}
+					});					
+					$(this).hide();
+				});
+			}	
+		}
+		
+		var iframeUrl = "sys/menuMangerEdit.jsp";
+		
+		//查看
+		function checkMenu(){	
+			var parent_name = "功能菜单";			
+			var name = $(this).parent().parent().parent().children('td').eq(0).text();
+			var url_txt = $(this).parent().parent().parent().children('td').eq(1).text();
+			var sort = $(this).parent().parent().parent().children('td').eq(2).text();
+			var icon = "";
+			$(this).parent().parent().parent().children('td').eq(0).find('i').each(function(){
+				icon = $(this).attr("class");
+			});
+			if(!$(this).parent().parent().parent().hasClass("one")){
+				if($(this).parent().parent().parent().prevUntil('tr[class="one"]').length == 0){
+					parent_name = $(this).parent().parent().parent().prev().children('td').eq(0).text();					
+				}
+				$(this).parent().parent().parent().prevUntil('tr[class="one"]').each(function(){
+					if($(this).prev().hasClass("one")){
+						parent_name = $(this).prev().children('td').eq(0).text();					
+					}
+				});
+			}
+			modalObj.setWindowDialog(720,430);
+			modalObj.modalOut(iframeUrl,{
+				name:name,
+				parent_name:parent_name,
+				url:url_txt,
+				edit:false,	
+				sort: sort,
+				icon: icon
+				});
+			return;
+		}
+		//编辑
+		function editMenu(){
+			var parent_name = "功能菜单";
+			var name = $(this).parent().parent().parent().children(':first-child').text();
+			var url_txt = $(this).parent().parent().parent().children('td').eq(1).text();
+			var pid = $(this).parent().parent().parent().attr("pid");
+			var sort = $(this).parent().parent().parent().children('td').eq(2).text();
+			var menuId = $(this).parent().parent().parent().attr("menuId");
+			var icon = "";
+			$(this).parent().parent().parent().children('td').eq(0).find('i').each(function(){
+				icon = $(this).attr("class");
+			});			
+			if(!$(this).parent().parent().parent().hasClass("one")){
+				if($(this).parent().parent().parent().prevUntil('tr[class="one"]').length == 0){
+					parent_name = $(this).parent().parent().parent().prev().children(':first-child').text();
+				}
+				$(this).parent().parent().parent().prevUntil('tr[class="one"]').each(function(){
+					if($(this).prev().hasClass("one")){
+						parent_name = $(this).prev().children(':first-child').text();
+					}
+				});
+			}
+			modalObj.setWindowDialog(720,430);
+			modalObj.modalOut(iframeUrl,{
+				name:name,
+				parent_name:parent_name,
+				url:url_txt,
+				edit:true,
+				res_pid: pid,
+				menuId: menuId,
+				sort: sort,
+				icon: icon
+				});
+			return;
+		}
+		//删除
+		function deleteMenu(){	
+			var $this = $(this);
+			modalObj.$.showConfirm("确认删除当前条目", function(){
+				var menuId = $this.parent().parent().parent().attr("menuId");				
+				var name = $this.parent().parent().parent().children(':first-child').text();
+				
+				var params = {};
+				params.menuId = menuId; 
+				params.menuName = encodeURI(name);
+				
+				console.log(params)
+				$.ajax({
+					url:deleteURL,
+					type: "post",
+					data:params,
+					success:function(data){
+						modalObj.resfreshWindow();
+					},
+					error:function(){
+						console.error("删除错误");
+					}
+				});
+			},function(){
+				return false;
+			});
+		}
+		//添加下级菜单
+		function addMenu(){
+			var parent_name = $(this).parent().parent().parent().children('td').eq(0).text();				
+			var menuId = $(this).parent().parent().parent().attr("menuId");
+			
+			modalObj.modalOut(iframeUrl,{			
+				parent_name:parent_name,				
+				edit:true,
+				res_pid: menuId,
+				
+				});
+			return;
+		}
+		//新建菜单
+		$("#btn_add").click(function(){
+			newMenu();
+			return;
+		});
+		function newMenu(){
+			var parent_name = "功能菜单";
+			modalObj.setWindowDialog(720,430);			
+			modalObj.modalOut(iframeUrl,{			
+				parent_name:parent_name,				
+				edit:true,
+				res_pid: 0,
+				
+				});
+			return;
+		}
+		
+	</script>
+</body>
+</html>

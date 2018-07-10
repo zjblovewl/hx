@@ -1,0 +1,135 @@
+.main{
+    background: url("../images/login-bg.png") no-repeat;  
+    background-size: cover;
+    background-attachment: fixed;
+}
+.login{
+    position: absolute;
+    background: url(../images/login_div_bg.png) no-repeat;
+    background-size: cover;
+    text-align: center;
+    margin-left: 19%;
+    width: 362px;
+    top: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.title{
+    color: #444;   
+    font-weight: 800;
+    font-family: MyNewFont;
+    width: 100%;
+    letter-spacing: 2px;
+}
+.title1{
+	font-size: 36px;
+	font-family:"华文行楷";
+	margin-top: 40%;
+}
+.title2{
+	font-size: 16px;
+	font-family:"CordiaUPC";
+	font-style:Regular;
+	margin-bottom: 10px;
+}
+.title3{
+	font-size: 30px;
+	font-family:"华文行楷";
+}
+.title4{
+	font-size: 16px;
+	font-family:"CordiaUPC";
+	font-style:Regular
+}
+
+.subtitle{
+    margin-bottom: 20px;
+    width: 100%;
+    margin-top:10px;
+}
+.subtitle .line{
+    display: inline-block;
+    height: 1px;
+    background-color: #444;
+    width: 40px;
+    margin-bottom: 4px;
+}
+.subtitle .line_txt{
+    color:#555;
+    font-size: 10px;
+    margin: auto 6px;
+}
+.input_area{
+    width: 100%;
+    padding: 10px 0 50px 0;
+    position: relative;
+}
+.inputTxt{
+	color:#fff;
+    width: 227px;
+    height: 32px;
+    border: 1px solid #888;
+    margin: 1px auto;
+    border-radius: 5px;
+    border:1px solid #999;
+    background-color: #fff;
+    display: block;
+    background: url(../images/login-input-bg.png) no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+    padding-left:40px;
+}
+.inputTxt:hover{
+	background: url(../images/active-login-input-bg.png) no-repeat;
+}
+.button{
+    background: url(../images/login_btn.png) no-repeat;
+    background-size: cover;
+    width: 273px;
+    margin: 0 auto;
+    height: 44px;
+    cursor: pointer;
+}
+.cb_txt input{
+    position: absolute;
+    left: 10%;
+}
+.cb_txt p{
+     width: 100%;
+    position: absolute;
+    margin-top: 15px;
+    color: #666;
+    font-size: 10px;
+    text-decoration: underline;
+}
+.cb_txt{
+    position: relative;
+    margin: 10px 0 68px 0;
+}
+
+label{
+    display: inline-block;
+    position: absolute;
+    left: 34px;
+    margin-top: 9px;
+}
+.psd{
+    margin-top: 9px;
+}
+label i{
+	color:#fff;
+}
+.foot-img{
+	display:block;
+    height: 52px;
+    width: 52px;
+    margin: 0 auto;
+}
+.warn_text{
+	margin: 3px 0 10px 0;
+    font-size: 14px;
+    color: #ff0000;
+        height: 16px;
+}

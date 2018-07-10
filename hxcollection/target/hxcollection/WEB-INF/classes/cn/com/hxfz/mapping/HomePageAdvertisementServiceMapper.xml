@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.HomePageAdvertisementDao" >
+  <resultMap id="BaseResultMap" type="cn.com.hxfz.model.HomePageAdvertisement" >
+    <id column="id" property="id" jdbcType="VARCHAR" />
+    <result column="homepage_name" property="homepageName" jdbcType="VARCHAR" />
+    <result column="html_url" property="htmlUrl" jdbcType="VARCHAR" />
+    <result column="sort" property="sort" jdbcType="INTEGER" />
+    <result column="service_type" property="serviceType" jdbcType="CHAR" />
+    <result column="service_id" property="serviceId" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="del_flag" property="delFlag" jdbcType="CHAR" />
+    <result column="image_urls" property="imageUrls" jdbcType="VARCHAR" />
+	<result column="image_ids" property="imageIds" jdbcType="VARCHAR" />
+	<result column="status" property="status" jdbcType="CHAR" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    h.id, h.homepage_name, h.html_url, h.sort, h.service_type, h.service_id,h.status,
+    to_char(h.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,
+    to_char(h.update_time,'YYYY-MM-DD HH24:MI:SS') as update_time,
+    h.del_flag,
+  </sql>
+  <select id="getHomePageAdvertisementRecords" resultMap="BaseResultMap" parameterType="java.util.HashMap" >
+    select 
+    <include refid="Base_Column_List" />
+    COALESCE(t.image_urls,'') as image_urls,
+	COALESCE(t.image_ids,'') as image_ids
+    from hxdb.hx_homepage_advertisement h
+    left join
+	(		        
+		select re.service_id,string_agg(img.image_url,',') as image_urls,string_agg(img.id,',') as image_ids  
+		from (select * from hxdb.hx_images_advertisement_rel order by sort asc) re
+		left join hxdb.sys_images img on img.id = re.image_id
+		group by re.service_id 	
+	)t on t.service_id = h.id
+    where del_flag = '0'
+   	<!-- 广告名称-->
+    <if test="homepageName != null and homepageName != ''">
+      and homepage_name like '%'||#{homepageName}||'%'
+    </if>
+    <!-- 业务类型-->
+    <if test="serviceType != null and serviceType != ''">
+      and service_type = #{serviceType}
+    </if>
+    <!-- 广告状态-->
+    <if test="status != null and status != ''">
+      and h.status = #{status}
+    </if>
+  </select>
+  <!-- 查询广告数量 -->
+  <select id="getHomePageAdvertisementCount"  parameterType="java.util.HashMap" resultType="java.lang.Integer">
+  	select count(id) as totalcount from hxdb.hx_homepage_advertisement where del_flag = '0'
+   	<!-- 广告名称-->
+    <if test="homepageName != null and homepageName != ''">
+      and homepage_name like '%'||#{homepageName}||'%'
+    </if>
+    <!-- 业务类型-->
+    <if test="serviceType != null and serviceType != ''">
+      and service_type = #{serviceType}
+    </if>
+    <!-- 广告状态-->
+    <if test="status != null and status != ''">
+      and status = #{status}
+    </if>
+  </select>
+  <insert id="saveAdvertisement" parameterType="cn.com.hxfz.model.HomePageAdvertisement"  >
+    insert into hxdb.hx_homepage_advertisement
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="homepageName != null" >
+        homepage_name,
+      </if>
+      <if test="htmlUrl != null" >
+        html_url,
+      </if>
+      <if test="sort != null" >
+        sort,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="serviceType != null" >
+        service_type,
+      </if>
+      <if test="serviceId != null" >
+        service_id,
+      </if>
+       create_time 
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="homepageName != null" >
+        #{homepageName,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlUrl != null" >
+        #{htmlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=CHAR},
+      </if>
+      <if test="serviceType != null" >
+        #{serviceType,jdbcType=CHAR},
+      </if>
+      <if test="serviceId != null" >
+        #{serviceId,jdbcType=VARCHAR},
+      </if>
+      <if test="createTime != null" >
+        now()
+      </if>
+    </trim>
+  </insert>
+  <update id="updateAdvertisementById" parameterType="cn.com.hxfz.model.HomePageAdvertisement"  >
+    update hxdb.hx_homepage_advertisement
+    <set >
+      <if test="homepageName != null" >
+        homepage_name = #{homepageName,jdbcType=VARCHAR},
+      </if>
+      <if test="htmlUrl != null" >
+        html_url = #{htmlUrl,jdbcType=VARCHAR},
+      </if>
+      <if test="sort != null" >
+        sort = #{sort,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=CHAR},
+      </if>
+      <if test="serviceType != null" >
+        service_type = #{serviceType,jdbcType=CHAR},
+      </if>
+      <if test="serviceId != null" >
+        service_id = #{serviceId,jdbcType=VARCHAR},
+      </if>
+        update_time = now()
+    </set>
+    where id = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <!-- 删除广告 -->
+  <update id="deleteAdvertisementRecords" parameterType="java.util.HashMap" >
+    update  hxdb.hx_homepage_advertisement set del_flag = '1'
+    where id in
+    <foreach item="item" collection="advIdList" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+  </update>
+  
+   <!-- 根据主键更新广告状态 -->
+  <update id="updateStatus" parameterType="java.util.HashMap" >
+    update  hxdb.hx_homepage_advertisement set status = #{status}
+    where id in
+    <foreach item="item" collection="advIdList" open="(" separator="," close=")">
+        #{item}
+    </foreach>
+  </update>
+</mapper>

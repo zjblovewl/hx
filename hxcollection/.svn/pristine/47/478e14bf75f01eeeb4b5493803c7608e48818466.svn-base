@@ -1,0 +1,18 @@
+package cn.com.hxfz.controller;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+
+/**
+ * 
+ * @类功能说明：提现管理
+ * @公司名称：南京华讯方舟通讯设备有限公司  
+ * @作者：liugui  
+ * @创建时间：2018年4月17日 下午2:24:04 
+ * @版本：V1.0
+ */
+@Controller
+@RequestMapping("/withdrawals")
+public class WithdrawalsController {
+	
+}

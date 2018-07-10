@@ -1,0 +1,237 @@
+html, body {
+	width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+}
+input[disabled],select[disabled],textarea[disabled]{
+	background-color:#eee !important;
+}
+.modal-title {
+	background: #746651;
+    height: 50px;
+    line-height: 50px;
+    color: #fff;
+    padding: 0 20px;
+    font-size: 17px;
+}
+
+.modal-button {
+	text-align: center;
+}
+
+.modal-container{
+	overflow-y: scroll;
+	padding: 0 0 10px 20px;
+    height: 100%; 
+   
+}
+.modal-footer{
+	text-align: center;
+    border-top: 1px solid #e5e5e5;
+    background: #f1f1f1;
+    height: 50px;
+    line-height: 55px;
+    padding:0;
+}
+.button-group{
+	position: absolute;
+    bottom: 0;
+    left: 50%;
+    margin-left: -70px;
+    height: 50px;
+    line-height: 47px;
+}
+.form-div-edit{
+	height: 90%;
+
+}
+.controls{
+	display:inline-block;
+	margin-top: 10px;
+	width:50%;
+	position: relative;
+}
+.control-group{
+	display: flex;
+    justify-content: space-between;
+    box-sizing:border-box;
+    -webkit-box-sizing:border-box;
+    -moz-box-sizing:border-box;
+}
+
+.controls .control-label{
+	display: inline-block;
+    width: 60px;
+}
+
+.controls .input-text{
+	border-radius: 2px;
+    border: 1px solid #aaa;
+    padding: 3px;
+    height: 34px;
+    width: 60%;
+}
+.controls .input-text:hover{
+	border: 1px solid #286090;
+}
+
+.lable-symbol-div{
+	color:#ff0000;
+	padding-left: 65px;
+	height:20px;
+}
+.lable-symbol{
+	color:#ff0000;	
+}
+.lable-symbol-white{
+	color:#fff;
+}
+.lable-symbol-green{
+	color:#00FF00;
+}
+.marginRight10{
+	margin-right:10px;
+}
+.displaynone{
+	display: none !important;
+}
+.marginTop20{
+	margin-top :20px;
+}
+.marginTop10{
+	margin-top :10px;
+}
+input[type="file"]{
+	display: inline-block;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+ 	opacity: 0;
+    z-index: 99;
+}
+form{
+	display: inline-block;
+    vertical-align: top;
+}
+input[type="button"]{
+	vertical-align: bottom;
+}
+.submit-pic-btn{
+	position: absolute;
+    left: 100px;
+    top: 67px;
+}
+.submit-pic-btns{
+	margin-top: 67px;
+    width: 56px;
+    height: 34px;
+}
+.parent-input-file{
+	position: relative
+}
+.parent-input-files{
+	position: relative;
+	display:flex;
+}
+.cover-input-file{
+	width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    background: url(../images/add.png) no-repeat;
+    background-position: center;
+    display: inline-block;
+    position: relative;
+    z-index: 50;
+}
+.copy-cover-input-file{
+	width: 200px;
+    height: 110px;
+    border: 1px solid #ddd;
+    display: inline-block;
+    position: relative;
+    z-index: 50;
+}
+.copy-cover-input-file img, .cover-input-files img, .cover-input-file img{
+	width: 100%;
+    height: 100%;
+}
+.dele-input-file{
+    position: absolute;
+    right: 0px;
+    top: 0px;
+    z-index: 200;
+    color: #ff0000;
+}
+.dele-input-file:hover{
+	background: #aaa;
+}
+.cover-input-files{
+	width: 100px;
+    height: 100px;
+    border: 1px solid #ddd;
+    background: url(../images/add.png) no-repeat;
+    background-position: center;
+    display: inline-block;
+    position: relative;
+    margin-left: 5px; 
+}
+.area-text-parent{
+	margin-top: 14px;
+}
+.area-text-parent .control-label{
+    width: 64px;
+    display: inline-block;
+}
+.area-text{
+	vertical-align: middle;
+    width: 80%;
+    border-radius: 3px;
+    border: 1px solid #aaa;
+}
+.close_table{
+	color: #fff;    
+    width: 20px;
+    text-align: center; 
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.control-group-oneline{
+	height: 90px;
+}
+/* 时间图标 */
+.customsearch-input .time_icon{
+	position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translate(-150%,-50%);
+    -webkit-transform: translate(-150%,-50%);
+    -ms-transform: translate(-150%,-50%);
+}
+.controls .time_icon{
+	position: absolute;
+    right: 18%;
+    top: 33%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+   
+}
+/* 手机图标 */
+.customsearch-input .phone_icon{
+	position: absolute;
+    right: 2px;
+    top: 50%;
+    transform: translate(-150%,-50%);
+    -webkit-transform: translate(-150%,-50%);
+    -ms-transform: translate(-150%,-50%);
+}
+.controls .phone_icon{
+	position: absolute;
+    right: 20%;
+    top: 33%;
+    transform: translate(-50%,-50%);
+    -webkit-transform: translate(-50%,-50%);
+    -ms-transform: translate(-50%,-50%);
+}

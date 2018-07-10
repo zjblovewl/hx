@@ -1,0 +1,6 @@
+#\u6fc0\u5149\u63a8\u9001
+jpush_appkey=dc1979d67879e70c43b39f18
+jpush_mastersecret=6cdb849ee64258646ec3013a
+
+upload_image_url=http://192.168.50.215:8082/fileapi/fileController/batch/batchUpload
+get_image_url=http://192.168.50.215/images/ 

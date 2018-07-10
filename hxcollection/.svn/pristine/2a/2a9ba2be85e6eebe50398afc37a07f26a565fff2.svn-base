@@ -1,0 +1,166 @@
+<%@page import="cn.com.hxfz.util.Configuration"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8"
+	pageEncoding="UTF-8"%>
+<%@page import="net.sf.json.JSONArray"%>
+<%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";	
+	String getImageUrl = Configuration.getInstance().getValue("get_image_url");
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>交易帖评论</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../H-ui.admin/H-ui.min.css" />
+<link rel="stylesheet" href="../../css/jspEditcommon.css" />
+<link rel="stylesheet" href="../../fonts/iconfont.css"/>
+<link rel="stylesheet" href="../../css/zTreeStyle/zTreeStyle.css">
+
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/timeUtils.js"></script>
+<script src="../../js/common/md5.js"></script>
+<script src="../../js/jquery.ztree.all.js"></script>
+<script src="../../js/commonCheckUtils.js"></script>
+
+<style>
+    .content_parent{
+    	display: inline-block;
+    	width: 100%;
+    }
+    .content_parent li{
+    	display: flex;
+    	align-items: center;
+    	margin-bottom: 8px;
+    	padding-bottom: 8px;
+   		border-bottom: 3px solid #ddd;
+   		box-shadow: 6px 2px 5px #ddd;
+  	 }
+    .content_block{
+    	display: inline-block;
+    }
+    .content_pic{
+    	width: 50px;
+	    height: 50px;
+	    border: 1px solid #ddd;
+	    border-radius: 2px;
+	    vertical-align: middle;
+	    margin-left: 10px;
+    }
+    .content_name{
+    	margin-right: 30px;
+    }
+    .content_advice{
+    	flex-grow: 2;
+    }
+    .content_close{
+    	color: #ff0000;
+    	padding: 0 5px;
+    	cursor: pointer;
+    }
+    .content_close:hover{
+    	background: #ddd;
+    }
+    .content_reply{
+    	cursor: pointer;
+    }
+    .content_reply:hover{
+    	background: #ddd;
+    }
+</style>
+</head>
+<body>
+	<!-- 修改/新增 -->
+	<div id="modal-title" class="modal-title">
+		<div class="pull-left" id="title_text">交易帖评论</div>
+		<div id="close_dialog" class="pull-right close_table">
+			<i class="iconfont icon-shachu-xue"></i>
+		</div>
+	</div>
+	<div class="modal-container">
+		<div class="form-div-edit">	
+			<div class="control-group">		
+				<ul id="content_parent" class="content_parent">
+														
+				</ul>			
+			</div>
+		</div>
+	</div>
+			<div class="modal-footer">			
+				<button id="close_modal" class="btn btn-danger">取消</button>
+			</div>
+	<script>
+		$(function() {	
+			var querygoodsUrl = '<%=basePath%>goods/getGoodsComments.do?rnd=' + Math.random();	
+			var delGoodsReplyUrl = '<%=basePath%>goods/deleteGoodsCommentByIds.do?rnd=' + Math.random();
+			var parentOBJ = window.parent;
+			var getImageUrl = '<%=getImageUrl%>'.trim();
+			//获取url
+			var src_data = parentOBJ.document.getElementById("modal-iframe")
+					.getAttribute("src-data");
+			var json_data = JSON.parse(src_data);
+			
+			//初始化加载
+			var params = {};
+			params.id = json_data.goodsId;
+			$.ajax({
+				url: querygoodsUrl,
+				type: 'post',
+				dataType: 'json',
+				data:{
+					paramsStr: JSON.stringify(params) 
+				},
+				success: function(data){					
+					var rows = data.resultList;
+					var listCode = [];
+					for(var i=0;i<rows.length;i++){
+						listCode.push('<li id="'+rows[i].id+'">');
+						listCode.push('<div class="content_pic content_block"><img style="width:100%;height:100%;" src="'+getImageUrl+rows[i].image_urls+'" alt="头像"/></div>');
+						listCode.push('<div class="content_name content_block">'+rows[i].nick_name+'</div>');
+						listCode.push('<div class="content_advice content_block">'+rows[i].comment_content+'</div>');
+						listCode.push('<div class="content_close"><i class="fa fa-times"></i></div>');
+						listCode.push('</li>');																				
+					}
+					
+					$("#content_parent").html(listCode.join(''));
+				},
+				error: function(){
+					console.error("加载错误");
+				}
+				
+			});
+			//关闭
+			$("#close_modal").click(function() {
+				parentOBJ.modalIn();
+			});	
+			$("#close_dialog").click(function() {
+				parentOBJ.modalIn();
+			});	
+			//删除评论
+			$("#content_parent").on('click','.content_close',function(){
+				var $this = $(this);
+				var commentIds = $(this).parent().attr("id");
+			
+				$.ajax({
+					url: delGoodsReplyUrl,
+					type: 'post',
+					data:{
+						ids: commentIds
+					},
+					dataType: 'json',
+					success: function(data){
+						$this.parent().remove();
+					},
+					error:function(){
+						console.error("删除失败");
+					}
+				});
+			});
+	
+			
+		});
+	</script>
+</body>
+</html>

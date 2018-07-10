@@ -1,0 +1,223 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+            <%
+	String path = request.getContextPath();
+	String basePath = request.getScheme() + "://" + request.getServerName() + ":" + request.getServerPort() + path + "/";
+%>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>消息管理编辑/新增</title>
+<link rel="stylesheet" href="../../css/bootstrap.min.css" />
+<link rel="stylesheet" href="../../css/jspEditcommon.css" />
+<link rel="stylesheet" href="../../fonts/iconfont.css"/>
+
+<script src="../../js/jquery.min.js"></script>
+<script src="../../js/laydate/laydate.js"></script>
+<script src="../../js/timeUtils.js"></script>
+<script src="../../js/commonCheckUtils.js"></script>
+<script src="../../js/kindeditor-4.1.10/kindeditor.js?js=555555"></script>
+
+<style>
+	.controls input{	
+	    width: 70%;
+	}
+	
+	.select-style{
+		width: 202px;
+	}
+	.ke-container {
+    	display: inline-block !important;
+    }
+</style>
+</head>
+<body>
+	<!-- 修改/新增 -->
+	<div id="modal-title" class="modal-title">
+		<div class="pull-left" id="title_text">新增公告内容</div>
+		<div id="close_dialog" class="pull-right close_table">
+			<i class="iconfont icon-shachu-xue"></i>
+		</div>
+	</div>
+	<div class="modal-container">
+		<div class="form-div-edit">
+			<div class="control-group">	
+				<div class="controls">
+					<span class="control-label">推送平台</span>
+					<select id="platform" class="form-control select-style">
+					</select>	
+					<div class="lable-symbol-div"></div>	
+				</div>			
+				<div class="controls">
+					<span class="control-label">消息标题</span>
+					<input id="title" type="text" placeholder="输入消息标题" class="input-text">
+					<span class="lable-symbol"></span>		
+					<div class="lable-symbol-div"></div>	
+				</div>		
+			</div>
+			<div class="area-text-parent">
+					<span class="control-label" style="vertical-align: top;">消息内容</span>
+					<textarea id="content" style="width:540px;height:300px;" class="area-text" placeholder="输入消息内容"></textarea>
+					<div class="lable-symbol-div"></div>
+			</div>		
+		</div>
+	</div>
+			<div class="modal-footer">			
+				<button id="submit_modal" class="btn btn-success marginRight10">确定</button>
+				<button id="close_modal" class="btn btn-danger">取消</button>
+			</div>
+	<script>
+	//富文本编辑框
+    var callBackPath = '${localIp}/hxcollection/resources/jsp/sys/redirect.jsp';
+    KindEditor.ready(function(K) {
+        editor_add = K.create('#content',{
+            resizeType : 0,
+            //filePostName: 'file',//跟服务端参数对应
+            uploadJson : "http://192.168.50.215:8082/fileapi/fileController/upload?callBackPath=" + callBackPath,
+            afterCreate : function() {
+                this.sync();
+            },
+            afterBlur:function(){
+                this.sync();
+            },
+            items : [
+                'undo', 'redo', '|','justifyleft', 'justifycenter', 'justifyright', 'justifyfull', 'insertorderedlist', 'insertunorderedlist', 'indent', 'outdent', 'subscript', 'superscript','|', 'formatblock', 'fontname', 'fontsize', '|','/',
+                'forecolor', 'hilitecolor', 'bold', 'italic', 'underline', 'strikethrough', 'lineheight', 'removeformat', '|', 'image', 'table', 'hr', 'emoticons','link', 'unlink'
+            ],
+            minWidth:450
+        });
+    });
+	
+	
+	$(function() {		
+		var saveOrUpdateUrl = '<%=basePath%>sysMessage/saveOrUpdateMessage.do?rnd=' + Math.random();
+		var plantformMessageUrl = '<%=basePath%>dictionary/getDicListByDicKey.do?rnd=' + Math.random();
+		var parentOBJ = window.parent;
+		//获取url
+		var src_data = parentOBJ.document.getElementById("modal-iframe")
+				.getAttribute("src-data");
+		var json_data = JSON.parse(src_data);
+		console.log(json_data);
+
+		 //初始化
+	    $.ajax({
+	    	url: plantformMessageUrl,
+	    	type: "POST",
+	    	data:{
+	    		key: "plantform",
+	    		isAll:false
+	    	},
+	    	dataType: 'json',
+	    	success: function(data){
+	    		var rows = data.resultList;
+	    		var plantformCode = "";
+	    		for(var i=0;i<rows.length;i++){
+	    			if(json_data.platform == rows[i].dic_value){
+	    				plantformCode += '<option id="'+rows[i].id+'" value="'+rows[i].dic_value+'" selected="true">'+rows[i].dic_name+'</option>'
+	    			}else{
+	    				plantformCode += '<option id="'+rows[i].id+'" value="'+rows[i].dic_value+'">'+rows[i].dic_name+'</option>';
+	    			}
+	    			
+	    		}
+	    		$("#platform").append(plantformCode);
+	    	},
+	    	error: function(){
+	    		console.error("初始化数据类型");
+	    	}
+	    });
+		 
+		if (json_data.message_title) {
+			if(json_data.edit == 2){
+				$("#modal-title").text("编辑公告内容");
+			}else if(json_data.edit == 1){
+				$("#modal-title").text("查看公告详情");
+				$('input').each(function(){
+					$(this).attr('disabled','disabled');
+				});
+				$('textarea').each(function(){
+					$(this).attr('disabled','disabled');
+				});
+				$('select').each(function(){
+					$(this).attr('disabled','disabled');
+				});
+				$('.lable-symbol').each(function(){
+					$(this).hide();
+				});
+				$('#submit_modal').hide();
+			}
+			
+			$("#title").val(json_data.message_title);
+			$("#title").attr('title',json_data.message_title);		
+			$("#content").val(json_data.message_content);
+		}
+		//关闭
+		$("#close_modal").click(function() {
+			parentOBJ.modalIn();
+		});
+		//保存提交
+		$("#submit_modal").click(function() {
+			var message_title = $("#title").val();
+			var platform = $("#platform").val();
+			var message_content = $("#content").val();			
+			
+			if(message_title == ""){
+				$("#title").siblings('*:last').text('标题不能为空！');
+			}else{
+				$("#title").siblings('*:last').text('');
+			} 
+			if(message_content == ""){
+				$("#content").siblings('*:last').text('内容不能为空！');
+			}else{
+				$("#content").siblings('*:last').text('');
+			}
+			if(message_title == "" || message_content == ""){
+				return;
+			}
+				
+			var messageObj = {};
+			messageObj.mesId = json_data.id ==undefined?"":json_data.id;
+			messageObj.platform = platform;
+			messageObj.message_title = message_title;
+			messageObj.message_content = message_content;
+			    
+			console.log(messageObj);
+			
+			$.ajax({
+				url : saveOrUpdateUrl,
+				type : "post",
+				data : messageObj,
+				success : function(data) {
+
+				},
+				error : function() {
+					console.error("error");
+				}
+			});
+			
+			parentOBJ.modalIn();//关闭
+			parentOBJ.resfreshTable();
+		});
+		//校验
+		$("#title").change(function(){
+			var title = $(this).val();
+			if(title == ""){
+				$(this).siblings('*:last').text('标题不能为空！');
+				return;
+			}else{
+				$(this).siblings('*:last').text('');
+			}
+		});
+		$("#content").change(function(){
+			var content = $(this).val();
+			if(content == ""){
+				$(this).siblings('*:last').text('内容不能为空！');
+				return;
+			}else{
+				$(this).siblings('*:last').text('');
+			}
+		});
+		
+	});
+	</script>
+</body>
+</html>

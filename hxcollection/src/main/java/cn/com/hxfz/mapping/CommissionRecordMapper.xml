@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.CommissionRecordDao" >
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.CommissionRecord" >
+		 <id column="id" property="Id" jdbcType="VARCHAR" />
+		  <id column="withdrawals_id" property="withdrawalsId" jdbcType="VARCHAR" />
+		   <id column="withdrawals_amount" property="withdrawalsAmount" jdbcType="DECIMAL" />
+		    <id column="commission_rate" property="commissionRate" jdbcType="INTEGER" />
+		     <id column="commission_amount" property="commissionAmount" jdbcType="DECIMAL" /> 
+		       <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	
+	<!-- 获取佣金记录数据 -->
+	<select id="queryCommissionList" parameterType="java.util.Map" resultType="java.util.Map">
+		select u.nick_name,c.withdrawals_amount,r.bank_no,r.user_id,r.bank_name,r.branch_name,r.real_name,
+			   c.commission_rate,c.commission_amount,
+			   to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time 
+		from hxdb.hx_commission_record c 
+		left join hxdb.hx_withdrawals_record r 
+		on c.withdrawals_id = r.id 
+		left join hxdb.hx_user u
+		on r.user_id = u.id 
+		where 1 = 1 
+		<!-- 根据用户昵称模糊搜索 --> 
+		<if test="nickName != null and nickName != ''">
+          and u.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <!-- 根据佣金记录创建时间模糊搜索 --> 
+        <if test="startTime != null and startTime != ''">
+          and to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+        </if> 
+		order by c.create_time desc 
+		limit #{limit} offset #{offset}
+	</select>
+
+	<!-- 获取佣金记录总数 -->
+	<select id="queryCommissionCount" resultType="java.lang.Integer">
+		select count(*) from hxdb.hx_commission_record c 
+		left join hxdb.hx_withdrawals_record r 
+		on c.withdrawals_id = r.id 
+		left join hxdb.hx_user u
+		on r.user_id = u.id 
+		where 1 = 1 
+		<!-- 根据用户昵称模糊搜索 --> 
+		<if test="nickName != null and nickName != ''">
+          and u.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <!-- 根据佣金记录创建时间模糊搜索 --> 
+        <if test="startTime != null and startTime != ''">
+          and to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+        </if> 
+	</select>
+
+	<!-- 获取需导出的佣金记录并导出EXCEL -->
+  	<select id="exportCommissionList" parameterType="java.util.Map" resultType="java.util.Map">
+  		select u.nick_name,c.withdrawals_amount,r.bank_no,r.user_id,r.bank_name,r.branch_name,r.real_name,
+			   c.commission_rate,c.commission_amount,
+			   to_char(c.create_time,'yyyy-mm-dd hh24:mi:ss') as create_time 
+		from hxdb.hx_commission_record c 
+		left join hxdb.hx_withdrawals_record r 
+		on c.withdrawals_id = r.id 
+		left join hxdb.hx_user u
+		on r.user_id = u.id 
+		where 1 = 1 
+		<!-- 根据用户昵称模糊搜索 --> 
+		<if test="nickName != null and nickName != ''">
+          and u.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <!-- 根据佣金记录创建时间模糊搜索 --> 
+        <if test="startTime != null and startTime != ''">
+          and to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') > #{startTime}
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_char(c.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= #{endTime} 
+        </if> 
+  	</select>
+
+	<!-- 查询佣金配置比例 -->
+	<select id="queryCRList" parameterType="java.util.Map" resultType="java.util.Map">
+		select h.id,h.commission_rate from hxdb.hx_commission h 
+	</select>
+	<!-- 查询佣金配置比例总数 -->
+  	<select id= "queryCommissionRate" resultType="java.lang.Integer">
+  		select count(id) from hxdb.hx_commission 
+  	</select>
+	<!-- 新增配置佣金比例 -->
+  	<insert id="addCommissionRate" parameterType="java.util.HashMap">	
+		insert into hxdb.hx_commission(id,commission_rate) 
+ 		values( #{id},to_number(#{commissionRate}, '999.99') )
+  	</insert>
+  	<!-- 更新佣金配置比例 -->
+  	<update id="updateCommissionRate" parameterType="java.util.HashMap">
+  		update hxdb.hx_commission set commission_rate = to_number(#{commissionRate}, '999.99')
+  		where id = #{id}
+  	</update>
+
+</mapper>

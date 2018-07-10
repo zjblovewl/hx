@@ -1,0 +1,84 @@
+body{
+	overflow: hidden;
+}
+div{
+	box-sizing:border-box;
+}
+.home-banner{
+	height: 60px;
+}
+.home-banner ul{
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    padding-right: 18px;
+}
+.home-banner ul li{
+	display: inline-block;
+    width: 200px;
+    height: 100%;
+    position: relative;
+    border: 1px solid #ddd;
+    cursor:pointer;
+}
+.home-banner ul li .icon-div{
+	width: 110px;
+    text-align: center;
+    height: 100%;
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 10px;
+}
+.home-banner ul li .icon-li{
+	width: 80px;
+    height: 100%;
+    line-height: 60px;
+    text-align: center;
+    display: inline-block;
+}
+.icon-li i{
+    font-size: 34px;
+    color: #f1f1f1;
+}
+.icon-li1{
+	background:#FDCB2E;
+}
+.icon-li2{
+	background:#1EB2F8;
+}
+.icon-li3{
+	background:#CA9A6C;
+}
+.icon-li4{
+	background:#FB3E52;
+}
+.chart_group{
+	height: 100%;
+    width: 100%;
+    padding-bottom: 70px;
+    padding-top: 50px;
+}
+.chart_group .line_left_chart{
+	height: 100%;
+    width: 50%;
+    display: inline-block;
+}
+.line_left_chart .line{
+	width: 100%;
+    height: 50%;
+}
+.line_left_chart .line .line_child{
+	width: 100%;
+	height: 100%;
+}
+.chart_group .pi_right_chart{
+	height: 100%;
+    width: 49%;
+    display: inline-block;
+}
+.pi_right_chart .pie_chart{
+	 width: 100%;
+    height: 100%;
+}

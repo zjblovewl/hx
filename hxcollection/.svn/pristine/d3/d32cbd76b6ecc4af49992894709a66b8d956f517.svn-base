@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.com.hxfz.dao.WithdrawalsRecordDao" >
+	<resultMap id="BaseResultMap" type="cn.com.hxfz.model.WithdrawalsRecord" >
+		 <id column="id" property="Id" jdbcType="VARCHAR" />
+		  <id column="user_id" property="userId" jdbcType="VARCHAR" />
+		   <id column="bank_name" property="bankName" jdbcType="VARCHAR" />
+		     <id column="branch_name" property="branchName" jdbcType="VARCHAR" />
+		    <id column="real_name" property="realName" jdbcType="VARCHAR" />
+		     <id column="bank_no" property="bankNo" jdbcType="VARCHAR" /> 
+		      <id column="withdrawals_amount" property="withdrawalsAmount" jdbcType="DECIMAL"/>
+		       <id column="audit_state" property="auditState" jdbcType="INTEGER" />
+		       <id column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+		       <id column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+	</resultMap>
+	<!-- 获取提现记录数据 -->
+	<select id="queryWRList" parameterType="java.util.Map" resultType="java.util.Map">
+		select * from (
+			select h.id,h.real_name,h.bank_name,h.branch_name,t.nick_name,t.phone,t.wallet_balance,h.bank_no,h.audit_state,
+			to_char(h.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,
+			to_char(h.update_time,'YYYY-MM-DD HH24:MI:SS') as update_time,h.withdrawals_amount ,
+			case when t.lockdate > now() then '0'
+	 			else '1'
+	 			end as is_lock 
+			from hxdb.hx_withdrawals_record h
+			left join
+			(
+				select u.*,ut.lockdate from hxdb.hx_user u 
+				inner join (select id,lock_time + (lock_days || ' d')::interval as lockdate from hxdb.hx_user) ut 
+				on ut.id = u.id
+			) t
+			on h.user_id = t.id 
+		) t1
+			where 1 = 1 
+		<if test="nickName != null and nickName != ''">
+          and t1.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <if test="auditState != null and auditState != ''">
+          and t1.audit_state like '%'||#{auditState}||'%'
+        </if>
+         <if test="isLock != null and isLock != ''">
+          and t1.is_lock like '%'||#{isLock}||'%'
+        </if>
+        <if test="startTime != null and startTime != ''">
+          and to_date(t1.create_time,'YYYY-MM-DD HH24:MI:SS') > 
+          to_date(#{startTime} ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_date(t1.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= 
+          to_date(#{endTime} ,'YYYY-MM-DD HH24:MI:SS') 
+        </if> 
+        LIMIT #{limit} OFFSET #{offset}
+	</select>
+
+	<!-- 获取提现记录总数 -->
+	<select id="queryWRCount" resultType="java.lang.Integer">
+	select count(*) FROM(
+		select h.id,h.real_name,h.bank_name,h.branch_name,t.nick_name,t.phone,t.wallet_balance,h.bank_no,h.audit_state,
+		to_char(h.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,
+		to_char(h.update_time,'YYYY-MM-DD HH24:MI:SS') as update_time,h.withdrawals_amount,
+		case when t.lockdate > now() then '0'
+	 		else '1'
+	 		end as is_lock 
+		from hxdb.hx_withdrawals_record h
+		left join
+			(
+				select u.*,ut.lockdate from hxdb.hx_user u 
+				inner join (select id,lock_time + (lock_days || ' d')::interval as lockdate from hxdb.hx_user) ut 
+				on ut.id = u.id
+			) t
+			on h.user_id = t.id 
+	)t1
+		where 1 = 1 
+		<if test="nickName != null and nickName != ''">
+          and t1.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <if test="auditState != null and auditState != ''">
+          and t1.audit_state like '%'||#{auditState}||'%'
+        </if>
+         <if test="isLock != null and isLock != ''">
+          and t1.is_lock like '%'||#{isLock}||'%'
+        </if>
+        <if test="startTime != null and startTime != ''">
+          and to_date(t1.create_time,'YYYY-MM-DD HH24:MI:SS') > 
+          to_date(#{startTime} ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_date(t1.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= 
+          to_date(#{endTime} ,'YYYY-MM-DD HH24:MI:SS') 
+        </if> 
+	</select>
+	
+	<!--根据搜索条件获取提现记录并导出EXCEL -->
+  	<select id="exportWRList" parameterType="java.util.Map" resultType="java.util.Map">	
+  	select * from (
+		select h.id,h.real_name,h.bank_name,h.branch_name,t.nick_name,t.phone,t.wallet_balance,h.bank_no,
+		(case when h.audit_state ='1' then '未通过' when h.audit_state ='2' then '已通过' end)as audit_state,
+		to_char(h.create_time,'YYYY-MM-DD HH24:MI:SS') as create_time,
+		to_char(h.update_time,'YYYY-MM-DD HH24:MI:SS') as update_time,h.withdrawals_amount ,
+		case when t.lockdate > now() then '锁定'
+	 		else '激活'
+	 		end as is_lock
+		from hxdb.hx_withdrawals_record h
+		left join
+		(
+			select u.*,ut.lockdate from hxdb.hx_user u 
+			inner join (select id,lock_time + (lock_days || ' d')::interval as lockdate from hxdb.hx_user) ut 
+			on ut.id = u.id
+		) t
+		on h.user_id = t.id 
+	) t1	
+		where 1 = 1 
+		<if test="nickName != null and nickName != ''">
+          and t1.nick_name like '%'||#{nickName}||'%'
+        </if>
+        <if test="auditState != null and auditState != ''">
+          and t1.audit_state like '%'||#{auditState}||'%'
+        </if>
+         <if test="isLock != null and isLock != ''">
+          and t1.is_lock like '%'||#{isLock}||'%'
+        </if>
+       <if test="startTime != null and startTime != ''">
+          and to_date(t1.create_time,'YYYY-MM-DD HH24:MI:SS') > 
+          to_date(#{startTime} ,'YYYY-MM-DD HH24:MI:SS')
+        </if>
+        <if test="endTime != null and endTime != ''">
+          and to_date(t1.create_time,'YYYY-MM-DD HH24:MI:SS') &lt;= 
+          to_date(#{endTime} ,'YYYY-MM-DD HH24:MI:SS') 
+        </if> 
+  	</select>
+	
+
+	<!--根据ID保存用户审核结果 -->
+	<update id="updateWRAuditById" parameterType="java.util.HashMap">
+  		update hxdb.hx_withdrawals_record set audit_state = #{isPass} 
+  		where id = #{id}
+  	</update>
+  	
+
+
+</mapper>
