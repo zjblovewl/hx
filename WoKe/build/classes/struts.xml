@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+ 
+<struts>
+    <!-- 生命包 -->
+    <package name="com.bie.action" namespace="/" extends="struts-default">
+        <!-- 定义action -->
+              <action name="addBao" class="com.bie.action.HelloAction" method="addBao">
+            <result name="index">/index.jsp?ok=1</result>
+             </action>
+            <action name="login" class="com.bie.action.LoginAction" method="login">
+            <result name="login">/login.jsp</result>
+            <result name="index1">/index1.jsp</result>
+             </action>
+            <action name="getUserList" class="com.bie.action.LoginAction" method="getUserList">
+            <result name="userlist">/userlist.jsp</result>
+             </action>
+              <action name="selectBaoM" class="com.bie.action.SelectAction" method="selectBaoM">
+            <result name="lendresult">/lendresult.jsp</result>
+             </action>
+            <action name="getList" class="com.bie.action.LoginAction" method="getList">
+            <result name="lendresult">/lendresult.jsp</result>
+        </action>
+		   <action name="lendaction2" class="com.bie.action.LendAction2">
+			<result name="success">/GuangGlist.jsp</result>
+		</action>
+        <action name="addBM" class="com.bie.action.LoginAction" method="addBM">
+         <result name="success" type="chain">lendaction</result> 
+        </action>
+        <action name="updateBaoM" class="com.bie.action.LoginAction" method="updateBaoM">
+           <result name="success" type="chain">lendaction</result> 
+        </action>
+        <action name="deleBaoM" class="com.bie.action.LoginAction" method="deleBaoM">
+            <result name="success" type="chain">lendaction</result> 
+        </action>
+        <action name="fenye" class="com.bie.action.FenYAction" method="fenye">
+            <result name="main_list">/lendresult.jsp</result>
+        </action>
+          <action name="lendaction" class="com.bie.action.LendAction">
+			<result name="success">/lendresult.jsp</result>
+		</action>
+        <action name="getGuangGList" class="com.bie.action.LoginAction" method="getGuangGList">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+         <action name="addGuangG" class="com.bie.action.LoginAction" method="addGuangG">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+        <action name="deleGuangG" class="com.bie.action.LoginAction" method="deleGuangG">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+        <action name="addUser" class="com.bie.action.LoginAction" method="addUser">
+            <result name="userlist">/userlist.jsp</result>
+        </action>
+        <action name="deleUser" class="com.bie.action.LoginAction" method="deleUser">
+            <result name="userlist">/userlist.jsp</result>
+        </action>
+          <action name="updateUser" class="com.bie.action.LoginAction" method="updateUser">
+            <result name="userlist">/userlist.jsp</result>
+        </action>
+        <action name="upload" class="com.bie.action.UploadFile" method="upload">
+            <result name="ceshi02">/ceshi02.jsp</result>
+        </action>
+         <action name="updateGuangG" class="com.bie.action.LoginAction" method="updateGuangG">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+        <action name="selectGuangG" class="com.bie.action.SelectAction" method="selectGuangG">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+        <action name="FaBu" class="com.bie.action.GuangGAction" method="FaBu">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+        <action name="QuXFaBu" class="com.bie.action.GuangGAction" method="QuXFaBu">
+            <result name="GuangGlist">/GuangGlist.jsp</result>
+        </action>
+         <action name="reLog" class="com.bie.action.LoginAction" method="reLog">
+            <result name="reLog">/reLog</result>
+        </action>
+        <action name="WxSharePage" class="com.bie.action.WxShareAction" method="WxSharePage">
+            <result name="index">/index.jsp</result>
+        </action>
+    </package>
+</struts>

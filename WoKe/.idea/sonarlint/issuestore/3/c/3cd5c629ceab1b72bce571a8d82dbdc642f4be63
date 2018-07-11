@@ -1,0 +1,10 @@
+
+Fsquid:S1148="#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+jsquid:S20956"LUse try-with-resources or close this "BufferedReader" in a "finally" clause.(ÑÌ¼‡8õ˜ñîÆ,
+lsquid:S2095"IUse try-with-resources or close this "PrintWriter" in a "finally" clause.(¥ÂäŞüÿÿÿÿ8õ˜ñîÆ,
+Fsquid:S1148:"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+d
+squid:S899."BDo something with the "boolean" value returned by "createNewFile".(Ğ’Íùÿÿÿÿ8õ˜ñîÆ,
+Xsquid:S11417"5Extract this nested try block into a separate method.(¡»¢üùÿÿÿÿ8õ˜ñîÆ,
+Fsquid:S11480"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+Fsquid:S1148 "#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,

@@ -1,0 +1,33 @@
+
+isquid:CommentedOutCodeLiner"<This block of commented-out lines of code should be removed.(ÔÍˆ8õ˜ñîÆ,
+Jsquid:S1168"+Return an empty collection instead of null.(¥¹ï8õ˜ñîÆ,
+esquid:S1192€"FDefine a constant instead of duplicating this literal "title" 3 times.(¦´ƒÂ8õ˜ñîÆ,
+Vsquid:S1135‰"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿ8õ˜ñîÆ,
+msquid:S1192‚"IDefine a constant instead of duplicating this literal "datetime" 3 times.(³ù†øÿÿÿÿ8õ˜ñîÆ,
+Gsquid:S1148È"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+Xsquid:S1191"5Use classes from the Java API instead of Sun classes.(¬ŞÁûÿÿÿÿ8õ˜ñîÆ,
+gsquid:UselessImportCheck"7Remove this unused import 'com.sun.jmx.snmp.Timestamp'.(¬ŞÁûÿÿÿÿ8õ˜ñîÆ,
+Vsquid:S1135§"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿ8õ˜ñîÆ,
+esquid:S1192ƒ"FDefine a constant instead of duplicating this literal "count" 3 times.(øş£É8õ˜ñîÆ,
+nsquid:CommentedOutCodeLineu"<This block of commented-out lines of code should be removed.(ãñ˜Øûÿÿÿÿ8õ˜ñîÆ,
+Vsquid:S1135Ù"2Complete the task associated to this TODO comment.(ÕÌ®şÿÿÿÿ8õ˜ñîÆ,
+Gsquid:S1148‹"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+wsquid:S2293h"YReplace the type specification in this constructor call with the diamond operator ("<>").(ñ½…8õ˜ñîÆ,
+W
+squid:S106‹"9Replace this use of System.out or System.err by a logger.(â¯˜‚8õ˜ñîÆ,
+lsquid:S1192"HDefine a constant instead of duplicating this literal "centent" 3 times.(¶¼Ôöùÿÿÿÿ8õ˜ñîÆ,
+usquid:S2077y"RUse a variable binding mechanism to construct this query instead of concatenation.(ÓŒÉÙøÿÿÿÿ8õ˜ñîÆ,
+€squid:S1488¡"aImmediately return this expression instead of assigning it to the temporary variable "pagecount".(ÕºÃµ8õ˜ñîÆ,
+\
+squid:S106…"9Replace this use of System.out or System.err by a logger.(€‹¡ıÿÿÿÿ8õ˜ñîÆ,
+¤squid:S1186N"€Add a nested comment explaining why this method is empty, throw an UnsupportedOperationException or complete the implementation.(³ïâ«øÿÿÿÿ8õ˜ñîÆ,
+Gsquid:S1148©"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+Gsquid:S1148Ú"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+Ksquid:S1481Ñ"'Remove this unused "rs" local variable.(Õƒï‰ûÿÿÿÿ8õ˜ñîÆ,
+\
+squid:S106ÿ"9Replace this use of System.out or System.err by a logger.(ïÖ Ïıÿÿÿÿ8õ˜ñîÆ,
+xsquid:S2293ä"YReplace the type specification in this constructor call with the diamond operator ("<>").(ñ½…8õ˜ñîÆ,
+Jsquid:S1481Ò"&Remove this unused "g" local variable.(é•ÖÅüÿÿÿÿ8õ˜ñîÆ,
+Gsquid:S1148ö"#Use a logger to log this exception.(€ÉÔ…ıÿÿÿÿ8õ˜ñîÆ,
+ksquid:S2095Ö"GUse try-with-resources or close this "Statement" in a "finally" clause.(í…³şÿÿÿÿ8õ˜ñîÆ,
+Tsquid:S1854×"6Remove this useless assignment to local variable "rs".(“«õW8õ˜ñîÆ,
