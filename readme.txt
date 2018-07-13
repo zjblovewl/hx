@@ -1,3 +1,17 @@
+提示git速度办法
+git config --global https.proxy 'socks5://127.0.0.1:1080'
+
+
+C:\Windows\System32\drivers\etc\hosts文件中添加
+
+151.101.88.249  github.global.ssl.fastly.net
+151.101.100.133 assets-cdn.github.com
+192.30.253.113 www.github.com
+151.101.16.133 avatars0.githubusercontent.com
+151.101.100.133 avatars1.githubusercontent.com
+
+git clone https://github.com/zjblovewl/hx.git copy仓库命令
+
 Git的文件夹上传步骤
 账户名zjblovewl@sina.com（zjblovewl：username）（www..1994：pwd）
 
@@ -37,3 +51,5 @@ $ git push -u httpclient master
 
 
 git@github.com：zjblovewl / practise.git
+
+
