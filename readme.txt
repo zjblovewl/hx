@@ -1,6 +1,8 @@
 提示git速度办法
 git config --global https.proxy 'socks5://127.0.0.1:1080'
 
+ipconfig /flushdns
+
 
 C:\Windows\System32\drivers\etc\hosts文件中添加
 
